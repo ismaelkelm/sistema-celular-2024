@@ -1,5 +1,5 @@
 <?php
-// gestionar_inventario.php
+// gestionar_usuarios.php
 include_once '../privado/configuracion/bd.php';
 session_start();
 
@@ -8,28 +8,28 @@ if (!isset($_SESSION['usuario']) || !esAdministrador($_SESSION['usuario'])) {
     exit();
 }
 
-$inventario = obtenerInventario();
+$usuarios = obtenerUsuarios();
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestionar Inventario</title>
+    <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="../publico/css/estilos.css">
 </head>
 <body>
-    <h1>Gestionar Inventario</h1>
+    <h1>Gestionar Usuarios</h1>
     <table>
         <tr>
-            <th>Accesorio</th>
-            <th>Stock</th>
-            <th>Precio</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Acciones</th>
         </tr>
-        <?php foreach ($inventario as $item): ?>
+        <?php foreach ($usuarios as $usuario): ?>
         <tr>
-            <td><?php echo $item['nombre']; ?></td>
-            <td><?php echo $item['stock']; ?></td>
-            <td><?php echo $item['precio']; ?></td>
+            <td><?php echo $usuario['usuario']; ?></td>
+            <td><?php echo $usuario['rol']; ?></td>
+            <td><a href="editar_usuario.php?usuario=<?php echo $usuario['usuario']; ?>">Editar</a></td>
         </tr>
         <?php endforeach; ?>
     </table>
