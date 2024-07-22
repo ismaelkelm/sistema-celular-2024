@@ -3,7 +3,7 @@ require_once '../configuracion/database.php';
 
 class Inventario {
     private $conexion;
-    private $tabla = 'inventario';
+    private $tabla = 'piezas';
 
     public function __construct() {
         $this->conexion = Database::getConnection();

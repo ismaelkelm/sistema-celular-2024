@@ -1,5 +1,5 @@
 <?php
-require_once '../models/Reparaciones.php';
+require_once '../models/Reparacion.php';
 
 class ControladorActualizarReparacion {
     private $reparacionesModel;
