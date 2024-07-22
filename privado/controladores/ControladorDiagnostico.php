@@ -1,15 +1,13 @@
 <?php
-require_once '../modelos/Diagnostico.php';
+// Implementa las funcionalidades relacionadas con diagnósticos aquí
 
 class ControladorDiagnostico {
-    public function registrarDiagnostico($datos) {
-        $diagnosticoModelo = new Diagnostico();
-        return $diagnosticoModelo->guardarDiagnostico($datos);
+    public function diagnosticarProblema($datos) {
+        // Lógica para diagnosticar problemas
     }
 
-    public function obtenerDiagnostico($idReparacion) {
-        $diagnosticoModelo = new Diagnostico();
-        return $diagnosticoModelo->obtenerDiagnosticoPorReparacion($idReparacion);
+    public function obtenerDiagnosticos() {
+        // Lógica para obtener diagnósticos
     }
 }
 ?>

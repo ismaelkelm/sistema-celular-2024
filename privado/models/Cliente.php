@@ -9,6 +9,7 @@ class Cliente {
         $this->conexion = Database::getConnection();
     }
 
+    
     public function guardarCliente($datos) {
         $query = "INSERT INTO " . $this->tabla . " (Nombre, Email, Telefono) VALUES (:nombre, :email, :telefono)";
         $stmt = $this->conexion->prepare($query);

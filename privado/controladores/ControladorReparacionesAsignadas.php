@@ -1,10 +1,15 @@
 <?php
-require_once '../modelos/Reparacion.php';
+require_once '../models/Reparaciones.php';
 
 class ControladorReparacionesAsignadas {
+    private $reparacionesModel;
+
+    public function __construct() {
+        $this->reparacionesModel = new Reparaciones();
+    }
+
     public function obtenerReparacionesAsignadas($idTecnico) {
-        $reparacionModelo = new Reparacion();
-        return $reparacionModelo->obtenerReparacionesPorTecnico($idTecnico);
+        // Lógica para obtener reparaciones asignadas a un técnico
     }
 }
 ?>

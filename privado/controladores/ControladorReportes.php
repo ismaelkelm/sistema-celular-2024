@@ -1,15 +1,23 @@
 <?php
-require_once '../modelos/Reportes.php';
+require_once '../models/Reportes.php';
 
 class ControladorReportes {
-    public function generarReporteVentas($fechaInicio, $fechaFin) {
-        $reportesModelo = new Reportes();
-        return $reportesModelo->reporteVentas($fechaInicio, $fechaFin);
+    private $reportesModel;
+
+    public function __construct() {
+        $this->reportesModel = new Reportes();
     }
 
-    public function generarReporteReparaciones($fechaInicio, $fechaFin) {
-        $reportesModelo = new Reportes();
-        return $reportesModelo->reporteReparaciones($fechaInicio, $fechaFin);
+    public function generarReporte($datos) {
+        return $this->reportesModel->generarReporte($datos);
+    }
+
+    public function obtenerReporte($idReporte) {
+        return $this->reportesModel->obtenerReporte($idReporte);
+    }
+
+    public function obtenerTodosLosReportes() {
+        return $this->reportesModel->obtenerTodosLosReportes();
     }
 }
 ?>

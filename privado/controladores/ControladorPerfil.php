@@ -1,15 +1,19 @@
 <?php
-require_once '../modelos/Usuario.php';
+require_once '../models/Usuarios.php';
 
 class ControladorPerfil {
-    public function obtenerPerfil($idUsuario) {
-        $usuarioModelo = new Usuario();
-        return $usuarioModelo->obtenerUsuarioPorId($idUsuario);
+    private $usuariosModel;
+
+    public function __construct() {
+        $this->usuariosModel = new Usuarios();
     }
 
-    public function actualizarPerfil($idUsuario, $datos) {
-        $usuarioModelo = new Usuario();
-        return $usuarioModelo->actualizarUsuario($idUsuario, $datos);
+    public function obtenerPerfil($usuarioID) {
+        return $this->usuariosModel->obtenerPerfilUsuario($usuarioID);
+    }
+
+    public function actualizarPerfil($usuarioID, $datos) {
+        // Lógica para actualizar perfil
     }
 }
 ?>

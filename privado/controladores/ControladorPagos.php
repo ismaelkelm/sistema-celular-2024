@@ -1,15 +1,19 @@
 <?php
-require_once '../modelos/Pagos.php';
+require_once '../models/Pagos.php';
 
 class ControladorPagos {
-    public function registrarPago($datos) {
-        $pagosModelo = new Pagos();
-        return $pagosModelo->guardarPago($datos);
+    private $pagosModel;
+
+    public function __construct() {
+        $this->pagosModel = new Pagos();
     }
 
-    public function verificarPago($idPedido) {
-        $pagosModelo = new Pagos();
-        return $pagosModelo->obtenerPagoPorPedido($idPedido);
+    public function registrarPago($datos) {
+        return $this->pagosModel->registrarPago($datos);
+    }
+
+    public function verificarPago($numeroOrden) {
+        return $this->pagosModel->verificarPago($numeroOrden);
     }
 }
 ?>

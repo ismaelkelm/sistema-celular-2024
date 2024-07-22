@@ -1,10 +1,15 @@
 <?php
-require_once '../modelos/Reparacion.php';
+require_once '../models/HistorialReparaciones.php';
 
 class ControladorHistorial {
-    public function obtenerHistorialReparaciones($idCliente) {
-        $reparacionModelo = new Reparacion();
-        return $reparacionModelo->obtenerHistorialPorCliente($idCliente);
+    private $historialModel;
+
+    public function __construct() {
+        $this->historialModel = new HistorialReparaciones();
+    }
+
+    public function obtenerHistorial($idReparacion) {
+        return $this->historialModel->obtenerHistorial($idReparacion);
     }
 }
 ?>

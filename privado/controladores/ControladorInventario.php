@@ -1,15 +1,19 @@
 <?php
-require_once '../modelos/Inventario.php';
+require_once '../models/Accesorios.php';
 
 class ControladorInventario {
-    public function registrarInventario($datos) {
-        $inventarioModelo = new Inventario();
-        return $inventarioModelo->guardarInventario($datos);
+    private $accesoriosModel;
+
+    public function __construct() {
+        $this->accesoriosModel = new Accesorios();
     }
 
-    public function verificarStock($idProducto) {
-        $inventarioModelo = new Inventario();
-        return $inventarioModelo->obtenerStockPorProducto($idProducto);
+    public function obtenerInventario() {
+        return $this->accesoriosModel->obtenerTodosLosAccesorios();
+    }
+
+    public function actualizarInventario($idAccesorio, $cantidad) {
+        return $this->accesoriosModel->actualizarStock($idAccesorio, $cantidad);
     }
 }
 ?>

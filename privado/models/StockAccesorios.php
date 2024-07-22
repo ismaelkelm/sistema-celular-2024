@@ -3,18 +3,20 @@ require_once '../configuracion/database.php';
 
 class StockAccesorios {
     private $conexion;
-    private $tabla = 'stockaccesorios';
+    private $tabla = 'accesorios'; // Cambiado de 'stockaccesorios' a 'accesorios'
 
     public function __construct() {
         $this->conexion = Database::getConnection();
     }
 
     public function agregarAccesorio($datos) {
-        $query = "INSERT INTO " . $this->tabla . " (AccesorioID, Cantidad) VALUES (:accesorio, :cantidad)";
+        $query = "INSERT INTO " . $this->tabla . " (Nombre, Descripcion, Cantidad, Precio) VALUES (:nombre, :descripcion, :cantidad, :precio)";
         $stmt = $this->conexion->prepare($query);
 
-        $stmt->bindParam(':accesorio', $datos['accesorio']);
+        $stmt->bindParam(':nombre', $datos['nombre']);
+        $stmt->bindParam(':descripcion', $datos['descripcion']);
         $stmt->bindParam(':cantidad', $datos['cantidad']);
+        $stmt->bindParam(':precio', $datos['precio']);
 
         return $stmt->execute();
     }

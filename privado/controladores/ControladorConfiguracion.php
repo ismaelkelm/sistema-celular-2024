@@ -1,15 +1,18 @@
 <?php
-require_once '../modelos/Configuracion.php';
+// Implementa las funcionalidades relacionadas con la configuración aquí
+// Por ejemplo: cargar, actualizar, y guardar configuraciones
 
 class ControladorConfiguracion {
-    public function obtenerConfiguracion() {
-        $configuracionModelo = new Configuracion();
-        return $configuracionModelo->obtenerConfiguracion();
+    public function cargarConfiguracion() {
+        // Lógica para cargar configuración
     }
 
     public function actualizarConfiguracion($datos) {
-        $configuracionModelo = new Configuracion();
-        return $configuracionModelo->guardarConfiguracion($datos);
+        // Lógica para actualizar configuración
+    }
+
+    public function guardarConfiguracion($datos) {
+        // Lógica para guardar configuración
     }
 }
 ?>

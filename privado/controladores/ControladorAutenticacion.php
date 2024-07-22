@@ -1,22 +1,19 @@
 <?php
-require_once '../modelos/Usuario.php';
-require_once '../ayudantes/sesion.php';
+require_once '../models/Usuarios.php';
 
 class ControladorAutenticacion {
-    public function iniciarSesion($usuario, $contrasena) {
-        $usuarioModelo = new Usuario();
-        $resultado = $usuarioModelo->autenticar($usuario, $contrasena);
-        
-        if ($resultado) {
-            iniciarSesion($resultado);
-            return true;
-        } else {
-            return false;
-        }
+    private $usuariosModel;
+
+    public function __construct() {
+        $this->usuariosModel = new Usuarios();
     }
 
-    public function cerrarSesion() {
-        cerrarSesion();
+    public function autenticarUsuario($usuario, $password) {
+        return $this->usuariosModel->autenticarUsuario($usuario, $password);
+    }
+
+    public function registrarUsuario($usuario, $password) {
+        return $this->usuariosModel->registrarUsuario($usuario, $password);
     }
 }
 ?>

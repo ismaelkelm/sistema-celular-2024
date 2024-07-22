@@ -1,15 +1,19 @@
 <?php
-require_once '../modelos/Inventario.php';
+require_once '../models/Piezas.php';
 
 class ControladorInventarioPiezas {
-    public function registrarPieza($datos) {
-        $inventarioModelo = new Inventario();
-        return $inventarioModelo->guardarPieza($datos);
+    private $piezasModel;
+
+    public function __construct() {
+        $this->piezasModel = new Piezas();
     }
 
-    public function verificarPieza($idPieza) {
-        $inventarioModelo = new Inventario();
-        return $inventarioModelo->obtenerPiezaPorId($idPieza);
+    public function obtenerInventarioPiezas() {
+        return $this->piezasModel->obtenerTodasLasPiezas();
+    }
+
+    public function actualizarInventarioPiezas($idPieza, $cantidad) {
+        return $this->piezasModel->actualizarPieza($idPieza, $cantidad);
     }
 }
 ?>

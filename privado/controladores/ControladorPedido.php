@@ -1,15 +1,23 @@
 <?php
-require_once '../modelos/Pedido.php';
+require_once '../models/Pedidos.php';
 
 class ControladorPedido {
-    public function registrarPedido($datos) {
-        $pedidoModelo = new Pedido();
-        return $pedidoModelo->guardarPedido($datos);
+    private $pedidosModel;
+
+    public function __construct() {
+        $this->pedidosModel = new Pedidos();
     }
 
-    public function obtenerPedidos($idCliente) {
-        $pedidoModelo = new Pedido();
-        return $pedidoModelo->obtenerPedidosPorCliente($idCliente);
+    public function registrarPedido($datos) {
+        return $this->pedidosModel->registrarPedido($datos);
+    }
+
+    public function obtenerPedido($idPedido) {
+        return $this->pedidosModel->obtenerPedido($idPedido);
+    }
+
+    public function obtenerTodosLosPedidos() {
+        return $this->pedidosModel->obtenerTodosLosPedidos();
     }
 }
 ?>

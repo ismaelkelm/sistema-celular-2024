@@ -1,10 +1,19 @@
 <?php
-require_once '../modelos/Factura.php';
+require_once '../models/Pagos.php';
 
 class ControladorFacturacion {
-    public function generarFactura($datos) {
-        $facturaModelo = new Factura();
-        return $facturaModelo->crearFactura($datos);
+    private $pagosModel;
+
+    public function __construct() {
+        $this->pagosModel = new Pagos();
+    }
+
+    public function registrarPago($datos) {
+        return $this->pagosModel->registrarPago($datos);
+    }
+
+    public function obtenerFacturas($clienteID) {
+        // Lógica para obtener facturas de un cliente
     }
 }
 ?>
