@@ -1,0 +1,156 @@
+/* Estilo para el contenedor del título */
+#title-container {
+    text-align: center;
+    margin-top: 1rem; /* Ajusta según sea necesario */
+    margin-bottom: 1rem; /* Ajusta según sea necesario */
+}
+
+/* Estilo para el botón del título */
+#title-button {
+    font-size: 1rem; /* Tamaño del texto del botón */
+    color: var(--white); /* Color del texto del botón */
+    background-color: var(--color-accent); /* Fondo del botón */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cursor de puntero para el botón */
+    text-decoration: none; /* Sin subrayado */
+    padding: 1rem 1.5rem; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: background-color 0.3s, color 0.3s; /* Transición de colores */
+}
+
+/* Cambios de estilo al pasar el cursor por encima */
+#title-button:hover {
+    background-color: var(--color-dark); /* Color más oscuro al pasar el cursor */
+    color: var(--white); /* Color del texto al pasar el cursor */
+}
+
+/* Variables de Color y Tipografía */
+:root {
+    --mint-cream: #f1f7eeff;
+    --black: #050609ff;
+    --cambridge-blue: #92aa83ff;
+    --vermilion: #dd403aff;
+    --sandy-brown: #fc9f5bff;
+    --cream: #F3EED9;
+    --color-primary: #ECE9E1;
+    --color-accent: #E43C13;
+    --color-dark: #181818;
+    --color-1: #F7F9FB;
+    --color-2: #d0e0eb;
+    --color-3: #5085A5;
+    --color-4: #31708E;
+    --color-5: #687864;
+    --white: #ffffff;
+    --green: #93b874;
+    --dark-gray: #444f45;
+    --light-gray: #e5eddf;
+    --yellow: #282829;
+    --accent: "Playfair Display", serif;
+    --main: "Lato", sans-serif;
+}
+
+/* Estilo General */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--main);
+}
+
+html {
+    background-color: var(--color-2);
+    color: var(--color-dark);
+}
+
+/* Barra de Navegación */
+#nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-4);
+    z-index: 1010;
+}
+
+.navbar-dark .navbar-brand {
+    color: var(--color-1);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--color-1);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: var(--color-accent);
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3E%3Cpath stroke="rgba(255,255,255,.5)" stroke-width="2" d="M5 7h20M5 15h20M5 23h20"/%3E%3C/svg%3E');
+}
+
+/* Contenedor de Contenido */
+#content-container {
+    padding-top: 120px; /* Ajusta según la altura de la barra de navegación */
+    margin: auto;
+}
+
+h2 {
+    color: var(--color-3);
+    font-family: var(--accent);
+    font-size: 2rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Botones */
+.btn-light {
+    background-color: var(--color-1);
+    border: 1px solid var(--color-3);
+    color: var(--color-dark);
+}
+
+.btn-light:hover {
+    background-color: var(--color-3);
+    color: var(--color-1);
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+/* Pie de Página */
+footer {
+    padding: 10px;
+    text-align: center;
+    color: var(--white);
+    background-color: var(--color-4);
+}
+
+/* Estilos para la Tabla */
+.table th {
+    background-color: var(--color-4);
+    color: var(--white);
+}
+
+.table thead th {
+    background-color: var(--color-4);
+    color: var(--white);
+    text-align: center;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: var(--light-gray);
+}
+
+.table tbody tr:hover {
+    background-color: var(--color-3);
+}
+
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
