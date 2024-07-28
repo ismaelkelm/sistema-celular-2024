@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Empresa</title>
+    <title>Marquez Comunicaciones</title>
     <!-- Enlazar el archivo CSS de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Enlazar Font Awesome para los íconos -->
@@ -43,7 +43,7 @@
     <!-- Contenedor del Título -->
     <div id="title-container" class="container">
         <button id="title-button" onclick="window.location.href='index.php';">
-            EMPRESARIO
+            EMPRESARIO 
         </button>
     </div>
     <!-- Aquí va el resto del contenido, como la barra de navegación -->

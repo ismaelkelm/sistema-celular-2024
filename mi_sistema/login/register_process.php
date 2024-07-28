@@ -1,77 +1,100 @@
 <?php
 session_start();
-require_once '../base_datos/db.php'; // Ajusta la ruta según la ubicación de db.php
+require_once '../base_datos/db.php';
 
-// Comprobar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener y sanitizar los datos del formulario
-    $username = trim($_POST["username"]);
-    $password = trim($_POST["password"]);
-    $role_id = trim($_POST["role"]);
+    // Verificar el token CSRF
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        echo "Token CSRF inválido.";
+        exit;
+    }
 
-    // Verificar que los campos no estén vacíos
-    if (empty($username) || empty($password) || empty($role_id)) {
+    // Captura y limpia los datos del formulario
+    $usuario = trim($_POST["usuario"]);
+    $contraseña = trim($_POST["contraseña"]);
+    $correo = trim($_POST["correo"]);
+    $id_roles = isset($_POST["id_roles"]) ? trim($_POST["id_roles"]) : '';
+
+    // Verifica si los campos están vacíos
+    if (empty($usuario) || empty($contraseña) || empty($correo) || empty($id_roles)) {
         echo "Por favor, complete todos los campos.";
         exit;
     }
 
-    // Verificar que el rol administrador no esté registrado si se está intentando registrar como administrador
-    $admin_role_id = 1; // Suponiendo que el rol administrador tiene ID 1
-    $sql = "SELECT COUNT(*) FROM usuarios WHERE rol_id = ?";
-    
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("i", $admin_role_id);
-        $stmt->execute();
-        $stmt->bind_result($count);
-        $stmt->fetch();
-        
-        // Si el rol administrador ya está registrado, filtrar los roles disponibles
-        if ($count > 0 && $role_id == $admin_role_id) {
-            echo "El rol administrador ya está registrado. Por favor, selecciona otro rol.";
-            exit;
-        }
-        
-        $stmt->close();
-    } else {
-        echo "Error en la preparación de la consulta.";
+    // Valida el correo electrónico
+    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        echo "Correo electrónico no válido.";
         exit;
     }
 
-    // Verificar si el usuario ya existe
-    $sql = "SELECT id FROM usuarios WHERE nombre = ?";
-    
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-        
-        // Si el usuario ya existe
-        if ($stmt->num_rows > 0) {
-            echo "Ya existe un usuario con ese nombre.";
-        } else {
-            // Insertar el nuevo usuario en la base de datos
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO usuarios (nombre, contraseña, rol_id) VALUES (?, ?, ?)";
-            
-            if ($stmt = $conn->prepare($sql)) {
-                $stmt->bind_param("ssi", $username, $hashed_password, $role_id);
-                if ($stmt->execute()) {
-                    echo "Registro exitoso. <a href='login.php'>Inicia sesión aquí</a>";
+    // Verifica si el rol existe
+    $sql_role = "SELECT id_roles FROM roles WHERE id_roles = ?";
+    if ($stmt_role = $conn->prepare($sql_role)) {
+        $stmt_role->bind_param("i", $id_roles);
+        $stmt_role->execute();
+        $stmt_role->store_result();
+
+        if ($stmt_role->num_rows > 0) {
+            // Verifica si el usuario ya existe
+            $sql_user = "SELECT usuario FROM usuarios WHERE usuario = ?";
+            if ($stmt_user = $conn->prepare($sql_user)) {
+                $stmt_user->bind_param("s", $usuario);
+                $stmt_user->execute();
+                $stmt_user->store_result();
+
+                if ($stmt_user->num_rows > 0) {
+                    echo "El usuario ya existe.";
                 } else {
-                    echo "Error al registrar el usuario.";
+                    // Inserta el nuevo usuario
+                    $sql_insert = "INSERT INTO usuarios (usuario, contraseña, correo_electronico, id_roles) VALUES (?, ?, ?, ?)";
+                    if ($stmt_insert = $conn->prepare($sql_insert)) {
+                        $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
+                        $stmt_insert->bind_param("sssi", $usuario, $hashed_password, $correo, $id_roles);
+                        if ($stmt_insert->execute()) {
+                            // Mostrar mensaje de bienvenida y redirigir
+                            echo "
+                            <html lang='es'>
+                            <head>
+                                <meta charset='UTF-8'>
+                                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                                <title>Registro exitoso</title>
+                                <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>
+                                <script>
+                                    setTimeout(function() {
+                                        window.location.href = '../login/login.html';
+                                    }, 2000); // Redirige después de 2 segundos
+                                </script>
+                            </head>
+                            <body>
+                                <div class='container mt-5'>
+                                    <div class='alert alert-success'>
+                                        <strong>Registro exitoso!</strong> Bienvenido, $usuario. Serás redirigido a la página de inicio de sesión en 2 segundos.
+                                    </div>
+                                </div>
+                            </body>
+                            </html>";
+                            exit;
+                        } else {
+                            echo "Error al registrar el usuario: " . $stmt_insert->error;
+                        }
+                        $stmt_insert->close();
+                    } else {
+                        echo "Error en la preparación de la consulta de inserción.";
+                    }
                 }
-                $stmt->close();
+                $stmt_user->close();
             } else {
-                echo "Error en la preparación de la consulta.";
+                echo "Error en la preparación de la consulta de usuario: " . $conn->error;
             }
+        } else {
+            echo "El rol seleccionado no está registrado.";
         }
-        $stmt->close();
+        $stmt_role->close();
     } else {
-        echo "Error en la preparación de la consulta.";
+        echo "Error en la preparación de la consulta de rol: " . $conn->error;
     }
     $conn->close();
 } else {
-    // Si no se envió el formulario, redirigir al formulario de registro
     header("Location: register.php");
     exit;
 }

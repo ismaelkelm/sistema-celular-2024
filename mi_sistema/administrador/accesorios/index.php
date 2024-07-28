@@ -33,14 +33,14 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_accesorios']); ?></td>
                 <td><?php echo htmlspecialchars($row['nombre']); ?></td>
                 <td><?php echo htmlspecialchars($row['descripción']); ?></td>
-                <td><?php echo htmlspecialchars($row['precio']); ?></td>
+                <td><?php echo htmlspecialchars(number_format($row['precio'], 2)); ?></td>
                 <td><?php echo htmlspecialchars($row['stock']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_accesorios']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_accesorios']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -49,3 +49,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>
