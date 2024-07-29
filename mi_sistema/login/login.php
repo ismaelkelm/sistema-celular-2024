@@ -19,11 +19,13 @@
         }
         .container {
             max-width: 500px;
-            margin-top: 100px;
             background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header, .card-body {
+            padding: 20px;
         }
     </style>
 </head>

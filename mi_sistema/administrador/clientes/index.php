@@ -3,7 +3,7 @@
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
 // Consultar clientes
-$query = "SELECT * FROM clientes";
+$query = "SELECT * FROM clientes ORDER BY numero_pedido DESC";
 $result = mysqli_query($conn, $query);
 
 // Verificar si la consulta fue exitosa
@@ -27,20 +27,22 @@ if (!$result) {
                 <th>Teléfono</th>
                 <th>Correo Electrónico</th>
                 <th>Dirección</th>
+                <th>Número de Pedido</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_clientes']); ?></td>
                 <td><?php echo htmlspecialchars($row['nombre']); ?></td>
                 <td><?php echo htmlspecialchars($row['telefono']); ?></td>
                 <td><?php echo htmlspecialchars($row['correo_electronico']); ?></td>
                 <td><?php echo htmlspecialchars($row['direccion']); ?></td>
+                <td><?php echo htmlspecialchars($row['numero_pedido']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_clientes']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_clientes']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>

@@ -36,6 +36,18 @@ html {
     color: var(--color-dark);
 }
 
+body {
+    background-image: url('../media/abretucompu.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Barra de Navegación */
 #nav-container {
     position: fixed;
@@ -44,22 +56,6 @@ html {
     width: 100%;
     background-color: var(--color-4);
     z-index: 1010;
-}
-
-.navbar-dark .navbar-brand {
-    color: var(--color-1);
-}
-
-.navbar-dark .navbar-nav .nav-link {
-    color: var(--color-1);
-}
-
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: var(--color-accent);
-}
-
-.navbar-dark .navbar-toggler-icon {
-    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3E%3Cpath stroke="rgba(255,255,255,.5)" stroke-width="2" d="M5 7h20M5 15h20M5 23h20"/%3E%3C/svg%3E');
 }
 
 /* Contenedor de Contenido */
@@ -114,8 +110,8 @@ h2 {
 }
 
 .btn-register {
-    background-color: #E43C13;
-    color: #ffffff;
+    background-color: var(--color-accent);
+    color: var(--white);
     border: none;
     padding: 1rem 2rem;
     border-radius: 10px;
@@ -124,7 +120,7 @@ h2 {
 }
 
 .btn-register:hover {
-    background-color: #181818;
+    background-color: var(--color-dark);
 }
 
 .btn-scroll-down {
@@ -157,6 +153,9 @@ footer {
     text-align: center;
     color: var(--white);
     background-color: var(--color-4);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 /* Estilos para la Tabla */
@@ -186,18 +185,6 @@ footer {
 }
 
 /* Estilo para el formulario de registro */
-body {
-    background-image: url('../media/abretucompu.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .container {
     max-width: 600px;
     background-color: rgba(255, 255, 255, 0.9);

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marquez Comunicaciones</title>
+    <title><?php echo $pageTitle ?? 'Mi Empresa'; ?></title>
     <!-- Enlazar el archivo CSS de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Enlazar Font Awesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Enlazar CSS personalizado -->
-    <link rel="stylesheet" href="estilos/styles.css">
+    <link rel="stylesheet" href="../estilos/styles.css">
     <style>
         /* Estilo para el contenedor del título */
         #title-container {
@@ -42,18 +42,12 @@
 <body>
     <!-- Contenedor del Título -->
     <div id="title-container" class="container">
-        <button id="title-button" onclick="window.location.href='index.php';">
+        <button id="title-button" onclick="window.location.reload(); return false;">
             EMPRESARIO 
         </button>
     </div>
-    <!-- Aquí va el resto del contenido, como la barra de navegación -->
-    <!-- Agrega aquí tu barra de navegación, contenido principal, etc. -->
 
-    <!-- Opcional: Scripts de Bootstrap y Font Awesome si necesitas JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Agregar la barra de navegación -->
+    <?php include('nav.php'); ?>
 </body>
 </html>
-
-

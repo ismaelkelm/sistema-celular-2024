@@ -15,30 +15,28 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
+    <a href="create.php" class="btn btn-primary mb-3">Agregar Empleado</a>
     <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Empleados</h1>
-    <a href="create.php" class="btn btn-primary mb-3">Agregar Empleado</a>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Cargo</th>
-                <th>Usuario ID</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_empleados']); ?></td>
                 <td><?php echo htmlspecialchars($row['nombre']); ?></td>
                 <td><?php echo htmlspecialchars($row['cargo']); ?></td>
-                <td><?php echo htmlspecialchars($row['usuario_id']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_empleados']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_empleados']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -47,3 +45,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

@@ -2,12 +2,6 @@
 session_start();
 require_once '../base_datos/db.php';
 
-// Generar un token CSRF para el formulario
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf_token = $_SESSION['csrf_token'];
-
 // Consultar los roles desde la base de datos
 $sql_roles = "SELECT id_roles, nombre FROM roles";
 $roles = [];
@@ -37,7 +31,6 @@ $conn->close();
     <div class="container mt-5">
         <h2 class="mb-4">Registro de Usuario</h2>
         <form action="register_process.php" method="post">
-            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
             <div class="form-group">
                 <label for="id_roles">Rol</label>
@@ -67,10 +60,10 @@ $conn->close();
             </div>
 
             <button type="submit" class="btn btn-primary">Registrar</button>
-            <a href="../login/login.html" class="btn btn-secondary">Volver atrás</a>
+            <a href="../login/login.php" class="btn btn-secondary">Volver atrás</a>
         </form>
 
-        <p class="mt-3">¿Ya tienes una cuenta? <a href="../login/login.html">Inicia sesión aquí.</a></p>
+        <p class="mt-3">¿Ya tienes una cuenta? <a href="../login/login.php">Inicia sesión aquí.</a></p>
     </div>
 </body>
 </html>

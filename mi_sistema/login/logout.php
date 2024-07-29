@@ -17,6 +17,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirigir al usuario a la página de inicio de sesión
-header("Location: login.html"); // Usa ruta relativa desde el directorio del archivo de cierre de sesión
+header("Location: ../login/login.php");
 exit;
 ?>

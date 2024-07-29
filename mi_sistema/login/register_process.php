@@ -3,12 +3,6 @@ session_start();
 require_once '../base_datos/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar el token CSRF
-    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        echo "Token CSRF inválido.";
-        exit;
-    }
-
     // Captura y limpia los datos del formulario
     $usuario = trim($_POST["usuario"]);
     $contraseña = trim($_POST["contraseña"]);
@@ -45,11 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt_user->num_rows > 0) {
                     echo "El usuario ya existe.";
                 } else {
-                    // Inserta el nuevo usuario
+                    // Inserta el nuevo usuario (sin hash para la contraseña)
                     $sql_insert = "INSERT INTO usuarios (usuario, contraseña, correo_electronico, id_roles) VALUES (?, ?, ?, ?)";
                     if ($stmt_insert = $conn->prepare($sql_insert)) {
-                        $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
-                        $stmt_insert->bind_param("sssi", $usuario, $hashed_password, $correo, $id_roles);
+                        $stmt_insert->bind_param("sssi", $usuario, $contraseña, $correo, $id_roles);
                         if ($stmt_insert->execute()) {
                             // Mostrar mensaje de bienvenida y redirigir
                             echo "
@@ -61,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>
                                 <script>
                                     setTimeout(function() {
-                                        window.location.href = '../login/login.html';
+                                        window.location.href = '../login/login.php';
                                     }, 2000); // Redirige después de 2 segundos
                                 </script>
                             </head>

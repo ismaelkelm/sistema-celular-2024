@@ -1,28 +1,32 @@
-console.log("nav.js cargado");
+document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona el botón de cierre de sesión
+    const logoutButton = document.querySelector(".btn-danger");
 
-$(document).ready(function() {
-    console.log("Documento listo. Asignando manejadores de eventos...");
+    // Asegúrate de que el botón exista antes de agregar el event listener
+    if (logoutButton) {
+        logoutButton.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto del enlace
 
-    // Manejar clic en los enlaces del nav
-    $('.nav-link[data-url]').on('click', function(e) {
-        e.preventDefault(); // Prevenir el comportamiento por defecto
-
-        var url = $(this).data('url'); // Obtener la URL del atributo data-url
-        console.log("Cargando URL: " + url);
-
-        // Cargar el contenido de la URL en el contenedor
-        $('#content-container').load(url)
-            .fail(function() {
-                $('#content-container').html('<p>Hubo un error al cargar el contenido.</p>');
+            // Realizar una petición AJAX para cerrar la sesión
+            fetch('login/logout.php', {
+                method: 'POST', // Usar el método POST
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ action: 'logout' }) // Pasar parámetros si es necesario
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirigir a la página de inicio de sesión
+                    window.location.href = '/mi_sistema/login/login.php';
+                } else {
+                    // Manejar errores si es necesario
+                    console.error('Error al cerrar sesión');
+                }
+            })
+            .catch(error => {
+                console.error('Error en la petición de cierre de sesión:', error);
             });
-    });
-
-    // Cargar una página por defecto si es la primera carga
-    if (window.location.pathname === '/' || window.location.pathname === '/mi_sistema/') {
-        console.log("Cargando contenido por defecto...");
-        $('#content-container').load('base_datos/gestionar_permisos.php')
-            .fail(function() {
-                $('#content-container').html('<p>Hubo un error al cargar el contenido por defecto.</p>');
-            });
+        });
     }
 });

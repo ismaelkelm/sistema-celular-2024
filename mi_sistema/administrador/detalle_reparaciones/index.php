@@ -32,13 +32,13 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
-                <td><?php echo htmlspecialchars($row['reparacion_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['pieza_id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_reparacion']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_pieza']); ?></td>
                 <td><?php echo htmlspecialchars($row['cantidad_usada']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -47,3 +47,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>
