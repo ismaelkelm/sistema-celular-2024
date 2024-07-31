@@ -4,80 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-image: url('../media/abretucompu.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            max-width: 500px;
-            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .card-header, .card-body {
-            padding: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Inicio de Sesión</h3>
-            </div>
-            <div class="card-body">
-                <?php
-                session_start();
-                if (empty($_SESSION['csrf_token'])) {
-                    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-                }
-                if (isset($_GET['error'])): ?>
-                    <div class="alert alert-danger">
-                        <?php echo htmlspecialchars($_GET['error']); ?>
-                    </div>
-                <?php endif; ?>
-                <?php if (isset($_GET['success'])): ?>
-                    <div class="alert alert-success">
-                        <?php echo htmlspecialchars($_GET['success']); ?>
-                    </div>
-                <?php endif; ?>
-                <form action="login_process.php" method="post">
-                    <!-- Campo CSRF token -->
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    
-                    <div class="form-group">
-                        <label for="usuario">Nombre de Usuario</label>
-                        <input type="text" class="form-control" id="usuario" name="usuario" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contraseña">Contraseña</label>
-                        <input type="password" class="form-control" id="contraseña" name="contraseña" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-                    <button type="button" class="btn btn-secondary" onclick="history.back()">Volver atrás</button>
-                </form>
-                <div class="mt-3">
-                    <a href="register.php">¿No tienes una cuenta? Regístrate aquí.</a>
-                </div>
-                <div class="mt-3">
-                    <a href="forgot_change.html">¿Olvidaste tu nombre de usuario o contraseña?</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="container mt-5">
+        <h2 class="mb-4">Inicio de Sesión</h2>
+        <form action="login_process.php" method="post">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <div class="form-group">
+                <label for="usuario">Nombre de Usuario</label>
+                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de Usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            
+            <a href="register.php" class="btn btn-secondary">Regístrate aquí</a>
+        </form>
+
+        <?php if (isset($_GET['error'])): ?>
+            <div class="alert alert-danger mt-3"><?php echo htmlspecialchars($_GET['error']); ?></div>
+        <?php endif; ?>
+
+        <p class="mt-3">¿Olvidaste tu nombre de usuario o contraseña? <a href="#">Recupera aquí.</a></p>
+    </div>
 </body>
 </html>

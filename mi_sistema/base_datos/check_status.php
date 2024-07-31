@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Obtener el número de orden desde el formulario
-$order_number = $_POST['order_number'] ?? '';
+$order_number = isset($_POST['order_number']) ? htmlspecialchars(trim($_POST['order_number'])) : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,26 +48,21 @@ $order_number = $_POST['order_number'] ?? '';
 
             // Definir el mensaje y la clase CSS para el estado
             $status_message = '';
-            $alert_class = '';
             $status_class = '';
 
             if ($status !== null) {
                 switch ($status) {
                     case 'Pendiente':
                         $status_message = "El estado de la orden <strong>{$order_number}</strong> es: <strong class='status-pendiente'>{$status}</strong>";
-                        $status_class = 'status-pendiente';
                         break;
                     case 'Completado':
                         $status_message = "El estado de la orden <strong>{$order_number}</strong> es: <strong class='status-completado'>{$status}</strong>";
-                        $status_class = 'status-completado';
                         break;
                     case 'Cancelado':
                         $status_message = "El estado de la orden <strong>{$order_number}</strong> es: <strong class='status-cancelado'>{$status}</strong>";
-                        $status_class = 'status-cancelado';
                         break;
                     default:
                         $status_message = "El estado de la orden <strong>{$order_number}</strong> es: <strong>{$status}</strong>";
-                        $status_class = '';
                         break;
                 }
                 echo "<div class='alert alert-info'>{$status_message}</div>";

@@ -1,43 +1,48 @@
 <?php
 session_start();
+require_once '../../mi_sistema/base_datos/db.php'; // Asegúrate de que la ruta sea correcta
 
 // Verificar si el usuario está autenticado
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'] || !isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
     header("Location: login/login.php");
     exit;
 }
 
-// Incluir el archivo de roles
-require_once 'roles.php';
+$user_id = $_SESSION['user_id'];
+$role_id = $_SESSION['role_id'];
 
-// Obtener el ID de rol del usuario desde la sesión
-$user_role_id = isset($_SESSION['role_id']) ? (int) $_SESSION['role_id'] : 0;
+// Consultar el nombre del rol
+$sql = "SELECT nombre FROM roles WHERE id_roles = ?";
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $role_id);
+    $stmt->execute();
+    $stmt->bind_result($role_name);
+    $stmt->fetch();
+    $stmt->close();
 
-// Depuración: Mostrar el rol del usuario y la página a la que se está redirigiendo
-echo "<p>Rol del Usuario: $user_role_id</p>";
-echo "<p>Redirigiendo a: ";
-
-switch ($user_role_id) {
-    case 1: // Administrador
-        echo "administrador/administrador.php</p>";
-        header("Location: administrador/administrador.php");
-        break;
-    case 2: // Administrativo
-        echo "administrativo/administrativo.php</p>";
-        header("Location: administrativo/administrativo.php");
-        break;
-    case 3: // Técnico
-        echo "tecnico/tecnico.php</p>";
-        header("Location: tecnico/tecnico.php");
-        break;
-    case 4: // Cliente
-        echo "cliente/cliente.php</p>";
-        header("Location: cliente/cliente.php");
-        break;
-    default:
-        echo "login/login.php?error=" . urlencode("Rol desconocido") . "</p>";
-        header("Location: login/login.php?error=" . urlencode("Rol desconocido"));
-        break;
+    // Redirigir según el rol
+    switch ($role_name) {
+        case 'Administrador':
+            header("Location: ../../mi_sistema/administrador/administrador.php");
+            break;
+        case 'Administrativo':
+            header("Location: ../../mi_sistema/administrativo/administrativo.php");
+            break;
+        case 'Técnico':
+            header("Location: ../../mi_sistema/tecnico/tecnico.php");
+            break;
+        case 'Cliente':
+            header("Location: ../../mi_sistema/cliente/cliente.php");
+            break;
+        default:
+            header("Location: login/login.php?error=" . urlencode("Rol de usuario no reconocido."));
+            break;
+    }
+    exit;
+} else {
+    header("Location: login/login.php?error=" . urlencode("Error en la consulta de roles."));
+    exit;
 }
-exit;
+
+$conn->close();
 ?>

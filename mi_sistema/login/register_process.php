@@ -39,10 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt_user->num_rows > 0) {
                     echo "El usuario ya existe.";
                 } else {
-                    // Inserta el nuevo usuario (sin hash para la contraseña)
+                    // Inserta el nuevo usuario (con hash para la contraseña)
+                    $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
                     $sql_insert = "INSERT INTO usuarios (usuario, contraseña, correo_electronico, id_roles) VALUES (?, ?, ?, ?)";
                     if ($stmt_insert = $conn->prepare($sql_insert)) {
-                        $stmt_insert->bind_param("sssi", $usuario, $contraseña, $correo, $id_roles);
+                        $stmt_insert->bind_param("sssi", $usuario, $hashed_password, $correo, $id_roles);
                         if ($stmt_insert->execute()) {
                             // Mostrar mensaje de bienvenida y redirigir
                             echo "

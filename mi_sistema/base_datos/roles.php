@@ -1,55 +1,39 @@
 <?php
-$roles = [
-    '1' => [
-        'name' => 'Administrador',
-        'permissions' => [
-            'Accesorios',
-            'Clientes',
-            'Detalle Facturas',
-            'Detalle Reparaciones',
-            'Dispositivos',
-            'Empleados',
-            'Facturas',
-            'Notificaciones',
-            'Pagos',
-            'Pedidos de Reparación',
-            'Piezas y Componentes',
-            'Proveedores',
-            'Recibos',
-            'Reparaciones',
-            'Roles',
-            'Técnicos',
-            'Tickets',
-            'Usuarios',
-            'Ventas Accesorios'
-        ]
-    ],
-    '2' => [
-        'name' => 'Técnico',
-        'permissions' => [
-            'Accesorios',
-            'Clientes',
-            'Detalle Reparaciones',
-            'Dispositivos',
-            'Notificaciones',
-            'Pedidos de Reparación',
-            'Reparaciones'
-        ]
-    ],
-    '3' => [
-        'name' => 'Administrativo',
-        'permissions' => [
-            'Clientes',
-            'Notificaciones',
-            'Pedidos de Reparación'
-        ]
-    ],
-    '4' => [
-        'name' => 'Cliente',
-        'permissions' => [
-            'Pedidos de Reparación',
-            'Notificaciones'
-        ]
-    ]
-];
+return array(
+    'Administrador' => array(
+        'Accesorios' => 'on',
+        'Clientes' => 'on',
+        'Detalle Facturas' => 'on',
+        'Detalle Reparaciones' => 'on',
+        'Dispositivos' => 'on',
+        'Empleados' => 'on',
+        'Facturas' => 'on',
+        'Notificaciones' => 'on',
+        'Pagos' => 'on',
+        'Pedidos de Reparación' => 'on',
+        'Piezas y Componentes' => 'on',
+        'Proveedores' => 'on',
+        'Recibos' => 'on',
+        'Reparaciones' => 'on',
+        'Roles' => 'on',
+        'Técnicos' => 'on',
+        'Tickets' => 'on',
+        'Usuarios' => 'on',
+        'Ventas Accesorios' => 'on',
+    ),
+    'Técnico' => array(
+        'Accesorios' => 'on',
+        'Clientes' => 'on',
+        'Detalle Reparaciones' => 'on',
+        'Dispositivos' => 'on',
+        'Notificaciones' => 'on',
+        'Pedidos de Reparación' => 'on',
+        'Reparaciones' => 'on',
+    ),
+    'Administrativo' => array(
+        'Clientes' => 'on',
+        'Notificaciones' => 'on',
+        'Pedidos de Reparación' => 'on',
+    ),
+);
 ?>

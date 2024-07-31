@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
+    header("Location:login/login.php");
     exit;
 }
 ?>
@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
     <title>Barra de Navegación</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../estilos/styles.css">
+    <link rel="stylesheet" href="/mi_sistema/estilos/estilo.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,22 +33,22 @@ if (!isset($_SESSION['user_id'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../base_datos/gestionar_permisos.php">
+                    <a class="nav-link" href="../../mi_sistema/base_datos/gestionar_permisos.php">
                         <i class="fas fa-box"></i> Permisos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../tecnico/tecnico.php">
+                    <a class="nav-link" href="../../mi_sistema/tecnico/tecnico.php">
                         <i class="fas fa-users"></i> Técnicos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../cliente/cliente.php">
+                    <a class="nav-link" href="cliente/cliente.php">
                         <i class="fas fa-file-invoice"></i> Clientes
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../administrativo/administrativo.php">
+                    <a class="nav-link" href="../../mi_sistema/administrativo/administrativo.php">
                         <i class="fas fa-wrench"></i> Administrativo
                     </a>
                 </li>
@@ -67,12 +67,12 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../login/register.php">
+                    <a class="nav-link" href="login/reset_password.php">
                         <i class="fas fa-lock"></i> Cambiar Contraseña
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../login/logout.php" class="btn btn-danger">
+                    <a href="../../mi_sistema/login/logout.php" class="btn btn-danger">
                         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                     </a>
                 </li>

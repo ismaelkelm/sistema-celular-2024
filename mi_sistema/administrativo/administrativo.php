@@ -1,12 +1,15 @@
 <?php
-session_start();
+// Verificar si la sesión ya ha sido iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Incluir el archivo de conexión
-require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
+require_once '../../mi_sistema/base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
 
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login/login.php");
+    header("Location: ../../mi_sistema/login/login.php");
     exit;
 }
 
@@ -17,25 +20,30 @@ $user_id = $_SESSION['user_id'];
 $query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
-    die("Error en la consulta: " . $conn->error);
+    die("Error en la consulta: " . htmlspecialchars($conn->error));
 }
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
+if (!$row) {
+    die("Error: Usuario no encontrado.");
+}
+
 $id_roles = $row['id_roles'];
 
 // Verificar si el usuario tiene el rol 'Administrativo'
-require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
-if ($roles[$id_roles]['name'] !== 'Administrativo') {
-    header("Location: ../login/login.php");
+require_once '../../mi_sistema/base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
+
+if (!isset($roles[$id_roles]) || $roles[$id_roles]['name'] !== 'Administrativo') {
+    header("Location:login/login.php");
     exit;
 }
 
 // Incluir el header.php para el contenido compartido
 $pageTitle = "Administrativo - Mi Empresa"; // Establecer el título específico para esta página
-include('../includes/header.php');
+include('../../mi_sistema/includes/header.php');
 ?>
 
 <!-- Contenido principal -->
@@ -47,9 +55,9 @@ include('../includes/header.php');
     <div class="row">
         <?php foreach ($roles[$id_roles]['permissions'] as $permission): ?>
             <div class="col-md-2 mb-4">
-                <a href="<?php echo strtolower(str_replace(' ', '_', $permission)); ?>/index.php" class="btn btn-light p-3 d-block text-center">
-                    <i class="fas fa-<?php echo getIconClass($permission); ?> fa-3x"></i>
-                    <p class="mt-2"><?php echo ucfirst($permission); ?></p>
+                <a href="<?php echo htmlspecialchars(strtolower(str_replace(' ', '_', $permission))) ?>/index.php" class="btn btn-light p-3 d-block text-center">
+                    <i class="fas fa-<?php echo htmlspecialchars(getIconClass($permission)); ?> fa-3x"></i>
+                    <p class="mt-2"><?php echo htmlspecialchars(ucfirst($permission)); ?></p>
                 </a>
             </div>
         <?php endforeach; ?>
@@ -69,7 +77,7 @@ include('../includes/header.php');
                             <ul class="list-group">
                                 <?php foreach ($role['permissions'] as $permission): ?>
                                     <li class="list-group-item">
-                                        <i class="fas fa-<?php echo getIconClass($permission); ?>"></i> <?php echo ucfirst($permission); ?>
+                                        <i class="fas fa-<?php echo htmlspecialchars(getIconClass($permission)); ?>"></i> <?php echo htmlspecialchars(ucfirst($permission)); ?>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -117,4 +125,3 @@ function getIconClass($permission) {
     return $icons[$permission] ?? 'question-circle';
 }
 ?>
- 

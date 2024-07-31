@@ -1,40 +1,73 @@
 <?php
 session_start();
-require_once '../base_datos/db.php'; // Asegúrate de que la ruta sea correcta
+require_once '../../mi_sistema/base_datos/db.php';
 
-// Verificar el token CSRF
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        header("Location: login.php?error=" . urlencode("Token CSRF inválido."));
-        exit;
-    }
-
+    // Captura y limpia los datos del formulario
     $usuario = trim($_POST["usuario"]);
     $contraseña = trim($_POST["contraseña"]);
 
+    // Verifica si los campos están vacíos
     if (empty($usuario) || empty($contraseña)) {
-        header("Location: login.php?error=" . urlencode("Por favor, complete todos los campos."));
+        header("Location: login.php?error=Por+favor,+complete+todos+los+campos.");
         exit;
     }
 
-    $sql = "SELECT id_usuarios, contraseña, id_roles FROM usuarios WHERE usuario = ?";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $usuario);
-        $stmt->execute();
-        $stmt->store_result();
+    // Verifica si el usuario existe
+    $sql_user = "SELECT id_usuarios, contraseña, id_roles FROM usuarios WHERE usuario = ?";
+    if ($stmt_user = $conn->prepare($sql_user)) {
+        $stmt_user->bind_param("s", $usuario);
+        $stmt_user->execute();
+        $stmt_user->store_result();
+        
+        if ($stmt_user->num_rows > 0) {
+            $stmt_user->bind_result($id_usuarios, $hashed_password, $id_roles);
+            $stmt_user->fetch();
 
-        if ($stmt->num_rows > 0) {
-            $stmt->bind_result($user_id, $stored_password, $user_role);
-            $stmt->fetch();
+            // Verifica la contraseña
+            if (password_verify($contraseña, $hashed_password)) {
+                // Verifica si el rol existe
+                $sql_role = "SELECT nombre FROM roles WHERE id_roles = ?";
+                if ($stmt_role = $conn->prepare($sql_role)) {
+                    $stmt_role->bind_param("i", $id_roles);
+                    $stmt_role->execute();
+                    $stmt_role->store_result();
 
-            // Comparar la contraseña usando password_verify en producción
-            if ($contraseña === $stored_password) {  
-                $_SESSION['loggedin'] = true;
-                $_SESSION['user_id'] = $user_id;
-                $_SESSION['role_id'] = $user_role;
+                    if ($stmt_role->num_rows > 0) {
+                        $stmt_role->bind_result($role_name);
+                        $stmt_role->fetch();
+                        
+                        // Inicia la sesión del usuario
+                        $_SESSION['user_id'] = $id_usuarios;
+                        $_SESSION['role'] = $role_name;
 
-                header("Location: ../index.php");
-                exit;
+                        // Redirige al usuario según su rol
+                        switch ($role_name) {
+                            case 'administrador':
+                                header("Location: ../../mi_sistema/administrador/administrador.php");
+                                break;
+                            case 'tecnico':
+                                header("Location: ../../mi_sistema/tecnico/tecnico.php");
+                                break;
+                            case 'administrativo':
+                                header("Location: ../../mi_sistema/administrativo/administrativo.php");
+                                break;
+                            case 'cliente':
+                                header("Location: ../../mi_sistema/cliente/cliente.php");
+                                break;
+                            default:
+                                header("Location: login.php?error=" . urlencode("Rol de usuario no reconocido."));
+                                break;
+                        }
+                        exit;
+                    } else {
+                        header("Location: login.php?error=" . urlencode("Rol de usuario no reconocido."));
+                        exit;
+                    }
+                } else {
+                    header("Location: login.php?error=" . urlencode("Error en la preparación de la consulta de rol."));
+                    exit;
+                }
             } else {
                 header("Location: login.php?error=" . urlencode("Contraseña incorrecta."));
                 exit;
@@ -43,9 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: login.php?error=" . urlencode("Nombre de usuario no encontrado."));
             exit;
         }
-        $stmt->close();
+        $stmt_user->close();
     } else {
-        header("Location: login.php?error=" . urlencode("Error en la preparación de la consulta."));
+        header("Location: login.php?error=" . urlencode("Error en la preparación de la consulta de usuario."));
         exit;
     }
     $conn->close();

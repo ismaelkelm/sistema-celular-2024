@@ -37,7 +37,7 @@ html {
 }
 
 body {
-    background-image: url('../media/abretucompu.jpg');
+    background-image: url('../../mi_sistema/media/abretucompu.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -65,10 +65,17 @@ body {
 }
 
 /* Títulos */
-h2 {
+h2, h3 {
     color: var(--color-3);
     font-family: var(--accent);
+}
+
+h2 {
     font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
 }
 
 .text-center {
@@ -194,15 +201,40 @@ footer {
     position: relative;
 }
 
-.card {
+/* Estilos Específicos para Roles */
+.admin-container {
+    background-color: var(--white);
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
+.admin-panel h2 {
+    color: var(--color-accent);
 }
 
-.form-control {
-    padding: 1rem;
-    border-radius: 5px;
+.admin-panel .card {
+    margin-bottom: 20px;
+}
+
+.tech-container {
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tech-panel h2 {
+    color: var(--color-dark);
+}
+
+.client-container {
+    background-color: var(--mint-cream);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.client-panel h2 {
+    color: var(--cambridge-blue);
 }
