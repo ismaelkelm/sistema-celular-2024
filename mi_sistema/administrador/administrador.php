@@ -9,6 +9,12 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// if (!isset($_SESSION['user_id'])) { controlar que el atributo del rol sea 1 para este modiulo
+
+//     header("Location: ../login/login.php");
+//     exit;
+// }
+
 // Supongamos que el ID del usuario está almacenado en $_SESSION['user_id']
 $user_id = $_SESSION['user_id'];
 
@@ -50,6 +56,7 @@ include_once('../base_datos/functions.php');
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -72,7 +79,7 @@ include_once('../base_datos/functions.php');
                 foreach ($roles[$role_name] as $permission => $value):
                     if ($value === 'on'):
             ?>
-                <div class="col-md-2 mb-4">
+                <div class="col 12">
                     <a href="../administrador/<?php echo strtolower(str_replace(' ', '_', $permission)); ?>/index.php" class="btn btn-light p-3 d-block text-center">
                         <i class="fas fa-<?php echo getIconClass($permission); ?> fa-3x"></i>
                         <p class="mt-2"><?php echo ucfirst($permission); ?></p>

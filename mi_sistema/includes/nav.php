@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
     <title>Barra de Navegación</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/mi_sistema/estilos/estilo.css">
+    <!-- <link rel="stylesheet" href="/mi_sistema/estilos/estilo.css"> -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -50,6 +50,11 @@ if (!isset($_SESSION['user_id'])) {
                 <li class="nav-item">
                     <a class="nav-link" href="../../mi_sistema/administrativo/administrativo.php">
                         <i class="fas fa-wrench"></i> Administrativo
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cliente/cliente.php">
+                        <i class="fas fa-file-invoice"></i> FActuracion
                     </a>
                 </li>
             </ul>

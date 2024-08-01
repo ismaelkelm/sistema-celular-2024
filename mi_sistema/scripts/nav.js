@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => {
                 if (response.ok) {
                     // Redirigir a la página de inicio de sesión
-                    window.location.href = '/mi_sistema/login/login.php';
+                    window.location.href = '/mi_sistema/index.php';
+                    // login/login.php';
                 } else {
                     // Manejar errores si es necesario
                     console.error('Error al cerrar sesión');

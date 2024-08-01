@@ -1,14 +1,15 @@
 <?php
+
 session_start();
 
 // Incluir el archivo de conexión
-require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
+require '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
 
 // Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
-    exit;
-}
+// if (!isset($_SESSION['user_id'])) {
+//     header("Location: ../index.php");
+//     exit;
+// }
 
 // Supongamos que el ID del usuario está almacenado en $_SESSION['user_id']
 $user_id = $_SESSION['user_id'];
@@ -28,10 +29,10 @@ $id_roles = $row['id_roles'];
 
 // Verificar si el usuario es técnico
 require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
-if ($roles[$id_roles]['name'] !== 'Técnico') {
-    header("Location: ../index.php");
-    exit;
-}
+// if ($roles[$id_roles]['name'] !== 'Técnico') {
+//     header("Location: ../index.php");
+//     exit;
+// }
 
 // Incluir el header.php para el contenido compartido
 $pageTitle = "Técnico - Mi Empresa"; // Establecer el título específico para esta página
