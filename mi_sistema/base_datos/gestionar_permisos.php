@@ -11,7 +11,7 @@ if (!is_array($permisos)) {
 }
 
 // Obtener el rol del usuario
-$user_id = $_SESSION['user_id'];
+// $user_id = $_SESSION['user_id'];
 $query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);

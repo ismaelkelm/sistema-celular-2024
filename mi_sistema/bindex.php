@@ -66,11 +66,14 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
+
         .carousel img {
             width: 100%;
-            height: auto;
+            height: 350px; /* Ajusta la altura según lo necesites */
+            object-fit: cover; /* Mantiene la proporción de la imagen y recorta el exceso si es necesario */
             display: block;
         }
+
         .carousel .nav-button {
             cursor: pointer;
             position: absolute;
@@ -85,14 +88,17 @@
             user-select: none;
             background-color: rgba(0,0,0,0.5);
         }
+
         .carousel .prev {
             left: 0;
             border-radius: 3px 0 0 3px;
         }
+
         .carousel .next {
             right: 0;
             border-radius: 3px 0 0 3px;
         }
+
         .container {
             flex: 1;
             padding: 20px;
@@ -139,10 +145,10 @@
     </header>
     <nav>
         <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Servicios</a></li>
-            <li><a href="#">Acerca de</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><button class="btn-login-nav" onclick="window.location.href='../mi_sistema/presentacion/aindex.html';">Reparacion</button></li>
+            <li><button class="btn-login-nav" onclick="window.location.href='../mi_sistema/presentacion/presentacion.html';">presentacion</button></li>
+            <li><button class="btn-login-nav" onclick="window.location.href='../mi_sistema/presentacion/presentacion2.html';">Iniciar Sesión</button></li>
+            <li><button class="btn-login-nav" onclick="window.location.href='../mi_sistema/presentacion/pruebas.html';">Iniciar Sesión</button></li>
             <li><button class="btn-login-nav" onclick="window.location.href='../mi_sistema/login/login.php';">Iniciar Sesión</button></li>
         </ul>
     </nav>
@@ -169,13 +175,13 @@
                 <p>Desarrollamos soluciones de software personalizadas para satisfacer las necesidades específicas de nuestros clientes.</p>
             </div>
         </div>
-        <div class="upload-section">
+        <!-- <div class="upload-section">
             <h2>Agregar Imagen</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
                 <input type="file" name="image" accept="image/*">
                 <input type="submit" value="Subir Imagen">
             </form>
-        </div>
+        </div> -->
     </div>
     <footer>
         © 2024 Marquez Comunicaciones. Todos los derechos reservados.
