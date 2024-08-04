@@ -238,3 +238,63 @@ footer {
 .client-panel h2 {
     color: var(--cambridge-blue);
 }
+
+
+/* Ajuste del tamaño del carrusel */
+.carousel-image {
+    max-height: 500px; /* Ajusta esta altura según tus necesidades */
+    object-fit: cover;
+}
+
+/* Navbar personalizado */
+.custom-navbar .navbar-brand {
+    font-weight: bold;
+}
+
+.custom-navbar .navbar-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Imagen de fondo y contenido principal */
+.background-image {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* Botones y contacto */
+.buttons .button {
+    width: 200px;
+}
+
+.contact p, .website {
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Pie de página */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+}
