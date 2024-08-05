@@ -10,7 +10,7 @@
     <!-- Enlazar Font Awesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Enlazar CSS personalizado -->
-    <link rel="stylesheet" href="../../mi_sistema/estilos/estilo.css">
+    <link rel="stylesheet" href="../estilos/estilo.css">
     <style>
         /* Estilo para el contenedor del título */
         #title-container {

@@ -33,27 +33,27 @@ if (!isset($_SESSION['user_id'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="../../mi_sistema/base_datos/gestionar_permisos.php">
+                    <a class="nav-link" href="../base_datos/gestionar_permisos.php">
                         <i class="fas fa-box"></i> Permisos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../mi_sistema/tecnico/tecnico.php">
+                    <a class="nav-link" href="../tecnico/tecnico.php">
                         <i class="fas fa-users"></i> Técnicos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="cliente/cliente.php">
+                    <a class="nav-link" href="../cliente/cliente.php">
                         <i class="fas fa-file-invoice"></i> Clientes
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../mi_sistema/administrativo/administrativo.php">
+                    <a class="nav-link" href="../administrativo/administrativo.php">
                         <i class="fas fa-wrench"></i> Administrativo
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="cliente/cliente.php">
+                    <a class="nav-link" href="../cliente/cliente.php">
                         <i class="fas fa-file-invoice"></i> FActuracion
                     </a>
                 </li>
@@ -77,7 +77,7 @@ if (!isset($_SESSION['user_id'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../mi_sistema/login/logout.php" class="btn btn-danger">
+                    <a href="../login/logout.php" class="btn btn-danger">
                         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                     </a>
                 </li>

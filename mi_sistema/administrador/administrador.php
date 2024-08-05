@@ -51,7 +51,7 @@ if (empty($role_name) || !isset($roles[$role_name])) {
 
 // Incluir el header.php para el contenido compartido
 $pageTitle = "Administrativo - Mi Empresa"; // Establecer el título específico para esta página
-include('../../mi_sistema/includes/header.php');
+include('../includes/header.php');
 include_once('../base_datos/functions.php');
 
 ?>
