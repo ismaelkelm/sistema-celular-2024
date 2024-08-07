@@ -46,15 +46,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             case 'administrador':
                                 header("Location: ../administrador/administrador.php");
                                 break;
+                            case 'supervisor':
+                                header("Location: ../administrativo/administrativo.php");
+                                break;
                             case 'tecnico':
                                 header("Location: ../tecnico/tecnico.php");
                                 break;
-                            case 'administrativo':
-                                header("Location: ../administrativo/administrativo.php");
-                                break;
                             case 'cliente':
                                 header("Location: ../cliente/cliente.php");
-                                break;
+                                break;        
+                            case 'empleado':
+                                header("Location: ../empleado/empleado.php");
+                                break;    
+                            
                             default:
                                 header("Location: login.php?error=" . urlencode("Rol de usuario no reconocido."));
                                 break;

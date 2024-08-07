@@ -4,7 +4,7 @@ require_once '../../mi_sistema/base_datos/db.php'; // Asegúrate de que la conex
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = trim($_POST["usuario"]);
 
-    // Ejemplo de datos para insertar
+    // Ejemplo de datos para inser
     $usuarios = [
         ['nombre' => 'Juan Perez', 'DNI' => '12345678', 'contraseña' => 'admin123', 'email' => 'juan.perez@example.com', 'id_roles' => 1],
         ['nombre' => 'Maria Gomez', 'DNI' => '23456789', 'contraseña' => 'supervisor456', 'email' => 'maria.gomez@example.com', 'id_roles' => 2],

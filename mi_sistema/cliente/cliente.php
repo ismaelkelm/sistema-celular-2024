@@ -1,4 +1,5 @@
 <?php
+echo "cliente";
 session_start();
 
 // Incluir el archivo de conexión

@@ -1,4 +1,5 @@
 <?php
+echo"Supervisorr HOLAAA";
 // Verificar si la sesión ya ha sido iniciada
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
