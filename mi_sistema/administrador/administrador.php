@@ -1,7 +1,6 @@
 <?php
 // Incluir los archivos necesarios
 require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
-require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
 require_once '../base_datos/functions.php'; // Incluir funciones para obtener iconos y rutas
 
 // Obtener los permisos del rol del usuario

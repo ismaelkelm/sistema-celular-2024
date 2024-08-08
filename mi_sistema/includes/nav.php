@@ -72,10 +72,10 @@ $inicio_url = "../index.php"; // Cambia esto a la URL correcta para tu inicio
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="repairDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-cogs"></i> Lista de Reparaciones
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <div class="dropdown-menu" aria-labelledby="repairDropdown">
                             <a class="dropdown-item" href="../tecnico/listar_reparaciones.php">
                                 Listar Reparaciones
                             </a>
@@ -97,10 +97,10 @@ $inicio_url = "../index.php"; // Cambia esto a la URL correcta para tu inicio
                                 <i class="fas fa-tasks"></i> Gestionar Tareas
                             </a>
                             <a class="dropdown-item" href="../administrativo/listar_reparaciones.php">
-                                <i class="fas fa-chart-line"></i> Lista de reparaciones
+                                <i class="fas fa-chart-line"></i> Lista de Reparaciones
                             </a>
                             <a class="dropdown-item" href="../administrativo/enviar_notificacion.php">
-                                <i class="fas fa-money-bill"></i> Enviar Notificacion
+                                <i class="fas fa-money-bill"></i> Enviar Notificación
                             </a>
                         </div>
                     </li>
@@ -148,7 +148,7 @@ $inicio_url = "../index.php"; // Cambia esto a la URL correcta para tu inicio
                     <a href="../login/forgot_change.html" class="btn btn-danger">
                         <i class="fas fa-cogs"></i> Cambiar Contraseña
                     </a>
-                    <a href="../login/login.php" class="btn btn-danger">
+                    <a href="../login/logout.php" class="btn btn-danger"> <!-- Asegúrate de que la ruta al archivo de cierre de sesión es correcta -->
                         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                     </a>
                 </li>
