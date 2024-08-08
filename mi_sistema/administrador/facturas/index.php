@@ -16,7 +16,7 @@ if (!$result) {
 
 <div class="container mt-5">
     <a href="create.php" class="btn btn-primary mb-3">Agregar Factura</a>
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Facturas</h1>
     <table class="table table-striped table-bordered">

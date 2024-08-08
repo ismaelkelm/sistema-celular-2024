@@ -15,17 +15,17 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
-
-    <h1 class="mb-4">Usuarios</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Usuario</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
+
+    <h1 class="mb-4">Lista de Usuarios</h1>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Usuario</th>
-                <th>Contraseña</th>
-                <th>Correo Electrónico</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Email</th>
                 <th>ID Rol</th>
                 <th>Acciones</th>
             </tr>
@@ -34,13 +34,13 @@ if (!$result) {
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['id_usuarios']); ?></td>
-                <td><?php echo htmlspecialchars($row['usuario']); ?></td>
-                <td><?php echo htmlspecialchars($row['contraseña']); ?></td>
-                <td><?php echo htmlspecialchars($row['correo_electronico']); ?></td>
+                <td><?php echo htmlspecialchars($row['nombre']); ?></td>
+                <td><?php echo htmlspecialchars($row['DNI']); ?></td>
+                <td><?php echo htmlspecialchars($row['email']); ?></td>
                 <td><?php echo htmlspecialchars($row['id_roles']); ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo htmlspecialchars($row['id_usuarios']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_usuarios']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_usuarios']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -54,4 +54,3 @@ if (!$result) {
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
 ?>
-    

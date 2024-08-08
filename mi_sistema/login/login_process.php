@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Verifica si el usuario existe
-    $sql_user = "SELECT id_usuarios, contraseña, id_roles FROM usuarios WHERE usuario = ?";
+    $sql_user = "SELECT id_usuarios, contraseña, id_roles FROM usuarios WHERE nombre = ?";
     if ($stmt_user = $conn->prepare($sql_user)) {
         $stmt_user->bind_param("s", $usuario);
         $stmt_user->execute();
@@ -44,17 +44,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Redirige al usuario según su rol
                         switch ($role_name) {
                             case 'administrador':
-                                header("Location: ../../mi_sistema/administrador/administrador.php");
+                                header("Location: ../administrador/administrador.php");
+                                break;
+                            case 'supervisor':
+                                header("Location: ../administrativo/administrativo.php");
                                 break;
                             case 'tecnico':
-                                header("Location: ../../mi_sistema/tecnico/tecnico.php");
-                                break;
-                            case 'administrativo':
-                                header("Location: ../../mi_sistema/administrativo/administrativo.php");
+                                header("Location: ../tecnico/tecnico.php");
                                 break;
                             case 'cliente':
-                                header("Location: ../../mi_sistema/cliente/cliente.php");
-                                break;
+                                header("Location: ../cliente/cliente.php");
+                                break;        
+                            case 'empleado':
+                                header("Location: ../empleado/empleado.php");
+                                break;    
+                            
                             default:
                                 header("Location: login.php?error=" . urlencode("Rol de usuario no reconocido."));
                                 break;

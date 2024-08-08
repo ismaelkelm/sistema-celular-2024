@@ -1,67 +1,121 @@
 <?php
-session_start();
-
-// Incluir el archivo de conexión
+// Incluir los archivos necesarios
 require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
-
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
-    exit;
-}
-
-// Obtener el ID del usuario desde la sesión
-$user_id = $_SESSION['user_id'];
-
-// Consultar el id_roles del usuario
-$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
-$stmt = $conn->prepare($query);
-if ($stmt === false) {
-    die("Error en la consulta: " . $conn->error);
-}
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-
-$id_roles = $row['id_roles'];
-
-// Verificar si el usuario tiene el rol de Cliente
 require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
-if ($roles[$id_roles]['name'] !== 'Cliente') {
-    header("Location: ../index.php");
-    exit;
-}
+require_once '../base_datos/functions.php'; // Incluir funciones para obtener iconos
 
-// Incluir el header.php para el contenido compartido
+// Obtener los permisos del rol del usuario
+$rolePermissions = include('../base_datos/roles.php');
+$userRole = 'Cliente'; // Ejemplo de rol; en una aplicación real, esto se obtendría del login o sesión
+$permissions = $rolePermissions[$userRole] ?? [];
+
 $pageTitle = "Cliente - Mi Empresa"; // Establecer el título específico para esta página
-include('../includes/header.php'); 
+include('../includes/header.php');
 ?>
 
-<!-- Contenido principal -->
-<div id="content-container" class="container my-4">
-    <h2 class="text-center">Bienvenido, Cliente</h2>
-    <p class="text-center">Consulta el estado de tu reparación ingresando el número de orden.</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo htmlspecialchars($pageTitle); ?></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome para iconos -->
+    <style>
+        /* Estilo general */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form action="check_status.php" method="POST">
-                <div class="form-group">
-                    <label for="orderNumber">Número de Orden:</label>
-                    <input type="text" id="orderNumber" name="order_number" class="form-control" placeholder="Ingrese su número de orden" required>
+        /* Contenedor principal */
+        #content-container {
+            background-color: skyblue;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        /* Estilo para los iconos */
+        .icon-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .icon-item {
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin: 1rem;
+            padding: 1rem;
+            width: 150px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .icon-item:hover {
+            background-color: yellowgreen;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .icon-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .icon-item p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* Estilo para el footer */
+        footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 1rem 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content-container" class="container my-4">
+        <h2 class="text-center">Panel de Cliente</h2>
+        
+        <!-- Enlace para consultar estado de reparación -->
+        <ul class="list-unstyled">
+            <li>
+                <a href="../cliente/check_status.php" class="btn btn-primary">Consultar Estado de Reparación</a>
+            </li>
+        </ul>
+
+        <!-- Sección de iconos -->
+        <div class="icon-grid">
+            <?php foreach ($permissions as $permission => $status): ?>
+                <div class="icon-item">
+                    <i class="fas fa-<?php echo getIconClass($permission); ?>"></i>
+                    <p><?php echo htmlspecialchars($permission); ?></p>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Consultar Estado</button>
-            </form>
+            <?php endforeach; ?>
         </div>
     </div>
-</div>
 
-<footer class="text-center py-4">
-    <p>&copy; 2024 Mi Empresa. Todos los derechos reservados.</p>
-</footer>
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Mi Empresa. Todos los derechos reservados.</p>
+    </footer>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

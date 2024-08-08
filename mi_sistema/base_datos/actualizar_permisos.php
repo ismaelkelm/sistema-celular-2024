@@ -1,13 +1,30 @@
 <?php
-// Incluir funciones desde el archivo en la misma carpeta
-include 'functions.php';
+require_once '../../mi_sistema/base_datos/db.php';
 
-// Obtener los permisos enviados desde el formulario
-$nuevos_permisos = $_POST['permisos'] ?? [];
+if (!isset($_POST['roles_id_roles']) || !isset($_POST['Permisos_idPermisos']) || !isset($_POST['estado'])) {
+    die('Datos incompletos.');
+}
 
-// Guardar los permisos actualizados en el archivo en la misma carpeta
-file_put_contents('permisos.php', '<?php return ' . var_export($nuevos_permisos, true) . ';');
+$roles_id_roles = $_POST['roles_id_roles'];
+$Permisos_idPermisos = $_POST['Permisos_idPermisos'];
+$estado = $_POST['estado'];
 
-// Redirigir al usuario con un mensaje de éxito
-header('Location: gestionar_permisos.php?status=success');
-exit();
+$query = "UPDATE permisos_en_roles SET estado = ? WHERE roles_id_roles = ? AND Permisos_idPermisos = ?";
+$stmt = $conn->prepare($query);
+
+if ($stmt === false) {
+    die('Error en la preparación de la consulta: ' . $conn->error);
+}
+
+$stmt->bind_param("iii", $estado, $roles_id_roles, $Permisos_idPermisos);
+$stmt->execute();
+
+if ($stmt->affected_rows === 0) {
+    echo 'No se actualizó ningún registro.';
+} else {
+    echo 'Estado actualizado correctamente.';
+}
+
+$stmt->close();
+$conn->close();
+?>
