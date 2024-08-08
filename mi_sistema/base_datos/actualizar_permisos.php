@@ -27,4 +27,8 @@ if ($stmt->affected_rows === 0) {
 
 $stmt->close();
 $conn->close();
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc

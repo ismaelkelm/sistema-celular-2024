@@ -11,6 +11,10 @@ if (!isset($_SESSION['user_id'])) {
 
 // Obtener el rol del usuario desde la base de datos
 $user_id = $_SESSION['user_id'];
+<<<<<<< HEAD
+=======
+echo "Usuario ID: " . $user_id . "<br>";
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
 $query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
 $stmt = $conn->prepare($query);
 
@@ -23,6 +27,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $id_roles = $row['id_roles'];
+<<<<<<< HEAD
+=======
+echo "Rol ID: " . $id_roles . "<br>";
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
 
 // Verificar si el usuario es administrador
 $query = "SELECT nombre FROM roles WHERE id_roles = ?";
@@ -37,6 +45,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $role_name = $row['nombre'];
+<<<<<<< HEAD
+=======
+echo "Nombre del Rol: " . $role_name . "<br>";
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
 
 if ($role_name != 'administrador') {
     die('Acceso denegado.');
@@ -86,10 +98,14 @@ $conn->close();
 </head>
 <body>
     <div class="container my-4">
+<<<<<<< HEAD
         <a href="javascript:history.back()" class="btn btn-secondary btn-back">
             <i class="fas fa-arrow-left"></i> Volver
         </a>
         <h2 class="text-center mb-4">Panel de Control - Roles</h2>
+=======
+        <h2 class="text-center">Panel de Control - Roles</h2>
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
         <div class="row">
             <?php foreach ($roles as $rol): ?>
                 <div class="col-md-4 mb-4">
@@ -97,7 +113,11 @@ $conn->close();
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($rol['nombre']); ?></h5>
                             <form method="POST" action="./permisos.php">
+<<<<<<< HEAD
                                 <input type="hidden" name="rol_id" value="<?php echo htmlspecialchars($rol['id_roles']); ?>">
+=======
+                                <input type="hidden" name="rol_id" value="<?php echo $rol['id_roles']; ?>">
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
                                 <button type="submit" class="btn btn-primary">Ver Permisos</button>
                             </form>
                         </div>

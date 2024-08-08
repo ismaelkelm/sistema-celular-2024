@@ -1,5 +1,12 @@
 <?php
+<<<<<<< HEAD
 // Incluir los archivos necesarios
+=======
+echo "cliente";
+session_start();
+
+// Incluir el archivo de conexión
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
 require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
 require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
 require_once '../base_datos/functions.php'; // Incluir funciones para obtener iconos

@@ -4,10 +4,63 @@ require_once '../base_datos/db.php'; // Usar require_once para evitar inclusione
 require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
 require_once '../base_datos/functions.php'; // Incluir funciones para obtener iconos y rutas
 
+<<<<<<< HEAD
 // Obtener los permisos del rol del usuario
 $rolePermissions = include('../base_datos/roles.php');
 $userRole = 'Administrador'; // Ejemplo de rol; en una aplicación real, esto se obtendría del login o sesión
 $permissions = $rolePermissions[$userRole] ?? [];
+=======
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login/login.php");
+    exit;
+}
+
+// if (!isset($_SESSION['user_id'])) { controlar que el atributo del rol sea 1 para este modiulo
+
+//     header("Location: ../login/login.php");
+//     exit;
+// }
+
+// Supongamos que el ID del usuario está almacenado en $_SESSION['user_id']
+$user_id = $_SESSION['user_id'];
+
+// Consultar el rol del usuario
+$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
+$stmt = $conn->prepare($query);
+if ($stmt === false) {
+    die("Error en la consulta: " . $conn->error);
+}
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("No se encontró el rol para el usuario.");
+}
+
+$row = $result->fetch_assoc();
+$id_roles = $row['id_roles'];
+
+// Verificar el rol del usuario
+$role_name = '';
+foreach ($roles as $role => $permissions) {
+    if ($id_roles == array_search($role, array_keys($roles))) {
+        $role_name = $role;
+        break;
+    }
+}
+
+if (empty($role_name) || !isset($roles[$role_name])) {
+    header("Location: ../login/login.php");
+    exit;
+}
+
+// Incluir el header.php para el contenido compartido
+$pageTitle = "Administrativo - Mi Empresa"; // Establecer el título específico para esta página
+include('../includes/header.php');
+include_once('../base_datos/functions.php');
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
 
 $pageTitle = "Administrador - Mi Empresa"; // Establecer el título específico para esta página
 include('../includes/header.php');

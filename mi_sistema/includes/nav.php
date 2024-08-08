@@ -1,9 +1,15 @@
 <?php
 session_start(); // Asegúrate de que la sesión está iniciada
 
+<<<<<<< HEAD
 // Verifica si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
     header("Location: ../login/login.php");
+=======
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['user_id'])) {
+    header("Location:../login/login.php");
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
     exit;
 }
 
@@ -54,6 +60,7 @@ $inicio_url = "../index.php"; // Cambia esto a la URL correcta para tu inicio
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+<<<<<<< HEAD
                 <?php if ($usuario_rol === 'administrador'): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -142,13 +149,46 @@ $inicio_url = "../index.php"; // Cambia esto a la URL correcta para tu inicio
                         </div>
                     </li>
                 <?php endif; ?>
+=======
+                <li class="nav-item">
+                    <a class="nav-link" href="../base_datos/gestionar_permisos.php">
+                        <i class="fas fa-box"></i> Permisos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../tecnico/tecnico.php">
+                        <i class="fas fa-users"></i> Técnicos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../cliente/cliente.php">
+                        <i class="fas fa-file-invoice"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../administrativo/administrativo.php">
+                        <i class="fas fa-wrench"></i> Administrativo
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../cliente/cliente.php">
+                        <i class="fas fa-file-invoice"></i> FActuracion
+                    </a>
+                </li>
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a href="../login/forgot_change.html" class="btn btn-danger">
                         <i class="fas fa-cogs"></i> Cambiar Contraseña
                     </a>
+<<<<<<< HEAD
                     <a href="../login/login.php" class="btn btn-danger">
+=======
+                </li>
+                <li class="nav-item">
+                    <a href="../login/logout.php" class="btn btn-danger">
+>>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
                         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                     </a>
                 </li>
