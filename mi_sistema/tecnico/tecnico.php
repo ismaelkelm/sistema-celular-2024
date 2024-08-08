@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 // Incluir los archivos necesarios
 require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
 require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
@@ -146,26 +145,3 @@ include('../includes/header.php');
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-=======
-echo "Tecnicoooo";
-session_start();
-
-// Incluir el archivo de conexión
-require '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-                <li class="nav-item">
-                    <a href="../login/logout.php" class="btn btn-danger">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                    </a>
-                </li>
-</body>
-</html>
->>>>>>> d4b91334cfa2e337251e38335fa3420cf97863fc
