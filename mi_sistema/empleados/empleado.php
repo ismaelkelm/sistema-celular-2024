@@ -50,14 +50,14 @@ if (!$row) {
 
 $role_name = $row['nombre'];
 
-// Verificar si el usuario tiene el rol 'Técnico'
-if ($role_name !== 'tecnico') {
+// Verificar si el usuario tiene el rol 'Empleado'
+if ($role_name !== 'empleado') {
     header("Location: ../login/login.php");
     exit;
 }
 
 // Incluir los archivos comunes
-$pageTitle = "Panel de Control - Técnico"; // Establecer el título específico para esta página
+$pageTitle = "Panel de Control - Empleado"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
 ?>
@@ -104,18 +104,44 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <?php include('../includes/nav.php'); ?>
 
     <div class="container my-4">
-        <h2 class="mb-4">Panel de Control - Técnico</h2>
+        <h2 class="text-center mb-4">Panel de Control - Empleado</h2>
         <div class="row">
-            <?php foreach ($iconos_visibles as $tabla => $icono): ?>
-                <div class="col-md-3 mb-4">
-                    <div class="card card-icon text-center">
-                        <div class="card-body">
-                            <i class="fas <?php echo htmlspecialchars($icono); ?>"></i>
-                            <h5 class="card-title mt-3"><?php echo htmlspecialchars(ucfirst($tabla)); ?></h5>
-                        </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user"></i>
+                        <h5 class="card-title mt-3">Mi Perfil</h5>
+                        <a href="../empleado/perfil.php" class="btn btn-primary">Ver Perfil</a>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-tasks"></i>
+                        <h5 class="card-title mt-3">Mis Tareas</h5>
+                        <a href="../empleado/tareas.php" class="btn btn-primary">Ver Tareas</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-calendar-day"></i>
+                        <h5 class="card-title mt-3">Calendario</h5>
+                        <a href="../empleado/calendario.php" class="btn btn-primary">Ver Calendario</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-envelope"></i>
+                        <h5 class="card-title mt-3">Mensajes</h5>
+                        <a href="../empleado/mensajes.php" class="btn btn-primary">Ver Mensajes</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -149,8 +149,8 @@ $conn->close();
             </div>
 
             <div class="form-group">
-                <label for="usuario">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de Usuario" required>
+                <label for="nombre">Nombre de Usuario</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de Usuario" required>
             </div>
 
             <div class="form-group">

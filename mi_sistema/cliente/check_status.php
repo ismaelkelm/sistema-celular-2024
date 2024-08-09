@@ -1,6 +1,6 @@
 <?php
 include_once '../base_datos/db.php';
-include_once '../base_datos/functions.php';
+
 
 // Obtener los datos del formulario
 $order_number = isset($_POST['order_number']) ? htmlspecialchars(trim($_POST['order_number'])) : '';

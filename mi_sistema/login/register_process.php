@@ -4,13 +4,13 @@ require_once '../base_datos/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura y limpia los datos del formulario
-    $usuario = trim($_POST["usuario"]);
+    $nombre = trim($_POST["nombre"]);
     $contraseña = trim($_POST["contraseña"]);
     $correo = trim($_POST["correo"]);
     $id_roles = isset($_POST["id_roles"]) ? trim($_POST["id_roles"]) : '';
 
     // Verifica si los campos están vacíos
-    if (empty($usuario) || empty($contraseña) || empty($correo) || empty($id_roles)) {
+    if (empty($nombre) || empty($contraseña) || empty($correo) || empty($id_roles)) {
         echo "Por favor, complete todos los campos.";
         exit;
     }
@@ -30,20 +30,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt_role->num_rows > 0) {
             // Verifica si el usuario ya existe
-            $sql_user = "SELECT usuario FROM usuarios WHERE usuario = ?";
+            $sql_user = "SELECT nombre FROM usuarios WHERE nombre = ?";
             if ($stmt_user = $conn->prepare($sql_user)) {
-                $stmt_user->bind_param("s", $usuario);
+                $stmt_user->bind_param("s", $nombre);
                 $stmt_user->execute();
                 $stmt_user->store_result();
 
                 if ($stmt_user->num_rows > 0) {
-                    echo "El usuario ya existe.";
+                    echo "El nombre de usuario ya existe.";
                 } else {
                     // Inserta el nuevo usuario (con hash para la contraseña)
                     $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
-                    $sql_insert = "INSERT INTO usuarios (usuario, contraseña, correo_electronico, id_roles) VALUES (?, ?, ?, ?)";
+                    $sql_insert = "INSERT INTO usuarios (nombre, contraseña, id_roles, correo_electronico) VALUES (?, ?, ?, ?)";
                     if ($stmt_insert = $conn->prepare($sql_insert)) {
-                        $stmt_insert->bind_param("sssi", $usuario, $hashed_password, $correo, $id_roles);
+                        $stmt_insert->bind_param("ssis", $nombre, $hashed_password, $id_roles, $correo);
                         if ($stmt_insert->execute()) {
                             // Mostrar mensaje de bienvenida y redirigir
                             echo "
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <body>
                                 <div class='container mt-5'>
                                     <div class='alert alert-success'>
-                                        <strong>Registro exitoso!</strong> Bienvenido, $usuario. Serás redirigido a la página de inicio de sesión en 2 segundos.
+                                        <strong>Registro exitoso!</strong> Bienvenido, $nombre. Serás redirigido a la página de inicio de sesión en 2 segundos.
                                     </div>
                                 </div>
                             </body>

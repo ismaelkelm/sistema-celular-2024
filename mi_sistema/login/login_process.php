@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verifica si los campos están vacíos
     if (empty($usuario) || empty($contraseña)) {
-        header("Location: login.php?error=Por+favor,+complete+todos+los+campos.");
+        header("Location: ../login/login.php?error=" . urlencode("Por favor, complete todos los campos."));
         exit;
     }
 
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             case 'administrador':
                                 header("Location: ../administrador/administrador.php");
                                 break;
-                            case 'supervisor':
+                            case 'administrativo':
                                 header("Location: ../administrativo/administrativo.php");
                                 break;
                             case 'tecnico':
@@ -60,34 +60,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 break;    
                             
                             default:
-                                header("Location: login.php?error=" . urlencode("Rol de usuario no reconocido."));
+                                header("Location: ../login/login.php?error=" . urlencode("Rol de usuario no reconocido."));
                                 break;
                         }
                         exit;
                     } else {
-                        header("Location: login.php?error=" . urlencode("Rol de usuario no reconocido."));
+                        header("Location: ../login/login.php?error=" . urlencode("Rol de usuario no reconocido."));
                         exit;
                     }
                 } else {
-                    header("Location: login.php?error=" . urlencode("Error en la preparación de la consulta de rol."));
+                    header("Location: ../login/login.php?error=" . urlencode("Error en la preparación de la consulta de rol."));
                     exit;
                 }
             } else {
-                header("Location: login.php?error=" . urlencode("Contraseña incorrecta."));
+                header("Location: ../login/login.php?error=" . urlencode("Contraseña incorrecta."));
                 exit;
             }
         } else {
-            header("Location: login.php?error=" . urlencode("Nombre de usuario no encontrado."));
+            header("Location: ../login/login.php?error=" . urlencode("Nombre de usuario no encontrado."));
             exit;
         }
         $stmt_user->close();
     } else {
-        header("Location: login.php?error=" . urlencode("Error en la preparación de la consulta de usuario."));
+        header("Location: ../login/login.php?error=" . urlencode("Error en la preparación de la consulta de usuario."));
         exit;
     }
     $conn->close();
 } else {
-    header("Location: login.php");
+    header("Location: ../login/login.php");
     exit;
 }
 ?>

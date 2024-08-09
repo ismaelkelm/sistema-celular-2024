@@ -58,16 +58,11 @@
     <!-- Contenedor del Título -->
     <div id="title-container" class="container-fluid">
         <button id="title-button" onclick="window.location.reload(); return false;">
-            Marquez Comunicación
+            Marquez Comunicaciónes
         </button>
     </div>
 
-    <!-- Agregar la barra de navegación -->
-    <?php include('nav.php'); ?>
-
-    <!-- Scripts de Bootstrap y jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Incluye el menú de navegación aquí -->
+    
 </body>
 </html>

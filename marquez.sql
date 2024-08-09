@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-07-2024 a las 22:20:57
+-- Tiempo de generación: 09-08-2024 a las 00:20:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,16 +35,6 @@ CREATE TABLE `accesorios` (
   `stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `accesorios`
---
-
-INSERT INTO `accesorios` (`id_accesorios`, `nombre`, `descripción`, `precio`, `stock`) VALUES
-(1, 'Cargador USB', 'Cargador USB para dispositivos móviles', 15.00, 98),
-(2, 'Funda Protectora', 'Funda protectora para teléfonos inteligentes', 25.00, 50),
-(3, 'Auriculares Bluetooth', 'Auriculares Bluetooth con micrófono', 50.00, 29),
-(4, 'Soporte para Teléfono', 'Soporte ajustable para teléfonos móviles', 20.00, 74);
-
 -- --------------------------------------------------------
 
 --
@@ -56,21 +46,8 @@ CREATE TABLE `clientes` (
   `nombre` varchar(255) NOT NULL,
   `telefono` varchar(20) NOT NULL,
   `correo_electronico` varchar(255) NOT NULL,
-  `direccion` text NOT NULL,
-  `numero_pedido` varchar(50) DEFAULT NULL
+  `direccion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id_clientes`, `nombre`, `telefono`, `correo_electronico`, `direccion`, `numero_pedido`) VALUES
-(1, 'Juan Pérez', '555-1234', 'juan.perez@example.com', 'Calle Falsa 123', NULL),
-(2, 'Ana Gómez', '555-5678', 'ana.gomez@example.com', 'Avenida Siempre Viva 742', NULL),
-(3, 'Juan Pérez', '555-1234', 'juan.perez@example.com', 'Calle Falsa 123', 'ORD001'),
-(4, 'Ana Gómez', '555-5678', 'ana.gomez@example.com', 'Avenida Siempre Viva 742', 'ORD002'),
-(5, 'Carlos Martínez', '555-4321', 'carlos.martinez@example.com', 'Calle de la Luna 456', NULL),
-(6, 'Laura Torres', '555-8765', 'laura.torres@example.com', 'Avenida del Sol 789', NULL);
 
 -- --------------------------------------------------------
 
@@ -98,14 +75,6 @@ CREATE TABLE `detalle_reparaciones` (
   `cantidad_usada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `detalle_reparaciones`
---
-
-INSERT INTO `detalle_reparaciones` (`id_detalle_reparaciones`, `id_reparacion`, `id_pieza`, `cantidad_usada`) VALUES
-(1, 1, 1, 1),
-(2, 2, 2, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -120,14 +89,6 @@ CREATE TABLE `dispositivos` (
   `estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `dispositivos`
---
-
-INSERT INTO `dispositivos` (`id_dispositivos`, `marca`, `modelo`, `numero_de_serie`, `estado`) VALUES
-(1, 'Marca A', 'Modelo A1', 'SN123456', 'Nuevo'),
-(2, 'Marca B', 'Modelo B2', 'SN654321', 'Usado');
-
 -- --------------------------------------------------------
 
 --
@@ -140,14 +101,6 @@ CREATE TABLE `empleados` (
   `cargo` varchar(255) NOT NULL,
   `id_usuarios` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `empleados`
---
-
-INSERT INTO `empleados` (`id_empleados`, `nombre`, `cargo`, `id_usuarios`) VALUES
-(1, 'Roberto Ruiz', 'Gerente', 1),
-(2, 'Claudia López', 'Técnico', 2);
 
 -- --------------------------------------------------------
 
@@ -162,71 +115,7 @@ CREATE TABLE `facturas` (
   `subtotal` decimal(10,2) NOT NULL,
   `impuestos` decimal(10,2) NOT NULL,
   `total` decimal(10,2) NOT NULL
-) ;
-
---
--- Volcado de datos para la tabla `facturas`
---
-
-INSERT INTO `facturas` (`id_facturas`, `id_proveedores`, `fecha_de_emision`, `subtotal`, `impuestos`, `total`) VALUES
-(1, 1, '2024-07-01', 1000.00, 200.00, 1200.00),
-(2, 2, '2024-07-05', 500.00, 100.00, 600.00),
-(3, 2, '2024-07-05', 1500.00, 300.00, 1800.00);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `movimientos`
---
-
-CREATE TABLE `movimientos` (
-  `id_movimiento` int(11) NOT NULL,
-  `tipo_movimiento` enum('Ingreso','Egreso') NOT NULL,
-  `monto` decimal(10,2) NOT NULL,
-  `fecha` date NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `id_recibo` int(11) DEFAULT NULL,
-  `id_ticket` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `movimientos`
---
-
-INSERT INTO `movimientos` (`id_movimiento`, `tipo_movimiento`, `monto`, `fecha`, `descripcion`, `id_recibo`, `id_ticket`) VALUES
-(1, 'Ingreso', 500.00, '2024-07-01', 'Ingreso por venta', 1, NULL),
-(2, 'Egreso', 300.00, '2024-07-05', 'Pago de factura', NULL, 2);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `movimientos_financieros`
---
-
-CREATE TABLE `movimientos_financieros` (
-  `id_movimiento` int(11) NOT NULL,
-  `tipo` enum('ingreso','egreso') NOT NULL,
-  `monto` decimal(10,2) NOT NULL,
-  `fecha` date NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `id_factura` int(11) DEFAULT NULL,
-  `id_pago` int(11) DEFAULT NULL,
-  `id_ticket` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `movimientos_financieros`
---
-
-INSERT INTO `movimientos_financieros` (`id_movimiento`, `tipo`, `monto`, `fecha`, `descripcion`, `id_factura`, `id_pago`, `id_ticket`) VALUES
-(1, 'ingreso', 1200.00, '2024-07-01', 'Venta de accesorios', 1, 1, 1),
-(2, 'egreso', 600.00, '2024-07-05', 'Pago a proveedor', 1, 2, 1),
-(3, 'ingreso', 500.00, '2024-07-10', 'Servicios prestados', 2, 1, 2),
-(4, 'egreso', 200.00, '2024-07-15', 'Compra de suministros', 2, 2, 2),
-(5, 'ingreso', 1200.00, '2024-07-01', 'Venta de accesorios', 1, 1, 1),
-(6, 'egreso', 600.00, '2024-07-05', 'Pago a proveedor', 1, 2, 1),
-(7, 'ingreso', 500.00, '2024-07-10', 'Servicios prestados', 2, 1, 2),
-(8, 'egreso', 200.00, '2024-07-15', 'Compra de suministros', 2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -239,19 +128,8 @@ CREATE TABLE `notificaciones` (
   `id_usuarios` int(11) NOT NULL,
   `mensaje` text NOT NULL,
   `fecha_de_envío` date NOT NULL,
-  `estado` varchar(50) NOT NULL,
-  `numero_pedido` varchar(50) DEFAULT NULL
+  `estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `notificaciones`
---
-
-INSERT INTO `notificaciones` (`id_notificaciones`, `id_usuarios`, `mensaje`, `fecha_de_envío`, `estado`, `numero_pedido`) VALUES
-(1, 1, 'Nueva venta registrada', '2024-07-01', 'Pendiente', NULL),
-(2, 2, 'Nueva reparación asignada', '2024-07-05', 'Leída', NULL),
-(3, 1, 'Nueva venta registrada', '2024-07-01', 'Pendiente', 'ORD001'),
-(4, 2, 'Nueva reparación asignada', '2024-07-05', 'Leída', 'ORD002');
 
 -- --------------------------------------------------------
 
@@ -266,14 +144,6 @@ CREATE TABLE `pagos` (
   `fecha_pago` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `pagos`
---
-
-INSERT INTO `pagos` (`id_pagos`, `id_recibo`, `monto`, `fecha_pago`) VALUES
-(1, 1, 500.00, '2024-07-01'),
-(2, 2, 300.00, '2024-07-05');
-
 -- --------------------------------------------------------
 
 --
@@ -285,19 +155,187 @@ CREATE TABLE `pedidos_de_reparacion` (
   `id_clientes` int(11) NOT NULL,
   `id_dispositivos` int(11) NOT NULL,
   `fecha_de_pedido` date NOT NULL,
-  `estado` varchar(50) NOT NULL,
-  `numero_pedido` varchar(50) DEFAULT NULL
+  `estado` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permisos`
+--
+
+CREATE TABLE `permisos` (
+  `idPermisos` int(11) NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `pedidos_de_reparacion`
+-- Volcado de datos para la tabla `permisos`
 --
 
-INSERT INTO `pedidos_de_reparacion` (`id_pedidos_de_reparacion`, `id_clientes`, `id_dispositivos`, `fecha_de_pedido`, `estado`, `numero_pedido`) VALUES
-(1, 1, 1, '2024-07-01', 'Pendiente', NULL),
-(2, 2, 2, '2024-07-05', 'Completado', NULL),
-(3, 1, 1, '2024-07-01', 'Pendiente', 'PED001'),
-(4, 2, 2, '2024-07-05', 'Completado', 'PED002');
+INSERT INTO `permisos` (`idPermisos`, `descripcion`) VALUES
+(1, 'accesorios'),
+(2, 'clientes'),
+(3, 'detalle_facturas'),
+(4, 'detalle_reparaciones'),
+(5, 'dispositivos'),
+(6, 'empleados'),
+(7, 'facturas'),
+(8, 'movimientos'),
+(9, 'movimientos_financieros'),
+(10, 'notificaciones'),
+(11, 'pagos'),
+(12, 'password_resets'),
+(13, 'pedidos_de_reparacion'),
+(14, 'permisos'),
+(15, 'permisos_en_roles'),
+(16, 'piezas_y_componentes'),
+(17, 'proveedores'),
+(18, 'recibos'),
+(19, 'reparaciones'),
+(20, 'roles'),
+(21, 'tecnicos'),
+(22, 'tickets'),
+(23, 'usuarios'),
+(24, 'ventas_accesorios');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permisos_en_roles`
+--
+
+CREATE TABLE `permisos_en_roles` (
+  `roles_id_roles` int(11) NOT NULL,
+  `Permisos_idPermisos` int(11) NOT NULL,
+  `estado` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `permisos_en_roles`
+--
+
+INSERT INTO `permisos_en_roles` (`roles_id_roles`, `Permisos_idPermisos`, `estado`) VALUES
+(1, 1, 1),
+(1, 2, 1),
+(1, 3, 1),
+(1, 4, 1),
+(1, 5, 1),
+(1, 6, 1),
+(1, 7, 1),
+(1, 8, 1),
+(1, 9, 1),
+(1, 10, 1),
+(1, 11, 1),
+(1, 12, 1),
+(1, 13, 1),
+(1, 14, 1),
+(1, 15, 1),
+(1, 16, 1),
+(1, 17, 1),
+(1, 18, 1),
+(1, 19, 1),
+(1, 20, 1),
+(1, 21, 1),
+(1, 22, 1),
+(1, 23, 1),
+(1, 24, 1),
+(2, 1, 0),
+(2, 2, 1),
+(2, 3, 1),
+(2, 4, 1),
+(2, 5, 0),
+(2, 6, 1),
+(2, 7, 1),
+(2, 8, 1),
+(2, 9, 0),
+(2, 10, 1),
+(2, 11, 1),
+(2, 12, 0),
+(2, 13, 1),
+(2, 14, 0),
+(2, 15, 0),
+(2, 16, 1),
+(2, 17, 0),
+(2, 18, 1),
+(2, 19, 1),
+(2, 20, 0),
+(2, 21, 0),
+(2, 22, 1),
+(2, 23, 0),
+(2, 24, 0),
+(3, 1, 0),
+(3, 2, 0),
+(3, 3, 0),
+(3, 4, 1),
+(3, 5, 1),
+(3, 6, 0),
+(3, 7, 1),
+(3, 8, 1),
+(3, 9, 0),
+(3, 10, 1),
+(3, 11, 1),
+(3, 12, 0),
+(3, 13, 1),
+(3, 14, 0),
+(3, 15, 0),
+(3, 16, 1),
+(3, 17, 0),
+(3, 18, 1),
+(3, 19, 1),
+(3, 20, 0),
+(3, 21, 1),
+(3, 22, 0),
+(3, 23, 0),
+(3, 24, 0),
+(4, 1, 0),
+(4, 2, 1),
+(4, 3, 0),
+(4, 4, 0),
+(4, 5, 0),
+(4, 6, 0),
+(4, 7, 1),
+(4, 8, 0),
+(4, 9, 0),
+(4, 10, 1),
+(4, 11, 0),
+(4, 12, 0),
+(4, 13, 0),
+(4, 14, 0),
+(4, 15, 0),
+(4, 16, 0),
+(4, 17, 0),
+(4, 18, 0),
+(4, 19, 0),
+(4, 20, 0),
+(4, 21, 0),
+(4, 22, 0),
+(4, 23, 0),
+(4, 24, 0),
+(5, 1, 0),
+(5, 2, 0),
+(5, 3, 0),
+(5, 4, 0),
+(5, 5, 1),
+(5, 6, 1),
+(5, 7, 0),
+(5, 8, 1),
+(5, 9, 0),
+(5, 10, 0),
+(5, 11, 0),
+(5, 12, 0),
+(5, 13, 1),
+(5, 14, 0),
+(5, 15, 0),
+(5, 16, 1),
+(5, 17, 0),
+(5, 18, 0),
+(5, 19, 1),
+(5, 20, 0),
+(5, 21, 0),
+(5, 22, 0),
+(5, 23, 0),
+(5, 24, 0);
 
 -- --------------------------------------------------------
 
@@ -313,14 +351,6 @@ CREATE TABLE `piezas_y_componentes` (
   `precio` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `piezas_y_componentes`
---
-
-INSERT INTO `piezas_y_componentes` (`id_piezas_y_componentes`, `nombre`, `descripcion`, `stock`, `precio`) VALUES
-(1, 'Pieza X', 'Descripción de la pieza X', 100, 50.00),
-(2, 'Componente Y', 'Descripción del componente Y', 200, 30.00);
-
 -- --------------------------------------------------------
 
 --
@@ -335,14 +365,6 @@ CREATE TABLE `proveedores` (
   `correo_electronico` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `proveedores`
---
-
-INSERT INTO `proveedores` (`id_proveedores`, `nombre`, `contacto`, `telefono`, `correo_electronico`) VALUES
-(1, 'Proveedor A', 'Carlos López', '555-8765', 'carlos.lopez@proveedora.com'),
-(2, 'Proveedor B', 'Laura Martínez', '555-4321', 'laura.martinez@proveedora.com');
-
 -- --------------------------------------------------------
 
 --
@@ -355,14 +377,6 @@ CREATE TABLE `recibos` (
   `fecha_de_emision` date NOT NULL,
   `monto` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `recibos`
---
-
-INSERT INTO `recibos` (`id_recibos`, `id_pagos`, `fecha_de_emision`, `monto`) VALUES
-(1, 1, '2024-07-01', 500.00),
-(2, 2, '2024-07-05', 300.00);
 
 -- --------------------------------------------------------
 
@@ -378,14 +392,6 @@ CREATE TABLE `reparaciones` (
   `fecha_de_reparacion` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `reparaciones`
---
-
-INSERT INTO `reparaciones` (`id_reparaciones`, `id_dispositivos`, `descripcion`, `estado`, `fecha_de_reparacion`) VALUES
-(1, 1, 'Reemplazo de pantalla', 'Completada', '2024-07-10'),
-(2, 2, 'Reparación de batería', 'En progreso', '2024-07-15');
-
 -- --------------------------------------------------------
 
 --
@@ -396,14 +402,6 @@ CREATE TABLE `roles` (
   `id_roles` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `roles`
---
-
-INSERT INTO `roles` (`id_roles`, `nombre`) VALUES
-(1, 'Administrador'),
-(2, 'Técnico');
 
 -- --------------------------------------------------------
 
@@ -417,14 +415,6 @@ CREATE TABLE `tecnicos` (
   `especialidad` varchar(255) DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tecnicos`
---
-
-INSERT INTO `tecnicos` (`id_tecnicos`, `nombre`, `especialidad`, `id_usuario`) VALUES
-(1, 'Luis Martínez', 'Electrónica', 2),
-(2, 'María Fernández', 'Software', 1);
 
 -- --------------------------------------------------------
 
@@ -440,14 +430,6 @@ CREATE TABLE `tickets` (
   `estado` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tickets`
---
-
-INSERT INTO `tickets` (`id_tickets`, `id_cliente`, `id_dispositivos`, `fecha_de_ticket`, `estado`) VALUES
-(1, 1, 1, '2024-07-01', 'Abierto'),
-(2, 2, 2, '2024-07-05', 'Cerrado');
-
 -- --------------------------------------------------------
 
 --
@@ -457,17 +439,9 @@ INSERT INTO `tickets` (`id_tickets`, `id_cliente`, `id_dispositivos`, `fecha_de_
 CREATE TABLE `usuarios` (
   `id_usuarios` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `contraseña` varbinary(255) NOT NULL,
+  `contraseña` varchar(255) NOT NULL,
   `id_roles` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`id_usuarios`, `nombre`, `contraseña`, `id_roles`) VALUES
-(1, 'admin', 0x2a32433633393641444545463141463836353637324434383733354330453345433842314139434543, 1),
-(2, 'tecnico', 0x2a37373938413346323834463646303941354332393537434339363242353437453231363931414341, 2);
 
 -- --------------------------------------------------------
 
@@ -483,27 +457,6 @@ CREATE TABLE `ventas_accesorios` (
   `precio_total` decimal(10,2) NOT NULL,
   `fecha_venta` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `ventas_accesorios`
---
-
-INSERT INTO `ventas_accesorios` (`id_ventas_accesorios`, `id_clientes`, `id_accesorios`, `cantidad`, `precio_total`, `fecha_venta`) VALUES
-(1, 1, 1, 2, 30.00, '2024-07-10'),
-(2, 2, 3, 1, 50.00, '2024-07-11'),
-(3, 1, 4, 1, 20.00, '2024-07-12');
-
---
--- Disparadores `ventas_accesorios`
---
-DELIMITER $$
-CREATE TRIGGER `after_venta_accesorios` AFTER INSERT ON `ventas_accesorios` FOR EACH ROW BEGIN
-  UPDATE `marquez`.`accesorios`
-  SET `stock` = `stock` - NEW.cantidad
-  WHERE `id_accesorios` = NEW.id_accesorios;
-END
-$$
-DELIMITER ;
 
 --
 -- Índices para tablas volcadas
@@ -557,23 +510,6 @@ ALTER TABLE `facturas`
   ADD KEY `fk_facturas_proveedores` (`id_proveedores`);
 
 --
--- Indices de la tabla `movimientos`
---
-ALTER TABLE `movimientos`
-  ADD PRIMARY KEY (`id_movimiento`),
-  ADD KEY `fk_movimientos_recibos` (`id_recibo`),
-  ADD KEY `fk_movimientos_tickets` (`id_ticket`);
-
---
--- Indices de la tabla `movimientos_financieros`
---
-ALTER TABLE `movimientos_financieros`
-  ADD PRIMARY KEY (`id_movimiento`),
-  ADD KEY `fk_movimientos_factura` (`id_factura`),
-  ADD KEY `fk_movimientos_pago` (`id_pago`),
-  ADD KEY `fk_movimientos_ticket` (`id_ticket`);
-
---
 -- Indices de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
@@ -584,8 +520,7 @@ ALTER TABLE `notificaciones`
 -- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id_pagos`),
-  ADD KEY `fk_pagos_recibos` (`id_recibo`);
+  ADD PRIMARY KEY (`id_pagos`);
 
 --
 -- Indices de la tabla `pedidos_de_reparacion`
@@ -594,6 +529,20 @@ ALTER TABLE `pedidos_de_reparacion`
   ADD PRIMARY KEY (`id_pedidos_de_reparacion`),
   ADD KEY `fk_pedidos_de_reparacion_clientes` (`id_clientes`),
   ADD KEY `fk_pedidos_de_reparacion_dispositivos` (`id_dispositivos`);
+
+--
+-- Indices de la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  ADD PRIMARY KEY (`idPermisos`);
+
+--
+-- Indices de la tabla `permisos_en_roles`
+--
+ALTER TABLE `permisos_en_roles`
+  ADD PRIMARY KEY (`roles_id_roles`,`Permisos_idPermisos`),
+  ADD KEY `fk_roles_has_Permisos_Permisos1_idx` (`Permisos_idPermisos`),
+  ADD KEY `fk_roles_has_Permisos_roles1_idx` (`roles_id_roles`);
 
 --
 -- Indices de la tabla `piezas_y_componentes`
@@ -645,8 +594,7 @@ ALTER TABLE `tickets`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuarios`),
-  ADD KEY `fk_usuarios_roles` (`id_roles`);
+  ADD PRIMARY KEY (`id_usuarios`);
 
 --
 -- Indices de la tabla `ventas_accesorios`
@@ -664,37 +612,37 @@ ALTER TABLE `ventas_accesorios`
 -- AUTO_INCREMENT de la tabla `accesorios`
 --
 ALTER TABLE `accesorios`
-  MODIFY `id_accesorios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_accesorios` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_clientes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_clientes` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_facturas`
 --
 ALTER TABLE `detalle_facturas`
-  MODIFY `id_detalle_facturas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_detalle_facturas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_reparaciones`
 --
 ALTER TABLE `detalle_reparaciones`
-  MODIFY `id_detalle_reparaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_detalle_reparaciones` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `dispositivos`
 --
 ALTER TABLE `dispositivos`
-  MODIFY `id_dispositivos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_dispositivos` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id_empleados` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_empleados` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `facturas`
@@ -703,88 +651,76 @@ ALTER TABLE `facturas`
   MODIFY `id_facturas` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `movimientos`
---
-ALTER TABLE `movimientos`
-  MODIFY `id_movimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `movimientos_financieros`
---
-ALTER TABLE `movimientos_financieros`
-  MODIFY `id_movimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id_notificaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_notificaciones` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pagos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pagos` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos_de_reparacion`
 --
 ALTER TABLE `pedidos_de_reparacion`
-  MODIFY `id_pedidos_de_reparacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pedidos_de_reparacion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `piezas_y_componentes`
 --
 ALTER TABLE `piezas_y_componentes`
-  MODIFY `id_piezas_y_componentes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_piezas_y_componentes` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id_proveedores` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_proveedores` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `recibos`
 --
 ALTER TABLE `recibos`
-  MODIFY `id_recibos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_recibos` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `reparaciones`
 --
 ALTER TABLE `reparaciones`
-  MODIFY `id_reparaciones` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_reparaciones` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_roles` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_roles` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_tickets` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tickets` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuarios` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas_accesorios`
 --
 ALTER TABLE `ventas_accesorios`
-  MODIFY `id_ventas_accesorios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_ventas_accesorios` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -816,31 +752,10 @@ ALTER TABLE `facturas`
   ADD CONSTRAINT `fk_facturas_proveedores` FOREIGN KEY (`id_proveedores`) REFERENCES `proveedores` (`id_proveedores`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `movimientos`
---
-ALTER TABLE `movimientos`
-  ADD CONSTRAINT `fk_movimientos_recibos` FOREIGN KEY (`id_recibo`) REFERENCES `recibos` (`id_recibos`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_movimientos_tickets` FOREIGN KEY (`id_ticket`) REFERENCES `tickets` (`id_tickets`) ON DELETE SET NULL;
-
---
--- Filtros para la tabla `movimientos_financieros`
---
-ALTER TABLE `movimientos_financieros`
-  ADD CONSTRAINT `fk_movimientos_factura` FOREIGN KEY (`id_factura`) REFERENCES `facturas` (`id_facturas`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_movimientos_pago` FOREIGN KEY (`id_pago`) REFERENCES `pagos` (`id_pagos`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_movimientos_ticket` FOREIGN KEY (`id_ticket`) REFERENCES `tickets` (`id_tickets`) ON DELETE SET NULL;
-
---
 -- Filtros para la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
   ADD CONSTRAINT `fk_notificaciones_usuarios` FOREIGN KEY (`id_usuarios`) REFERENCES `usuarios` (`id_usuarios`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `pagos`
---
-ALTER TABLE `pagos`
-  ADD CONSTRAINT `fk_pagos_recibos` FOREIGN KEY (`id_recibo`) REFERENCES `recibos` (`id_recibos`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pedidos_de_reparacion`
@@ -867,12 +782,6 @@ ALTER TABLE `tecnicos`
 ALTER TABLE `tickets`
   ADD CONSTRAINT `fk_tickets_clientes` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_clientes`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_tickets_dispositivos` FOREIGN KEY (`id_dispositivos`) REFERENCES `dispositivos` (`id_dispositivos`) ON DELETE SET NULL;
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_usuarios_roles` FOREIGN KEY (`id_roles`) REFERENCES `roles` (`id_roles`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `ventas_accesorios`

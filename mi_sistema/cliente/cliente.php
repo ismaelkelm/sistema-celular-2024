@@ -1,16 +1,65 @@
 <?php
-// Incluir los archivos necesarios
+// Iniciar sesión si no se ha iniciado ya
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Incluir el archivo de conexión
 require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
-require_once '../base_datos/roles.php'; // Usar require_once para evitar inclusiones múltiples
-require_once '../base_datos/functions.php'; // Incluir funciones para obtener iconos
 
-// Obtener los permisos del rol del usuario
-$rolePermissions = include('../base_datos/roles.php');
-$userRole = 'Cliente'; // Ejemplo de rol; en una aplicación real, esto se obtendría del login o sesión
-$permissions = $rolePermissions[$userRole] ?? [];
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login/login.php");
+    exit;
+}
 
-$pageTitle = "Cliente - Mi Empresa"; // Establecer el título específico para esta página
-include('../includes/header.php');
+// Supongamos que el ID del usuario está almacenado en $_SESSION['user_id']
+$user_id = $_SESSION['user_id'];
+
+// Consultar el id_roles del usuario
+$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
+$stmt = $conn->prepare($query);
+if ($stmt === false) {
+    die("Error en la consulta: " . htmlspecialchars($conn->error));
+}
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if (!$row) {
+    die("Error: Usuario no encontrado.");
+}
+
+$id_roles = $row['id_roles'];
+
+// Consultar el nombre del rol directamente desde la base de datos
+$query = "SELECT nombre FROM roles WHERE id_roles = ?";
+$stmt = $conn->prepare($query);
+if ($stmt === false) {
+    die("Error en la consulta: " . htmlspecialchars($conn->error));
+}
+$stmt->bind_param("i", $id_roles);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if (!$row) {
+    die("Error: Rol no encontrado.");
+}
+
+$role_name = $row['nombre'];
+
+// Verificar si el usuario tiene el rol 'Cliente'
+if ($role_name !== 'cliente') {
+    header("Location: ../login/login.php");
+    exit;
+}
+
+// Incluir los archivos comunes
+$pageTitle = "Panel de Control - Cliente"; // Establecer el título específico para esta página
+include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
+include('../base_datos/icons.php'); // Incluir los iconos
 ?>
 
 <!DOCTYPE html>
@@ -22,100 +71,97 @@ include('../includes/header.php');
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome para iconos -->
     <style>
-        /* Estilo general */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Contenedor principal */
-        #content-container {
-            background-color: skyblue;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 2rem;
-        }
-
-        /* Estilo para los iconos */
-        .icon-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .icon-item {
-            background-color: #ffffff;
-            border-radius: 8px;
-            margin: 1rem;
-            padding: 1rem;
-            width: 150px;
+        .card-icon {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.3s;
+            background-color: #f9f9f9;
         }
-
-        .icon-item:hover {
-            background-color: yellowgreen;
-            color: #ffffff;
-            transform: scale(1.05);
+        .card-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-
-        .icon-item i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .card-icon i {
+            color: #007bff;
+            font-size: 2rem; /* Ajusta el tamaño del icono aquí */
+            transition: color 0.3s ease;
         }
-
-        .icon-item p {
-            margin: 0;
-            font-size: 1rem;
+        .card-icon:hover i {
+            color: #dc3545; /* Cambia el color al pasar el ratón */
         }
-
-        /* Estilo para el footer */
-        footer {
-            background-color: #343a40;
-            color: #ffffff;
-            padding: 1rem 0;
+        .card-icon .card-body {
+            padding: 1.5rem;
         }
-
-        footer p {
-            margin: 0;
+        .card-title {
+            margin-top: 1rem;
+        }
+        .btn-custom {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .btn-custom a {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .btn-custom a:hover {
+            background-color: #dc3545; /* Cambia el color al pasar el ratón */
+            color: #fff;
         }
     </style>
 </head>
 <body>
+    <!-- Incluye el menú de navegación aquí solo una vez -->
+    <?php include('../includes/nav.php'); ?>
 
-    <div id="content-container" class="container my-4">
-        <h2 class="text-center">Panel de Cliente</h2>
-        
-        <!-- Enlace para consultar estado de reparación -->
-        <ul class="list-unstyled">
-            <li>
-                <a href="../cliente/check_status.php" class="btn btn-primary">Consultar Estado de Reparación</a>
-            </li>
-        </ul>
-
-        <!-- Sección de iconos -->
-        <div class="icon-grid">
-            <?php foreach ($permissions as $permission => $status): ?>
-                <div class="icon-item">
-                    <i class="fas fa-<?php echo getIconClass($permission); ?>"></i>
-                    <p><?php echo htmlspecialchars($permission); ?></p>
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Panel de Control - Cliente</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-circle"></i>
+                        <h5 class="card-title mt-3">Mi Perfil</h5>
+                        <a href="../cliente/perfil.php" class="btn btn-primary">Ver Perfil</a>
+                    </div>
                 </div>
-            <?php endforeach; ?>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-repair"></i>
+                        <h5 class="card-title mt-3">Mis Reparaciones</h5>
+                        <a href="../cliente/reparaciones.php" class="btn btn-primary">Ver Reparaciones</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-bell"></i>
+                        <h5 class="card-title mt-3">Notificaciones</h5>
+                        <a href="../cliente/notificaciones.php" class="btn btn-primary">Ver Notificaciones</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card card-icon text-center">
+                    <div class="card-body">
+                        <i class="fas fa-box"></i>
+                        <h5 class="card-title mt-3">Estado de Reparación</h5>
+                        <a href="../cliente/check_status.php" class="btn btn-primary">Consultar Estado</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center py-4">
-        <p>&copy; 2024 Mi Empresa. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Scripts de Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <?php include('../includes/footer.php'); ?>
 </body>
 </html>

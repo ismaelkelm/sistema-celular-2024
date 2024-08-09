@@ -59,7 +59,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permisos del Rol</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
         function cambiarEstado(rolId, permisoId, estado) {
             var xhr = new XMLHttpRequest();
@@ -76,38 +76,103 @@ $conn->close();
     <style>
         body {
             background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
         .container {
-            margin-top: 2rem;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .list-group-item {
-            border-radius: 0.25rem;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .btn-custom {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom i {
+            font-size: 1.2rem;
+        }
+        .btn-update {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-update:hover {
+            background-color: #0056b3;
         }
         .btn-back {
-            margin-bottom: 1rem;
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-back:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="javascript:history.back()" class="btn btn-secondary btn-back">
-            <i class="fas fa-arrow-left"></i> Volver
-        </a>
-        <h2 class="text-center mb-4">Permisos del Rol '<?php echo htmlspecialchars($role_name); ?>'</h2>
-        <ul class="list-group">
-            <?php foreach ($permisos_del_rol as $permiso): ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <strong><?php echo htmlspecialchars($permiso['descripcion']); ?></strong>
-                    <button class="btn btn-<?php echo $permiso['estado'] ? 'success' : 'danger'; ?>" onclick="cambiarEstado(<?php echo $role_id; ?>, <?php echo $permiso['idPermisos']; ?>, <?php echo $permiso['estado'] ? 0 : 1; ?>)">
-                        <?php echo $permiso['estado'] ? 'Permitido' : 'No permitido'; ?>
-                    </button>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <div class="d-flex justify-content-between mb-4">
+            <button class="btn btn-custom btn-update" onclick="location.reload();">
+                <i class="fas fa-sync-alt"></i> Actualizar Permisos
+            </button>
+            <a href="../base_datos/gestionar_permisos.php" class="btn btn-custom btn-back">
+                <i class="fas fa-arrow-left"></i> Volver Atrás
+            </a>
+        </div>
+        <h2 class="text-center mb-4">Permisos del Rol: <strong>'<?php echo htmlspecialchars($role_name); ?>'</strong></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Permiso</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($permisos_del_rol as $permiso): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($permiso['descripcion']); ?></td>
+                        <td>
+                            <span class="badge bg-<?php echo $permiso['estado'] ? 'success' : 'danger'; ?>">
+                                <?php echo $permiso['estado'] ? 'Permitido' : 'No permitido'; ?>
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-<?php echo $permiso['estado'] ? 'danger' : 'success'; ?>" 
+                                    onclick="cambiarEstado(<?php echo $role_id; ?>, <?php echo $permiso['idPermisos']; ?>, <?php echo $permiso['estado'] ? 0 : 1; ?>)">
+                                <?php echo $permiso['estado'] ? 'Desactivar' : 'Activar'; ?>
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

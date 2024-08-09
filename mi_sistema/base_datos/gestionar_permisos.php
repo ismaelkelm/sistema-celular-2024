@@ -1,6 +1,6 @@
 <?php
 // Incluir funciones y la conexión a la base de datos
-include 'functions.php';
+
 require_once '../../mi_sistema/base_datos/db.php';
 
 // Verificar si el usuario está logueado
@@ -65,40 +65,61 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - Roles</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             background-color: #f8f9fa;
         }
         .card {
-            border-radius: 0.5rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            border-radius: 0.75rem;
+            box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
         }
         .card-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: bold;
         }
         .btn-back {
             margin-bottom: 1rem;
         }
+        .btn-custom {
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .btn-custom i {
+            margin-right: 0.5rem;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .page-header {
+            margin-bottom: 2rem;
+        }
     </style>
 </head>
 <body>
     <div class="container my-4">
-        <a href="javascript:history.back()" class="btn btn-secondary btn-back">
+        <a href="../administrador/administrador.php" class="btn btn-secondary btn-back">
             <i class="fas fa-arrow-left"></i> Volver
         </a>
-        <h2 class="text-center mb-4">Panel de Control - Roles</h2>
-        <div class="row">
+        <div class="page-header text-center">
+            <h2>Panel de Control - Roles</h2>
+        </div>
+        <div class="row g-4">
             <?php foreach ($roles as $rol): ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <h5 class="card-title"><?php echo htmlspecialchars($rol['nombre']); ?></h5>
                             <form method="POST" action="./permisos.php">
                                 <input type="hidden" name="rol_id" value="<?php echo htmlspecialchars($rol['id_roles']); ?>">
-                                <button type="submit" class="btn btn-primary">Ver Permisos</button>
+                                <button type="submit" class="btn btn-custom btn-primary">
+                                    <i class="fas fa-lock"></i> Ver Permisos
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -107,8 +128,7 @@ $conn->close();
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
