@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Asegúrate de incluir PHPMailer
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 // Manejar acciones de formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Consultar detalles del pedido y del cliente
         $sql = "
-            SELECT pr.numero_orden, pr.estado, c.nombre, c.correo_electronico, c.telefono, c.id_clientes
+            SELECT pr.numero_pedido, pr.estado, c.nombre, c.correo_electronico, c.telefono, c.id_clientes
             FROM pedidos_de_reparacion pr
             JOIN clientes c ON pr.id_clientes = c.id_clientes
             WHERE pr.id_pedidos_de_reparacion = ?
@@ -29,11 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $nombre = $row['nombre'];
                 $correo = $row['correo_electronico'];
                 $telefono = $row['telefono'];
-                $numero_orden = $row['numero_orden'];
+                $numero_pedido = $row['numero_pedido'];
                 $id_cliente = $row['id_clientes'];
 
                 // Mensaje de notificación
-                $mensaje = "Estimado $nombre,\n\nSu pedido con número $numero_orden ha sido completado.\nGracias por confiar en nosotros.\n\nSaludos,\nMi Empresa";
+                $mensaje = "Estimado $nombre,\n\nSu pedido con número $numero_pedido ha sido completado.\nGracias por confiar en nosotros.\n\nSaludos,\nMi Empresa";
 
                 // Enviar notificación según el canal seleccionado
                 if ($canal == 'correo') {
@@ -41,10 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail = new PHPMailer(true);
                     try {
                         $mail->isSMTP();
-                        $mail->Host = 'smtp-mail.outlook.com '; // Cambia esto por tu servidor SMTP
+                        $mail->Host = 'smtp.example.com'; // Cambia esto por tu servidor SMTP
                         $mail->SMTPAuth = true;
-                        $mail->Username = 'issmael11@hotmail.com'; // Cambia esto por tu usuario SMTP
-                        $mail->Password = 'leamsi476235'; // Cambia esto por tu contraseña SMTP
+                        $mail->Username = 'tu-email@example.com'; // Cambia esto por tu usuario SMTP
+                        $mail->Password = 'tu-contraseña'; // Cambia esto por tu contraseña SMTP
                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                         $mail->Port = 587;
 
@@ -70,11 +70,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Insertar la notificación en la base de datos
                 $sql_insert = "
-                    INSERT INTO notificaciones (id_usuarios, mensaje, fecha_de_envío, estado, numero_orden)
+                    INSERT INTO notificaciones (id_usuarios, mensaje, fecha_de_envío, estado, numero_pedido)
                     VALUES (?, ?, NOW(), 'enviado', ?)
                 ";
                 if ($stmt_insert = $conn->prepare($sql_insert)) {
-                    $stmt_insert->bind_param("sss", $id_cliente, $mensaje, $numero_orden);
+                    $stmt_insert->bind_param("sss", $id_cliente, $mensaje, $numero_pedido);
                     $stmt_insert->execute();
                     echo "<p class='success-message'>Notificación insertada en la base de datos</p>";
                 } else {
@@ -118,11 +118,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Consultar todos los pedidos de reparación
-$sql_pedidos = "SELECT pr.id_pedidos_de_reparacion, pr.fecha_de_pedido, pr.estado, pr.numero_orden, c.nombre AS nombre_cliente, d.marca, d.modelo, d.numero_de_serie
+$sql_pedidos = "SELECT pr.id_pedidos_de_reparacion, pr.fecha_de_pedido, pr.estado, pr.numero_pedido, c.nombre AS nombre_cliente, d.marca, d.modelo, d.numero_de_serie
                 FROM pedidos_de_reparacion pr
                 JOIN clientes c ON pr.id_clientes = c.id_clientes
                 JOIN dispositivos d ON pr.id_dispositivos = d.id_dispositivos
-                ORDER BY pr.numero_orden ASC";
+                ORDER BY pr.numero_pedido ASC";
 $result_pedidos = $conn->query($sql_pedidos);
 
 // Consultar todos los clientes
@@ -183,7 +183,7 @@ $result_clientes = $conn->query($sql_clientes);
                         <td><?php echo htmlspecialchars($row['marca']) . ' ' . htmlspecialchars($row['modelo']); ?></td>
                         <td><?php echo htmlspecialchars($row['fecha_de_pedido']); ?></td>
                         <td><?php echo htmlspecialchars($row['estado']); ?></td>
-                        <td><?php echo htmlspecialchars($row['numero_orden']); ?></td>
+                        <td><?php echo htmlspecialchars($row['numero_pedido']); ?></td>
                         <td>
                             <form action="" method="POST" style="display:inline;">
                                 <input type="hidden" name="pedido_id" value="<?php echo htmlspecialchars($row['id_pedidos_de_reparacion']); ?>">

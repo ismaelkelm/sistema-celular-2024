@@ -4,20 +4,24 @@ require_once '../base_datos/db.php';
 
 // Incluir los archivos de cabecera y pie de página
 include('../includes/header.php');
-// No incluir nav.php para evitar problemas con session_start()
 
 // Consultar las reparaciones, uniendo las tablas clientes y dispositivos
 $sql = "
-    SELECT pr.id_pedidos_de_reparacion, pr.fecha_de_pedido, pr.estado, pr.numero_pedido,
+    SELECT pr.id_pedidos_de_reparacion, pr.fecha_de_pedido, pr.estado, pr.numero_orden AS numero_pedido,
            c.nombre AS nombre_cliente, d.marca, d.modelo, d.numero_de_serie
     FROM pedidos_de_reparacion pr
     JOIN clientes c ON pr.id_clientes = c.id_clientes
     JOIN dispositivos d ON pr.id_dispositivos = d.id_dispositivos
-    ORDER BY pr.numero_pedido ASC
+    ORDER BY pr.numero_orden ASC
 ";
 
+// Ejecutar la consulta
 $result = $conn->query($sql);
 
+// Verificar si la consulta fue exitosa
+if (!$result) {
+    die("Error en la consulta: " . $conn->error);
+}
 ?>
 
 <div class="container">

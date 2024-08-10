@@ -1,13 +1,89 @@
 <?php
 include_once '../base_datos/db.php';
-include_once '../base_datos/functions.php';
 
 // Obtener los datos del formulario
 $order_number = isset($_POST['order_number']) ? htmlspecialchars(trim($_POST['order_number'])) : '';
+$dni = isset($_POST['dni']) ? htmlspecialchars(trim($_POST['dni'])) : '';
 $customer_name = isset($_POST['customer_name']) ? htmlspecialchars(trim($_POST['customer_name'])) : '';
-$customer_phone = isset($_POST['customer_phone']) ? htmlspecialchars(trim($_POST['customer_phone'])) : '';
+$customer_lastname = isset($_POST['customer_lastname']) ? htmlspecialchars(trim($_POST['customer_lastname'])) : '';
 
+$stmt = null; // Definir la variable $stmt para evitar errores
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($order_number) && !empty($dni)) {
+        // Preparar la consulta
+        $stmt = $conn->prepare("
+            SELECT pr.numero_orden, pr.estado, c.nombre, c.apellido, c.dni
+            FROM pedidos_de_reparacion pr
+            JOIN clientes c ON pr.id_clientes = c.id_clientes
+            WHERE pr.numero_orden = ? AND c.dni = ? 
+            " . ($customer_name ? "AND c.nombre = ?" : "") . " 
+            " . ($customer_lastname ? "AND c.apellido = ?" : "")
+        );
+        if ($stmt) {
+            if ($customer_name && $customer_lastname) {
+                $stmt->bind_param('ssss', $order_number, $dni, $customer_name, $customer_lastname);
+            } elseif ($customer_name) {
+                $stmt->bind_param('sss', $order_number, $dni, $customer_name);
+            } elseif ($customer_lastname) {
+                $stmt->bind_param('sss', $order_number, $dni, $customer_lastname);
+            } else {
+                $stmt->bind_param('ss', $order_number, $dni);
+            }
+            
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Definir el mensaje y la clase CSS para el estado
+            $status_message = '';
+            $status_class = '';
+
+            if ($result->num_rows > 0) {
+                $order_info = $result->fetch_assoc();
+                $estado = htmlspecialchars($order_info['estado']);
+
+                // Definir clase CSS según el estado
+                switch ($estado) {
+                    case 'Pendiente':
+                        $status_class = 'status-pendiente';
+                        break;
+                    case 'Completado':
+                        $status_class = 'status-completado';
+                        break;
+                    case 'Cancelado':
+                        $status_class = 'status-cancelado';
+                        break;
+                    case 'En proceso':
+                        $status_class = 'status-en-proceso';
+                        break;
+                    case 'Entregado':
+                        $status_class = 'status-entregado';
+                        break;
+                    default:
+                        $status_class = 'status-default';
+                        break;
+                }
+                $status_message = "<strong>Estado:</strong> <span class='{$status_class}'>{$estado}</span>";
+                
+                echo "<div class='alert alert-info'>";
+                echo "<p><strong>Número de Orden:</strong> " . htmlspecialchars($order_info['numero_orden']) . "</p>";
+                echo "<p><strong>Nombre del Cliente:</strong> " . htmlspecialchars($order_info['nombre']) . " " . htmlspecialchars($order_info['apellido']) . "</p>";
+                echo "<p><strong>DNI del Cliente:</strong> " . htmlspecialchars($order_info['dni']) . "</p>";
+                echo "<p>{$status_message}</p>";
+                echo "</div>";
+            } else {
+                echo "<div class='alert alert-warning'>No se encontró ninguna información con los datos proporcionados.</div>";
+            }
+            $stmt->close(); // Cerrar el statement si se ha creado
+        } else {
+            echo "<div class='alert alert-danger'>Error al preparar la consulta.</div>";
+        }
+    } else {
+        echo "<div class='alert alert-warning'>Por favor, complete los campos obligatorios: Número de Orden y DNI.</div>";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,18 +93,33 @@ $customer_phone = isset($_POST['customer_phone']) ? htmlspecialchars(trim($_POST
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .status-completado {
-            font-size: 1.5em;
+            font-size: 2em; /* Tamaño de fuente más grande */
             color: #28a745;
             font-weight: bold;
         }
         .status-pendiente {
-            font-size: 1.2em;
+            font-size: 2em; /* Tamaño de fuente más grande */
             color: #ffc107;
             font-weight: bold;
         }
         .status-cancelado {
-            font-size: 1.2em;
+            font-size: 2em; /* Tamaño de fuente más grande */
             color: #dc3545;
+            font-weight: bold;
+        }
+        .status-en-proceso {
+            font-size: 2em; /* Tamaño de fuente más grande */
+            color: #17a2b8;
+            font-weight: bold;
+        }
+        .status-entregado {
+            font-size: 2em; /* Tamaño de fuente más grande */
+            color: #007bff;
+            font-weight: bold;
+        }
+        .status-default {
+            font-size: 2em; /* Tamaño de fuente más grande */
+            color: #6c757d;
             font-weight: bold;
         }
     </style>
@@ -44,60 +135,22 @@ $customer_phone = isset($_POST['customer_phone']) ? htmlspecialchars(trim($_POST
                 <input type="text" id="order_number" name="order_number" class="form-control" placeholder="Ingrese el número de orden" value="<?php echo htmlspecialchars($order_number); ?>" required>
             </div>
             <div class="form-group">
+                <label for="dni">Número de DNI del Cliente:</label>
+                <input type="text" id="dni" name="dni" class="form-control" placeholder="Ingrese el DNI del cliente" value="<?php echo htmlspecialchars($dni); ?>" required>
+            </div>
+            <div class="form-group">
                 <label for="customer_name">Nombre del Cliente:</label>
                 <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="Ingrese el nombre del cliente" value="<?php echo htmlspecialchars($customer_name); ?>">
             </div>
             <div class="form-group">
-                <label for="customer_phone">Teléfono del Cliente:</label>
-                <input type="text" id="customer_phone" name="customer_phone" class="form-control" placeholder="Ingrese el teléfono del cliente" value="<?php echo htmlspecialchars($customer_phone); ?>">
+                <label for="customer_lastname">Apellido del Cliente:</label>
+                <input type="text" id="customer_lastname" name="customer_lastname" class="form-control" placeholder="Ingrese el apellido del cliente" value="<?php echo htmlspecialchars($customer_lastname); ?>">
             </div>
             <button type="submit" class="btn btn-primary">Consultar</button>
         </form>
         
-        <?php
-        if (!empty($order_number) && !empty($customer_name) && !empty($customer_phone)) {
-            // Función para obtener el estado de la orden si los datos coinciden
-            $order_info = getOrderStatus($order_number, $customer_name, $customer_phone);
-
-            // Definir el mensaje y la clase CSS para el estado
-            $status_message = '';
-            $status_class = '';
-
-            if ($order_info !== null) {
-                $estado = $order_info['estado'];
-                $nombre = htmlspecialchars($order_info['nombre']);
-                $telefono = htmlspecialchars($order_info['telefono']);
-
-                switch ($estado) {
-                    case 'Pendiente':
-                        $status_message = "<strong>Estado:</strong> <span class='status-pendiente'>{$estado}</span>";
-                        break;
-                    case 'Completado':
-                        $status_message = "<strong>Estado:</strong> <span class='status-completado'>{$estado}</span>";
-                        break;
-                    case 'Cancelado':
-                        $status_message = "<strong>Estado:</strong> <span class='status-cancelado'>{$estado}</span>";
-                        break;
-                    default:
-                        $status_message = "<strong>Estado:</strong> <span>{$estado}</span>";
-                        break;
-                }
-                echo "<div class='alert alert-info'>";
-                echo "<p><strong>Número de Orden:</strong> {$order_number}</p>";
-                echo "<p><strong>Nombre del Cliente:</strong> {$nombre}</p>";
-                echo "<p><strong>Teléfono del Cliente:</strong> {$telefono}</p>";
-                echo "<p>{$status_message}</p>";
-                echo "</div>";
-            } else {
-                echo "<div class='alert alert-warning'>No se encontró ninguna información con los datos proporcionados.</div>";
-            }
-        } else {
-            echo "<div class='alert alert-warning'>Por favor, complete todos los campos.</div>";
-        }
-        ?>
-
         <div class="mt-4">
-            <a href="../index.php" class="btn btn-secondary">Volver</a>
+            <a href="../cliente/cliente.php" class="btn btn-secondary">Volver</a>
         </div>
     </div>
 

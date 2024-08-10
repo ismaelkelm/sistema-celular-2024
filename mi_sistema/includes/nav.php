@@ -61,14 +61,14 @@ switch ($usuario_rol) {
                         <i class="fas fa-cogs"></i> Lista de Reparaciones
                     </a>
                     <div class="dropdown-menu" aria-labelledby="repairDropdown">
-                        <a class="dropdown-item" href="../tecnico/listar_reparaciones.php">
-                            Listar Reparaciones
+                        <a class="dropdown-item" href="../administrador/enviar_notificacion.php">
+                            enviar
                         </a>
-                        <a class="dropdown-item" href="../tecnico/gestionar_tareas.php">
+                        <a class="dropdown-item" href="../administrador/gestionar_tareas.php">
                             Gestionar Tareas
                         </a>
-                        <a class="dropdown-item" href="../tecnico/notificar_completado.php">
-                            Notificar Completado
+                        <a class="dropdown-item" href="../administrador/listar_reparaciones.php">
+                            listar
                         </a>
                     </div>
                 </li>
