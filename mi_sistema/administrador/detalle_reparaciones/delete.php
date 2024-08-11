@@ -2,18 +2,17 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Obtener el ID del detalle de reparación a eliminar
-$id = $_GET['id'];
+if (isset($_GET['id'])) {
+    $id_detalle_reparaciones = $_GET['id'];
+    $query = "DELETE FROM detalle_reparaciones WHERE id_detalle_reparaciones=$id_detalle_reparaciones";
 
-// Preparar la consulta SQL para eliminar el detalle de reparación
-$query = "DELETE FROM detalle_reparaciones WHERE id_detalle_reparaciones = '$id'";
-
-// Ejecutar la consulta y verificar si fue exitosa
-if (mysqli_query($conn, $query)) {
-    header("Location: index.php"); // Redirigir a la página principal de la lista
-    exit();
+    if (mysqli_query($conn, $query)) {
+        header('Location: index.php');
+    } else {
+        echo "Error: " . $query . "<br>" . mysqli_error($conn);
+    }
 } else {
-    echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+    echo "ID no proporcionado.";
 }
 ?>
 

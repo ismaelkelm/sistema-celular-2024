@@ -2,7 +2,7 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Consultar detalle_reparaciones
+// Consultar detalles de reparaciones
 $query = "SELECT * FROM detalle_reparaciones";
 $result = mysqli_query($conn, $query);
 
@@ -17,14 +17,14 @@ if (!$result) {
 <div class="container mt-5">
     <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
-    <h1 class="mb-4">Detalle de Reparaciones</h1>
-    <a href="create.php" class="btn btn-primary mb-3">Agregar Detalle</a>
+    <h1 class="mb-4">Detalles de Reparaciones</h1>
+    <a href="create.php" class="btn btn-primary mb-3">Agregar Detalle de Reparación</a>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>ID Reparación</th>
-                <th>ID Pieza</th>
+                <th>ID Pieza/Componente</th>
                 <th>Cantidad Usada</th>
                 <th>Acciones</th>
             </tr>
@@ -34,11 +34,11 @@ if (!$result) {
             <tr>
                 <td><?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?></td>
                 <td><?php echo htmlspecialchars($row['id_reparacion']); ?></td>
-                <td><?php echo htmlspecialchars($row['id_pieza']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_piezas_y_componentes']); ?></td>
                 <td><?php echo htmlspecialchars($row['cantidad_usada']); ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este detalle de reparación?');">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>

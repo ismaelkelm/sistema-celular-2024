@@ -15,10 +15,10 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Piezas y Componentes</h1>
-    <a href="create.php" class="btn btn-primary mb-3">Agregar Pieza/Componente</a>
+    <a href="create.php" class="btn btn-primary mb-3">Agregar Pieza</a>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -33,14 +33,14 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_piezas_y_componentes']); ?></td>
                 <td><?php echo htmlspecialchars($row['nombre']); ?></td>
                 <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
                 <td><?php echo htmlspecialchars($row['stock']); ?></td>
                 <td><?php echo htmlspecialchars($row['precio']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_piezas_y_componentes']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_piezas_y_componentes']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -49,3 +49,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

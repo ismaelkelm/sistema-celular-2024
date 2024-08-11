@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Incluir el archivo de conexión
-require_once '../base_datos/db.php'; // Usar require_once para evitar inclusiones múltiples
+require_once '../base_datos/db.php'; // Asegúrate de que este archivo defina y exporte $conn
 
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user_id'])) {
@@ -57,7 +57,7 @@ if ($role_name !== 'administrativo') {
 }
 
 // Incluir los archivos comunes
-$pageTitle = "Panel de Control - Administrativo"; // Establecer el título específico para esta página
+$pageTitle = "Panel de Control - Administrador"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
 ?>
@@ -110,8 +110,10 @@ include('../base_datos/icons.php'); // Incluir los iconos
                 <div class="col-md-3 mb-4">
                     <div class="card card-icon text-center">
                         <div class="card-body">
-                            <i class="fas <?php echo htmlspecialchars($icono); ?>"></i>
-                            <h5 class="card-title mt-3"><?php echo htmlspecialchars(ucfirst($tabla)); ?></h5>
+                            <a href="<?php echo htmlspecialchars($icono['ruta']); ?>">
+                                <i class="fas <?php echo htmlspecialchars($icono['icono']); ?>"></i>
+                                <h5 class="card-title mt-3"><?php echo htmlspecialchars(ucfirst($tabla)); ?></h5>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -122,3 +124,7 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <?php include('../includes/footer.php'); ?>
 </body>
 </html>
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

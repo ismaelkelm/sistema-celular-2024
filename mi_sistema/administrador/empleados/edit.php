@@ -2,43 +2,24 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Verificar si se ha enviado un ID de empleado
-if (isset($_GET['id'])) {
-    $id_empleados = mysqli_real_escape_string($conn, $_GET['id']);
-    
-    // Obtener los datos actuales del empleado
-    $query = "SELECT * FROM empleados WHERE id_empleados = $id_empleados";
-    $result = mysqli_query($conn, $query);
-    
-    if (!$result) {
-        die("Error en la consulta: " . mysqli_error($conn));
-    }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id_empleados = $_POST['id_empleados'];
+    $nombre = $_POST['nombre'];
+    $cargo = $_POST['cargo'];
+    $id_usuarios = $_POST['id_usuarios'];
 
-    $empleado = mysqli_fetch_assoc($result);
+    $query = "UPDATE empleados SET nombre='$nombre', cargo='$cargo', id_usuarios='$id_usuarios' WHERE id_empleados=$id_empleados";
 
-    if (!$empleado) {
-        die("Empleado no encontrado.");
+    if (mysqli_query($conn, $query)) {
+        header('Location: index.php');
+    } else {
+        echo "Error: " . $query . "<br>" . mysqli_error($conn);
     }
 } else {
-    die("ID de empleado no especificado.");
-}
-
-// Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los datos del formulario y proteger contra inyecciones SQL
-    $nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
-    $cargo = mysqli_real_escape_string($conn, $_POST['cargo']);
-    
-    // Preparar la consulta SQL para actualizar el empleado
-    $query = "UPDATE empleados SET nombre='$nombre', cargo='$cargo' WHERE id_empleados=$id_empleados";
-
-    // Ejecutar la consulta y verificar si fue exitosa
-    if (mysqli_query($conn, $query)) {
-        header("Location: index.php"); // Redirigir a la página principal de la lista
-        exit();
-    } else {
-        echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
-    }
+    $id_empleados = $_GET['id'];
+    $query = "SELECT * FROM empleados WHERE id_empleados=$id_empleados";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
 }
 ?>
 
@@ -46,15 +27,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container mt-5">
     <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
+
     <h1 class="mb-4">Editar Empleado</h1>
-    <form action="edit.php?id=<?php echo htmlspecialchars($id_empleados); ?>" method="post">
+    <form method="post" action="">
+        <input type="hidden" name="id_empleados" value="<?php echo htmlspecialchars($row['id_empleados']); ?>">
         <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($empleado['nombre']); ?>" required>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" value="<?php echo htmlspecialchars($row['nombre']); ?>" required>
         </div>
         <div class="form-group">
-            <label for="cargo">Cargo</label>
-            <input type="text" class="form-control" id="cargo" name="cargo" value="<?php echo htmlspecialchars($empleado['cargo']); ?>" required>
+            <label for="cargo">Cargo:</label>
+            <input type="text" id="cargo" name="cargo" class="form-control" value="<?php echo htmlspecialchars($row['cargo']); ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="id_usuarios">ID Usuario:</label>
+            <input type="number" id="id_usuarios" name="id_usuarios" class="form-control" value="<?php echo htmlspecialchars($row['id_usuarios']); ?>" required>
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>

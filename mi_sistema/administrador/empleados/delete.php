@@ -2,22 +2,17 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Verificar si se ha enviado un ID de empleado
 if (isset($_GET['id'])) {
-    $id_empleados = mysqli_real_escape_string($conn, $_GET['id']);
-    
-    // Preparar la consulta SQL para eliminar el empleado
-    $query = "DELETE FROM empleados WHERE id_empleados = $id_empleados";
-    
-    // Ejecutar la consulta y verificar si fue exitosa
+    $id_empleados = $_GET['id'];
+    $query = "DELETE FROM empleados WHERE id_empleados=$id_empleados";
+
     if (mysqli_query($conn, $query)) {
-        header("Location: index.php"); // Redirigir a la página principal de la lista
-        exit();
+        header('Location: index.php');
     } else {
-        echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+        echo "Error: " . $query . "<br>" . mysqli_error($conn);
     }
 } else {
-    die("ID de empleado no especificado.");
+    echo "ID no proporcionado.";
 }
 ?>
 

@@ -42,57 +42,57 @@ switch ($usuario_rol) {
             <?php if ($usuario_rol === 'administrador'): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-cogs"></i> Administrador
+                        Administrador
                     </a>
                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
                         <a class="dropdown-item" href="../base_datos/gestionar_permisos.php">
-                            <i class="fas fa-box"></i> Permisos
+                            Permisos
                         </a>
                         <a class="dropdown-item" href="../tecnico/tecnico.php">
-                            <i class="fas fa-users"></i> Técnicos
+                            Técnicos
                         </a>
                         <a class="dropdown-item" href="../cliente/cliente.php">
-                            <i class="fas fa-file-invoice"></i> Clientes
+                            Clientes
                         </a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="repairDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-cogs"></i> Lista de Reparaciones
+                        Lista de Reparaciones
                     </a>
                     <div class="dropdown-menu" aria-labelledby="repairDropdown">
                         <a class="dropdown-item" href="../administrador/enviar_notificacion.php">
-                            enviar
+                            Enviar Notificación
                         </a>
                         <a class="dropdown-item" href="../administrador/gestionar_tareas.php">
                             Gestionar Tareas
                         </a>
                         <a class="dropdown-item" href="../administrador/listar_reparaciones.php">
-                            listar
+                            Listar Reparaciones
                         </a>
                     </div>
                 </li>
             <?php elseif ($usuario_rol === 'administrativo'): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-cogs"></i> Administrativo
+                        Administrativo
                     </a>
                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
                         <a class="dropdown-item" href="../administrativo/gestionar_tareas.php">
-                            <i class="fas fa-tasks"></i> Gestionar Tareas
+                            Gestionar Tareas
                         </a>
                         <a class="dropdown-item" href="../administrativo/listar_reparaciones.php">
-                            <i class="fas fa-chart-line"></i> Lista de Reparaciones
+                            Lista de Reparaciones
                         </a>
                         <a class="dropdown-item" href="../administrativo/enviar_notificacion.php">
-                            <i class="fas fa-money-bill"></i> Enviar Notificación
+                            Enviar Notificación
                         </a>
                     </div>
                 </li>
             <?php elseif ($usuario_rol === 'tecnico'): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="tecnicoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-tools"></i> Reparaciones
+                        Reparaciones
                     </a>
                     <div class="dropdown-menu" aria-labelledby="tecnicoDropdown">
                         <a class="dropdown-item" href="../tecnico/listar_reparaciones.php">
@@ -112,17 +112,17 @@ switch ($usuario_rol) {
             <?php elseif ($usuario_rol === 'cliente'): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user"></i> Cliente
+                        Cliente
                     </a>
                     <div class="dropdown-menu" aria-labelledby="clienteDropdown">
                         <a class="dropdown-item" href="../cliente/perfil.php">
-                            <i class="fas fa-user-circle"></i> Mi Perfil
+                            Mi Perfil
                         </a>
                         <a class="dropdown-item" href="../cliente/reparaciones.php">
-                            <i class="fas fa-repair"></i> Mis Reparaciones
+                            Mis Reparaciones
                         </a>
                         <a class="dropdown-item" href="../cliente/notificaciones.php">
-                            <i class="fas fa-bell"></i> Notificaciones
+                            Notificaciones
                         </a>
                     </div>
                 </li>
@@ -131,10 +131,10 @@ switch ($usuario_rol) {
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a href="../login/forgot_change.html" class="btn btn-outline-light">
-                    <i class="fas fa-cogs"></i> Cambiar Contraseña
+                    Cambiar Contraseña
                 </a>
                 <a href="../login/logout.php" class="btn btn-outline-light">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    Cerrar Sesión
                 </a>
             </li>
         </ul>

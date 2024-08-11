@@ -15,7 +15,7 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Roles</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Rol</a>
@@ -24,17 +24,19 @@ if (!$result) {
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Icono</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_roles']); ?></td>
                 <td><?php echo htmlspecialchars($row['nombre']); ?></td>
+                <td><?php echo htmlspecialchars($row['iconos']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_roles']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_roles']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -43,3 +45,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

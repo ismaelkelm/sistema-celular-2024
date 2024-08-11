@@ -1,0 +1,67 @@
+<?php
+// Incluir el archivo de conexión a la base de datos
+include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id_pedidos_de_reparacion = mysqli_real_escape_string($conn, $_POST['id_pedidos_de_reparacion']);
+    $id_clientes = mysqli_real_escape_string($conn, $_POST['id_clientes']);
+    $id_dispositivos = mysqli_real_escape_string($conn, $_POST['id_dispositivos']);
+    $fecha_de_pedido = mysqli_real_escape_string($conn, $_POST['fecha_de_pedido']);
+    $estado = mysqli_real_escape_string($conn, $_POST['estado']);
+    $numero_orden = mysqli_real_escape_string($conn, $_POST['numero_orden']);
+
+    $query = "UPDATE pedidos_de_reparacion 
+              SET id_clientes='$id_clientes', id_dispositivos='$id_dispositivos', fecha_de_pedido='$fecha_de_pedido', estado='$estado', numero_orden='$numero_orden'
+              WHERE id_pedidos_de_reparacion='$id_pedidos_de_reparacion'";
+
+    if (mysqli_query($conn, $query)) {
+        header('Location: index.php');
+    } else {
+        die("Error al actualizar el pedido: " . mysqli_error($conn));
+    }
+} else {
+    $id_pedidos_de_reparacion = mysqli_real_escape_string($conn, $_GET['id']);
+    $query = "SELECT * FROM pedidos_de_reparacion WHERE id_pedidos_de_reparacion='$id_pedidos_de_reparacion'";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+}
+?>
+
+<?php include('../../includes/header.php'); ?>
+
+<div class="container mt-5">
+    <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
+
+    <h1 class="mb-4">Editar Pedido</h1>
+    <form method="POST">
+        <input type="hidden" name="id_pedidos_de_reparacion" value="<?php echo htmlspecialchars($row['id_pedidos_de_reparacion']); ?>">
+        <div class="form-group">
+            <label for="id_clientes">ID Cliente</label>
+            <input type="number" class="form-control" id="id_clientes" name="id_clientes" value="<?php echo htmlspecialchars($row['id_clientes']); ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="id_dispositivos">ID Dispositivo</label>
+            <input type="number" class="form-control" id="id_dispositivos" name="id_dispositivos" value="<?php echo htmlspecialchars($row['id_dispositivos']); ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha_de_pedido">Fecha de Pedido</label>
+            <input type="date" class="form-control" id="fecha_de_pedido" name="fecha_de_pedido" value="<?php echo htmlspecialchars($row['fecha_de_pedido']); ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="estado">Estado</label>
+            <input type="text" class="form-control" id="estado" name="estado" value="<?php echo htmlspecialchars($row['estado']); ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="numero_orden">Número de Orden</label>
+            <input type="text" class="form-control" id="numero_orden" name="numero_orden" value="<?php echo htmlspecialchars($row['numero_orden']); ?>" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+</div>
+
+<?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

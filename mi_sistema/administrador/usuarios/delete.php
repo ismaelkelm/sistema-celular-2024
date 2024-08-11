@@ -2,20 +2,18 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Obtener el ID del usuario a eliminar
-$id = $_GET['id'];
+$id = mysqli_real_escape_string($conn, $_GET['id']);
 
-// Preparar la consulta SQL para eliminar el usuario
-$query = "DELETE FROM usuarios WHERE id_usuarios = '$id'";
+$query = "DELETE FROM usuarios WHERE id_usuarios='$id'";
 
-// Ejecutar la consulta y verificar si fue exitosa
 if (mysqli_query($conn, $query)) {
-    header("Location: index.php"); // Redirigir a la página principal de la lista
-    exit();
+    header('Location: index.php');
 } else {
-    echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+    die("Error al eliminar el usuario: " . mysqli_error($conn));
 }
+?>
 
+<?php
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
 ?>

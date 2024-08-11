@@ -15,7 +15,7 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Reparaciones</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Reparación</a>
@@ -23,7 +23,7 @@ if (!$result) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Dispositivo ID</th>
+                <th>ID Dispositivo</th>
                 <th>Descripción</th>
                 <th>Estado</th>
                 <th>Fecha de Reparación</th>
@@ -33,14 +33,14 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
-                <td><?php echo htmlspecialchars($row['dispositivo_id']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_reparaciones']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_dispositivos']); ?></td>
                 <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
                 <td><?php echo htmlspecialchars($row['estado']); ?></td>
                 <td><?php echo htmlspecialchars($row['fecha_de_reparacion']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_reparaciones']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_reparaciones']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -49,3 +49,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

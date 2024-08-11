@@ -15,7 +15,7 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Recibos</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Recibo</a>
@@ -23,7 +23,7 @@ if (!$result) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Pago ID</th>
+                <th>ID Pago</th>
                 <th>Fecha de Emisión</th>
                 <th>Monto</th>
                 <th>Acciones</th>
@@ -32,13 +32,13 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
-                <td><?php echo htmlspecialchars($row['pago_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['fecha_de_emisión']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_recibos']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_pagos']); ?></td>
+                <td><?php echo htmlspecialchars($row['fecha_de_emision']); ?></td>
                 <td><?php echo htmlspecialchars($row['monto']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_recibos']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_recibos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -47,3 +47,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

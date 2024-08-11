@@ -2,21 +2,18 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los datos del formulario y proteger contra inyecciones SQL
-    $nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
-    $cargo = mysqli_real_escape_string($conn, $_POST['cargo']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'];
+    $cargo = $_POST['cargo'];
+    $id_usuarios = $_POST['id_usuarios'];
 
-    // Preparar la consulta SQL para insertar un nuevo empleado
-    $query = "INSERT INTO empleados (nombre, cargo) VALUES ('$nombre', '$cargo')";
+    $query = "INSERT INTO empleados (nombre, cargo, id_usuarios) 
+              VALUES ('$nombre', '$cargo', '$id_usuarios')";
 
-    // Ejecutar la consulta y verificar si fue exitosa
     if (mysqli_query($conn, $query)) {
-        header("Location: index.php"); // Redirigir a la página principal de la lista
-        exit();
+        header('Location: index.php');
     } else {
-        echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+        echo "Error: " . $query . "<br>" . mysqli_error($conn);
     }
 }
 ?>
@@ -25,17 +22,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container mt-5">
     <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
+
     <h1 class="mb-4">Agregar Empleado</h1>
-    <form action="create.php" method="post">
+    <form method="post" action="">
         <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="cargo">Cargo</label>
-            <input type="text" class="form-control" id="cargo" name="cargo" required>
+            <label for="cargo">Cargo:</label>
+            <input type="text" id="cargo" name="cargo" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <div class="form-group">
+            <label for="id_usuarios">ID Usuario:</label>
+            <input type="number" id="id_usuarios" name="id_usuarios" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 </div>
 

@@ -15,7 +15,7 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../../index.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Pagos</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Pago</a>
@@ -23,9 +23,8 @@ if (!$result) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Recibo ID</th>
-                <th>Monto Pagado</th>
-                <th>Método de Pago</th>
+                <th>Recibo</th>
+                <th>Monto</th>
                 <th>Fecha de Pago</th>
                 <th>Acciones</th>
             </tr>
@@ -33,14 +32,13 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['id']); ?></td>
-                <td><?php echo htmlspecialchars($row['recibo_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['monto_pagado']); ?></td>
-                <td><?php echo htmlspecialchars($row['método_de_pago']); ?></td>
-                <td><?php echo htmlspecialchars($row['fecha_de_pago']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_pagos']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_recibo']); ?></td>
+                <td><?php echo htmlspecialchars(number_format($row['monto'], 2)); ?></td>
+                <td><?php echo htmlspecialchars($row['fecha_pago']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_pagos']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_pagos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
@@ -49,3 +47,8 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
+
+<?php
+// Cerrar la conexión a la base de datos
+mysqli_close($conn);
+?>

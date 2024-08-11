@@ -2,52 +2,32 @@
 // Incluir el archivo de conexión a la base de datos
 include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
-// Obtener el ID del usuario a editar
-$id = $_GET['id'];
-
-// Consultar el usuario específico
-$query = "SELECT * FROM usuarios WHERE id_usuarios = '$id'";
-$result = mysqli_query($conn, $query);
-
-// Verificar si la consulta fue exitosa
-if (!$result) {
-    die("Error en la consulta: " . mysqli_error($conn));
-}
-
-// Obtener los datos del usuario
-$row = mysqli_fetch_assoc($result);
-
-if (!$row) {
-    die("Usuario no encontrado");
-}
-
-// Consultar roles para el menú desplegable
-$query_roles = "SELECT * FROM roles"; // Asegúrate de que esta tabla y consulta existan
-$result_roles = mysqli_query($conn, $query_roles);
-
-// Verificar si la consulta de roles fue exitosa
-if (!$result_roles) {
-    die("Error en la consulta de roles: " . mysqli_error($conn));
-}
-
-// Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los datos del formulario y proteger contra inyecciones SQL
-    $usuario = mysqli_real_escape_string($conn, $_POST['usuario']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = mysqli_real_escape_string($conn, $_POST['id']);
+    $nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
     $contraseña = mysqli_real_escape_string($conn, $_POST['contraseña']);
-    $correo_electronico = mysqli_real_escape_string($conn, $_POST['correo_electronico']);
     $id_roles = mysqli_real_escape_string($conn, $_POST['id_roles']);
+    $correo_electronico = mysqli_real_escape_string($conn, $_POST['correo_electronico']);
+    $dni = mysqli_real_escape_string($conn, $_POST['dni']);
 
-    // Preparar la consulta SQL para actualizar el usuario
-    $query = "UPDATE usuarios SET usuario='$usuario', contraseña='$contraseña', correo_electronico='$correo_electronico', id_roles='$id_roles' WHERE id_usuarios='$id'";
-
-    // Ejecutar la consulta y verificar si fue exitosa
-    if (mysqli_query($conn, $query)) {
-        header("Location: index.php"); // Redirigir a la página principal de la lista
-        exit();
+    // Si la contraseña no está vacía, encriptar la nueva contraseña
+    if (!empty($contraseña)) {
+        $contraseña_encriptada = password_hash($contraseña, PASSWORD_DEFAULT);
+        $query = "UPDATE usuarios SET nombre='$nombre', contraseña='$contraseña_encriptada', id_roles='$id_roles', correo_electronico='$correo_electronico', dni='$dni' WHERE id_usuarios='$id'";
     } else {
-        echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+        $query = "UPDATE usuarios SET nombre='$nombre', id_roles='$id_roles', correo_electronico='$correo_electronico', dni='$dni' WHERE id_usuarios='$id'";
     }
+
+    if (mysqli_query($conn, $query)) {
+        header('Location: index.php');
+    } else {
+        die("Error al actualizar el usuario: " . mysqli_error($conn));
+    }
+} else {
+    $id = mysqli_real_escape_string($conn, $_GET['id']);
+    $query = "SELECT * FROM usuarios WHERE id_usuarios='$id'";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
 }
 ?>
 
@@ -55,31 +35,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container mt-5">
     <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
+
     <h1 class="mb-4">Editar Usuario</h1>
-    <form action="edit.php?id=<?php echo htmlspecialchars($row['id_usuarios']); ?>" method="post">
+    <form method="POST">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id_usuarios']); ?>">
         <div class="form-group">
-            <label for="usuario">Usuario</label>
-            <input type="text" class="form-control" id="usuario" name="usuario" value="<?php echo htmlspecialchars($row['usuario']); ?>" required>
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($row['nombre']); ?>" required>
         </div>
         <div class="form-group">
-            <label for="contraseña">Contraseña</label>
-            <input type="password" class="form-control" id="contraseña" name="contraseña" value="<?php echo htmlspecialchars($row['contraseña']); ?>" required>
+            <label for="contraseña">Contraseña (deja en blanco para mantener la actual)</label>
+            <input type="password" class="form-control" id="contraseña" name="contraseña">
+        </div>
+        <div class="form-group">
+            <label for="id_roles">Rol</label>
+            <select class="form-control" id="id_roles" name="id_roles" required>
+                <?php
+                $rolesQuery = "SELECT * FROM roles";
+                $rolesResult = mysqli_query($conn, $rolesQuery);
+                while ($role = mysqli_fetch_assoc($rolesResult)) {
+                    echo "<option value='" . htmlspecialchars($role['id_roles']) . "' " . ($role['id_roles'] == $row['id_roles'] ? 'selected' : '') . ">" . htmlspecialchars($role['nombre']) . "</option>";
+                }
+                ?>
+            </select>
         </div>
         <div class="form-group">
             <label for="correo_electronico">Correo Electrónico</label>
             <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<?php echo htmlspecialchars($row['correo_electronico']); ?>" required>
         </div>
         <div class="form-group">
-            <label for="id_roles">Rol</label>
-            <select class="form-control" id="id_roles" name="id_roles" required>
-                <?php while ($row_role = mysqli_fetch_assoc($result_roles)) { ?>
-                <option value="<?php echo htmlspecialchars($row_role['id_roles']); ?>" <?php echo $row['id_roles'] == $row_role['id_roles'] ? 'selected' : ''; ?>>
-                    <?php echo htmlspecialchars($row_role['nombre']); ?> <!-- Ajusta el campo según tu tabla de roles -->
-                </option>
-                <?php } ?>
-            </select>
+            <label for="dni">DNI</label>
+            <input type="text" class="form-control" id="dni" name="dni" value="<?php echo htmlspecialchars($row['dni']); ?>" required>
         </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 </div>
 
