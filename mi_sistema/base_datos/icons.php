@@ -101,7 +101,7 @@ function obtenerIconos($user_id) {
             'notificaciones' => ['icono' => 'fa-bell', 'ruta' => '../administrador/notificaciones/index.php'],
             'pagos' => ['icono' => 'fa-credit-card', 'ruta' => '../administrador/pagos/index.php'],
             'password_resets' => ['icono' => 'fa-key', 'ruta' => '../administrador/password_resets/index.php'],
-            'pedidos_de_reparacion' => ['icono' => 'fa-repair', 'ruta' => '../tecnico/pedidos_de_reparacion/index.php'],
+            'pedidos_de_reparacion' => ['icono' => 'fa-repair', 'ruta' => '../tecnico/lista_pedido.php'],
             'permisos' => ['icono' => 'fa-shield-alt', 'ruta' => '../administrador/permisos/index.php'],
             'permisos_en_roles' => ['icono' => 'fa-user-shield', 'ruta' => '../administrador/permisos_en_roles/index.php'],
             'piezas_y_componentes' => ['icono' => 'fa-cogs', 'ruta' => '../administrador/piezas_y_componentes/index.php'],

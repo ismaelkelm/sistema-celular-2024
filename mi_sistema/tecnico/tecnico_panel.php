@@ -57,7 +57,7 @@ if ($role_name !== 'tecnico') {
 }
 
 // Consultar el ID del técnico asociado al usuario
-$query = "SELECT id_tecnicos FROM tecnicos WHERE id_usuario = ?";
+$query = "SELECT id_tecnicos, nombre, especialidad FROM tecnicos WHERE id_usuario = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -72,9 +72,11 @@ if (!$row) {
 }
 
 $id_tecnico = $row['id_tecnicos'];
+$nombre_tecnico = $row['nombre'];
+$especialidad_tecnico = $row['especialidad'];
 
 // Incluir los archivos comunes
-$pageTitle = "Panel de Control - Tecnico"; // Establecer el título específico para esta página
+$pageTitle = "Panel de Control - Técnico"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
 ?>
@@ -88,6 +90,27 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome para iconos -->
     <style>
+        .info-tecnico {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .info-tecnico h4 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: #333;
+        }
+        .info-tecnico p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            color: #555;
+        }
+        .info-tecnico strong {
+            color: #333;
+        }
         .card-icon {
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -121,7 +144,16 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <?php include('../includes/nav.php'); ?>
 
     <div class="container my-4">
-        <h2 class="mb-4">Panel de Control - Tecnico</h2>
+        <h2 class="mb-4">Panel de Control - Técnico</h2>
+        
+        <!-- Mostrar información del técnico -->
+        <div class="info-tecnico">
+            <h4>Información del Técnico</h4>
+            <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre_tecnico); ?></p>
+            <p><strong>Especialidad:</strong> <?php echo htmlspecialchars($especialidad_tecnico); ?></p>
+        </div>
+
+        <!-- Mostrar iconos -->
         <div class="row">
             <?php foreach ($iconos_visibles as $tabla => $icono): ?>
                 <div class="col-md-3 mb-4">

@@ -19,7 +19,7 @@ if (!$result) {
 
     <h1 class="mb-4">Pedidos de Reparación</h1>
     <!-- Botón para iniciar el flujo de registro de un nuevo pedido -->
-    <a href="../administrativo/pedidos_de_reparacion/registrar_cliente.php" class="btn btn-primary mb-3">Agregar Pedido</a>
+    <a href="/administrativo/pedidos_de_reparacion/registrar_cliente.php" class="btn btn-primary mb-3">Agregar Pedido</a>
 
     <table class="table table-striped table-bordered">
         <thead>

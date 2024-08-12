@@ -26,50 +26,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Verifica la contraseña
             if (password_verify($contraseña, $hashed_password)) {
-                // Verifica si el rol existe
-                $sql_role = "SELECT nombre FROM roles WHERE id_roles = ?";
-                if ($stmt_role = $conn->prepare($sql_role)) {
-                    $stmt_role->bind_param("i", $id_roles);
-                    $stmt_role->execute();
-                    $stmt_role->store_result();
+                // Inicia la sesión del usuario
+                $_SESSION['user_id'] = $id_usuarios;
+                $_SESSION['role'] = $id_roles; // Guardar el rol del usuario
 
-                    if ($stmt_role->num_rows > 0) {
-                        $stmt_role->bind_result($role_name);
-                        $stmt_role->fetch();
-                        
-                        // Inicia la sesión del usuario
-                        $_SESSION['user_id'] = $id_usuarios;
-                        $_SESSION['role'] = $role_name;
+                // Verificar si el rol es 'tecnico'
+                if ($id_roles == 3) {
+                    // Consultar el ID del técnico asociado al usuario
+                    $sql_tecnico = "SELECT id_tecnicos FROM tecnicos WHERE id_usuario = ?";
+                    if ($stmt_tecnico = $conn->prepare($sql_tecnico)) {
+                        $stmt_tecnico->bind_param("i", $id_usuarios);
+                        $stmt_tecnico->execute();
+                        $stmt_tecnico->store_result();
 
-                        // Redirige al usuario según su rol
-                        switch ($role_name) {
-                            case 'administrador':
-                                header("Location: ../administrador/administrador.php");
-                                break;
-                            case 'administrativo':
-                                header("Location: ../administrativo/administrativo.php");
-                                break;
-                            case 'tecnico':
-                                header("Location: ../tecnico/tecnico.php");
-                                break;
-                            case 'cliente':
-                                header("Location: ../cliente/cliente.php");
-                                break;        
-                            case 'empleado':
-                                header("Location: ../empleado/empleado.php");
-                                break;    
-                            
-                            default:
-                                header("Location: ../login/login.php?error=" . urlencode("Rol de usuario no reconocido."));
-                                break;
+                        if ($stmt_tecnico->num_rows > 0) {
+                            $stmt_tecnico->bind_result($id_tecnico);
+                            $stmt_tecnico->fetch();
+
+                            // Redirigir al panel específico del técnico
+                            header("Location: ../tecnico/tecnico_panel.php?id_tecnico=" . urlencode($id_tecnico));
+                            exit;
+                        } else {
+                            header("Location: ../login/login.php?error=" . urlencode("ID de técnico no encontrado."));
+                            exit;
                         }
-                        exit;
                     } else {
-                        header("Location: ../login/login.php?error=" . urlencode("Rol de usuario no reconocido."));
+                        header("Location: ../login/login.php?error=" . urlencode("Error en la preparación de la consulta de técnico."));
                         exit;
                     }
                 } else {
-                    header("Location: ../login/login.php?error=" . urlencode("Error en la preparación de la consulta de rol."));
+                    // Redirigir según el rol
+                    switch ($id_roles) {
+                        case 1:
+                            header("Location: ../administrador/administrador.php");
+                            break;
+                        case 2:
+                            header("Location: ../administrativo/administrativo.php");
+                            break;
+                        case 4:
+                            header("Location: ../cliente/cliente.php");
+                            break;
+                        case 5:
+                            header("Location: ../empleado/empleado.php");
+                            break;
+                        default:
+                            header("Location: ../login/login.php?error=" . urlencode("Rol de usuario no reconocido."));
+                            break;
+                    }
                     exit;
                 }
             } else {

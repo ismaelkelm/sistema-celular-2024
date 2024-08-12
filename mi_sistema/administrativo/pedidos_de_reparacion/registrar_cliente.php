@@ -1,7 +1,7 @@
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrativo.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Registrar Nuevo Cliente</h1>
     <form action="procesar_cliente.php" method="POST">
