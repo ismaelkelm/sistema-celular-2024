@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             header("Location: ../cliente/cliente.php");
                             break;
                         case 5:
-                            header("Location: ../empleado/empleado.php");
+                            header("Location: ../empleados/empleado.php");
                             break;
                         default:
                             header("Location: ../login/login.php?error=" . urlencode("Rol de usuario no reconocido."));

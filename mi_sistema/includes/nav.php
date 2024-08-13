@@ -22,7 +22,7 @@ switch ($usuario_rol) {
         $inicio_url = '../cliente/cliente.php';
         break;
     case 'empleado':
-        $inicio_url = '../empleado/empleado.php';
+        $inicio_url = '../empleados/empleado.php';
         break;
     default:
         $inicio_url = '../login/login.php'; // URL predeterminada
@@ -39,7 +39,8 @@ switch ($usuario_rol) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <?php if ($usuario_rol === 'administrador'): ?>
+            <?php if ($usuario_rol === 1): ?>
+                
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Administrador
@@ -72,7 +73,7 @@ switch ($usuario_rol) {
                         </a>
                     </div>
                 </li>
-            <?php elseif ($usuario_rol === 'administrativo'): ?>
+            <?php elseif ($usuario_rol === 2): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Administrativo
@@ -89,7 +90,7 @@ switch ($usuario_rol) {
                         </a>
                     </div>
                 </li>
-            <?php elseif ($usuario_rol === 'tecnico'): ?>
+            <?php elseif ($usuario_rol === 3): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="tecnicoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Reparaciones
@@ -109,13 +110,30 @@ switch ($usuario_rol) {
                         </a>
                     </div>
                 </li>
-            <?php elseif ($usuario_rol === 'cliente'): ?>
+            <?php elseif ($usuario_rol === 4): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Cliente
                     </a>
                     <div class="dropdown-menu" aria-labelledby="clienteDropdown">
                         <a class="dropdown-item" href="../cliente/perfil.php">
+                            Mi Perfil
+                        </a>
+                        <a class="dropdown-item" href="../cliente/reparaciones.php">
+                            Mis Reparaciones
+                        </a>
+                        <a class="dropdown-item" href="../cliente/notificaciones.php">
+                            Notificaciones
+                        </a>
+                    </div>
+                </li>
+                <?php elseif ($usuario_rol === 5): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Empleado
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="clienteDropdown">
+                        <a class="dropdown-item" href="../../mi_sistema/empleados/empleado.php">
                             Mi Perfil
                         </a>
                         <a class="dropdown-item" href="../cliente/reparaciones.php">
