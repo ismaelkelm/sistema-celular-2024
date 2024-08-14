@@ -1,7 +1,7 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "arielon23.duckdns.org";
+$username = "marquez";
+$password = "marquez2024";
 $database = "marquez";
 
 // Crear la conexión
