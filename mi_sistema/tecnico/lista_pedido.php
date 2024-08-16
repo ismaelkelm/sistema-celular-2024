@@ -2,12 +2,21 @@
 require_once '../base_datos/db.php';
 include('../includes/header.php');
 
-// Iniciar la sesión
-session_start();
-$id_tecnico = $_SESSION['id_tecnico']=1;
+
+// Verificar si el usuario ha iniciado sesión y obtener el id_tecnico desde la sesión
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 3) {
+    header("Location: ../login/login.php");
+    exit;
+}
+
+// Obtener el id_tecnico desde la sesión (suponiendo que fue guardado correctamente en el panel del técnico)
+$id_tecnico = $_SESSION['user_id'];
 
 ?>
-
 <div class="container">
     <h1>Lista de Pedidos de Reparación</h1>
 
@@ -78,7 +87,7 @@ $id_tecnico = $_SESSION['id_tecnico']=1;
             <input type="submit" name="actualizar_seleccionados" value="Actualizar Estado" class="btn btn-primary mt-3">
         </form>
     <?php else: ?>
-        <p>No tienes pedidos asignados.</p>
+        <p>No tienes trabajos pendientes.</p>
     <?php endif; ?>
 </div>
 
