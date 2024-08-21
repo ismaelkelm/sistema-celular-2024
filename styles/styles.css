@@ -1,15 +1,33 @@
 body{
-    background: url('/images/background-black.jpg') rgba(65, 131, 51, 0.377); 
+    background: url('/img/background-black.jpg') rgba(64, 131, 51, 0.014); 
     background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     
     }
+    .navbar-brand{
+        color: whitesmoke;
+        font-size: 2rem;
+    }
     .navbar{
         
-        background:transparent;
-        /* backdrop-filter: blur(10px); */
-    
+        color:aqua;
+        /* background-color: rgba(0, 255, 242, 0.507); */
+
+        /* background-blend-mode:darken; */
+        
     }
-    
+    .navbar-toggler-icon{
+        
+        color: aquamarine;
+    }
+    .sidebar{
+        background-color: rgba(255, 0, 0, 0.25) !important;
+        backdrop-filter: blur(1px);
+        
+    }
+    .offcanvas-header{
+        color: whitesmoke;
+        border-bottom:red;
+    }

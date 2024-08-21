@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<html lang="es" >
 
 <head>
     <meta charset="UTF-8">
@@ -14,25 +14,35 @@
 
 <body class="vh-100 overflow-hidden">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top bg-transparent">
         <div class="container">
             <!-- Logo -->
-            <a class="navbar-brand fs-4" href="#">Marquez Comunicaciones</a>
+            <a class="navbar-brand " href="#">Marquez Comunicaciones</a>
             <img src="" alt="" width="" height="" alt="">
-            
+
             <!-- Toggle Button -->
-             
-            <button class="navbar-toggler shadow-none border-0" type="button"
+
+            <button class="navbar-toggler  border-0" type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <!-- Sidebar -->
-            <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <div class="sidebar offcanvas offcanvas-start"
+                tabindex="-1"
+                id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <!-- Sidebar Header -->
+                <div class="offcanvas-header  border-bottom">
+                    <h5 class="offcanvas-title"
+                        id="offcanvasNavbarLabel">Menú</h5>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close">
+                    </button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
