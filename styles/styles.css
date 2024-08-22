@@ -1,33 +1,30 @@
-body{
-    background: url('/img/background-black.jpg') rgba(64, 131, 51, 0.014); 
+body {
+    background: url('/img/background.jpg') rgba(0, 0, 0, 0.3);
     background-blend-mode: multiply;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    
-    }
-    .navbar-brand{
-        color: whitesmoke;
-        font-size: 2rem;
-    }
-    .navbar{
-        
-        color:aqua;
-        /* background-color: rgba(0, 255, 242, 0.507); */
 
-        /* background-blend-mode:darken; */
+}
+
+.navbar {
+    background:transparent;
+    
+
+}
+.navbar-toggler{
+    /* border-style: hidden; */
+    color:lime;
+    
+}
+
+
+.sidebar{
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(5px);
         
     }
-    .navbar-toggler-icon{
-        
-        color: aquamarine;
-    }
-    .sidebar{
-        background-color: rgba(255, 0, 0, 0.25) !important;
-        backdrop-filter: blur(1px);
-        
-    }
-    .offcanvas-header{
+/* .offcanvas-header{
         color: whitesmoke;
         border-bottom:red;
-    }
+    } */
