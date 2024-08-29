@@ -1,49 +1,68 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_recibo = mysqli_real_escape_string($conn, $_POST['id_recibo']);
-    $monto = mysqli_real_escape_string($conn, $_POST['monto']);
-    $fecha_pago = mysqli_real_escape_string($conn, $_POST['fecha_pago']);
+// Verificar si el formulario fue enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fecha_pago = $_POST['fecha_pago'];
+    $monto = $_POST['monto'];
+    $id_tipo_pago = $_POST['id_tipo_pago'];
+    $id_facturas_compra = $_POST['id_facturas_compra'];
+    $id_facturas_venta_reparacion = $_POST['id_facturas_venta_reparacion'];
+    $id_factura_venta_accesorio = $_POST['id_factura_venta_accesorio'];
 
-    $query = "INSERT INTO pagos (id_recibo, monto, fecha_pago)
-              VALUES ('$id_recibo', '$monto', '$fecha_pago')";
+    // Insertar nuevo pago
+    $query = "INSERT INTO pagos (fecha_pago, monto, id_tipo_pago, id_facturas_compra, id_facturas_venta_reparacion, id_factura_venta_accesorio) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("sdiiii", $fecha_pago, $monto, $id_tipo_pago, $id_facturas_compra, $id_facturas_venta_reparacion, $id_factura_venta_accesorio);
 
-    if (mysqli_query($conn, $query)) {
-        header('Location: index.php');
+    if ($stmt->execute()) {
+        header("Location: index.php"); // Redirigir a la lista de pagos
+        exit();
     } else {
-        die("Error al agregar el pago: " . mysqli_error($conn));
+        die("Error al insertar: " . $stmt->error);
     }
 }
 ?>
 
-<?php include('../../includes/header.php'); ?>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Pago</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 <div class="container mt-5">
     <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
-
     <h1 class="mb-4">Agregar Pago</h1>
-    <form method="POST">
-        <div class="form-group">
-            <label for="id_recibo">ID Recibo</label>
-            <input type="number" class="form-control" id="id_recibo" name="id_recibo" required>
+    <form method="post" action="">
+        <div class="mb-3">
+            <label for="fecha_pago" class="form-label">Fecha de Pago</label>
+            <input type="datetime-local" class="form-control" id="fecha_pago" name="fecha_pago" required>
         </div>
-        <div class="form-group">
-            <label for="monto">Monto</label>
-            <input type="number" class="form-control" id="monto" name="monto" step="0.01" required>
+        <div class="mb-3">
+            <label for="monto" class="form-label">Monto</label>
+            <input type="number" step="0.01" class="form-control" id="monto" name="monto" required>
         </div>
-        <div class="form-group">
-            <label for="fecha_pago">Fecha de Pago</label>
-            <input type="date" class="form-control" id="fecha_pago" name="fecha_pago" required>
+        <div class="mb-3">
+            <label for="id_tipo_pago" class="form-label">Tipo de Pago</label>
+            <input type="number" class="form-control" id="id_tipo_pago" name="id_tipo_pago" required>
         </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <div class="mb-3">
+            <label for="id_facturas_compra" class="form-label">Factura Compra</label>
+            <input type="number" class="form-control" id="id_facturas_compra" name="id_facturas_compra" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_facturas_venta_reparacion" class="form-label">Factura Venta Reparación</label>
+            <input type="number" class="form-control" id="id_facturas_venta_reparacion" name="id_facturas_venta_reparacion" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_factura_venta_accesorio" class="form-label">Factura Venta Accesorio</label>
+            <input type="number" class="form-control" id="id_factura_venta_accesorio" name="id_factura_venta_accesorio" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
     </form>
 </div>
-
-<?php include('../../includes/footer.php'); ?>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>
+</body>
+</html>

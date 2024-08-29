@@ -1,45 +1,62 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $idPermisos = mysqli_real_escape_string($conn, $_POST['idPermisos']);
-    $descripcion = mysqli_real_escape_string($conn, $_POST['descripcion']);
+// Verificar si el ID está en la URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die('ID de permiso no especificado.');
+}
 
-    $query = "UPDATE permisos SET descripcion='$descripcion' WHERE idPermisos='$idPermisos'";
+$id = $_GET['id'];
 
-    if (mysqli_query($conn, $query)) {
-        header('Location: index.php');
+// Consultar el permiso
+$query = "SELECT * FROM permisos WHERE id_permisos = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if (!$row) {
+    die('Permiso no encontrado.');
+}
+
+// Verificar si el formulario fue enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $descripcion = $_POST['descripcion'];
+
+    // Actualizar permiso
+    $query = "UPDATE permisos SET descripcion = ? WHERE id_permisos = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("si", $descripcion, $id);
+
+    if ($stmt->execute()) {
+        header("Location: index.php"); // Redirigir a la lista de permisos
+        exit();
     } else {
-        die("Error al actualizar el permiso: " . mysqli_error($conn));
+        die("Error al actualizar: " . $stmt->error);
     }
-} else {
-    $idPermisos = mysqli_real_escape_string($conn, $_GET['id']);
-    $query = "SELECT * FROM permisos WHERE idPermisos='$idPermisos'";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
 }
 ?>
 
-<?php include('../../includes/header.php'); ?>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Permiso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 <div class="container mt-5">
     <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
-
     <h1 class="mb-4">Editar Permiso</h1>
-    <form method="POST">
-        <input type="hidden" name="idPermisos" value="<?php echo htmlspecialchars($row['idPermisos']); ?>">
-        <div class="form-group">
-            <label for="descripcion">Descripción</label>
+    <form method="post" action="">
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
             <input type="text" class="form-control" id="descripcion" name="descripcion" value="<?php echo htmlspecialchars($row['descripcion']); ?>" required>
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>
 </div>
-
-<?php include('../../includes/footer.php'); ?>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>
+</body>
+</html>

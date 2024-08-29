@@ -3,13 +3,13 @@ session_start();
 require_once '../base_datos/db.php';
 
 // Consultar los roles desde la base de datos
-$sql_roles = "SELECT id_roles, nombre FROM roles";
+$sql_roles = "SELECT id_roles, descripcion FROM roles";
 $roles = [];
 if ($stmt_roles = $conn->prepare($sql_roles)) {
     $stmt_roles->execute();
-    $stmt_roles->bind_result($id_roles, $nombre);
+    $stmt_roles->bind_result($id_roles, $descripcion);
     while ($stmt_roles->fetch()) {
-        $roles[] = ['id_roles' => $id_roles, 'nombre' => $nombre];
+        $roles[] = ['id_roles' => $id_roles, 'descripcion' => $descripcion];
     }
     $stmt_roles->close();
 } else {
@@ -135,22 +135,26 @@ $conn->close();
     <div class="container">
         <h2>Registro de Usuario</h2>
         <form action="register_process.php" method="post">
-
             <div class="form-group">
                 <label for="id_roles">Rol</label>
                 <select class="form-control" id="id_roles" name="id_roles" required>
                     <option value="" disabled selected>Selecciona un rol</option>
                     <?php foreach ($roles as $role): ?>
                         <option value="<?php echo htmlspecialchars($role['id_roles']); ?>">
-                            <?php echo htmlspecialchars($role['nombre']); ?>
+                            <?php echo htmlspecialchars($role['descripcion']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="nombre">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de Usuario" required>
+                <label for="nombre">Nombre Usuario</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label for="apellido">Apellido Usuario</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido Usuario" required>
             </div>
 
             <div class="form-group">

@@ -1,19 +1,22 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-$id = mysqli_real_escape_string($conn, $_GET['id']);
-
-$query = "DELETE FROM usuarios WHERE id_usuarios='$id'";
-
-if (mysqli_query($conn, $query)) {
-    header('Location: index.php');
-} else {
-    die("Error al eliminar el usuario: " . mysqli_error($conn));
+// Verificar si el ID está en la URL
+if (!isset($_GET['id_usuarios'])) {
+    die('ID de usuario no especificado.');
 }
-?>
 
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
+$id_usuarios = $_GET['id_usuarios'];
+
+// Eliminar el usuario
+$query = "DELETE FROM usuarios WHERE id_usuarios = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id_usuarios);
+
+if ($stmt->execute()) {
+    header("Location: index.php"); // Redirigir a la lista de usuarios
+    exit();
+} else {
+    die("Error al eliminar: " . $stmt->error);
+}
 ?>

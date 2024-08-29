@@ -1,8 +1,7 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-// Consultar permisos en roles
+// Consultar permisos_en_roles
 $query = "SELECT * FROM permisos_en_roles";
 $result = mysqli_query($conn, $query);
 
@@ -16,14 +15,13 @@ if (!$result) {
 
 <div class="container mt-5">
     <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
-
     <h1 class="mb-4">Permisos en Roles</h1>
-    <a href="create.php" class="btn btn-primary mb-3">Agregar Permiso en Rol</a>
+    <a href="create.php" class="btn btn-primary mb-3">Agregar Permiso a Rol</a>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Role ID</th>
-                <th>Permiso ID</th>
+                <th>ID Rol</th>
+                <th>ID Permiso</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -31,12 +29,12 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['roles_id_roles']); ?></td>
-                <td><?php echo htmlspecialchars($row['Permisos_idPermisos']); ?></td>
-                <td><?php echo htmlspecialchars($row['estado'] ? 'Activo' : 'Inactivo'); ?></td>
+                <td><?php echo htmlspecialchars($row['id_roles']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_permisos']); ?></td>
+                <td><?php echo htmlspecialchars($row['estado']); ?></td>
                 <td>
-                    <a href="edit.php?roles_id=<?php echo htmlspecialchars($row['roles_id_roles']); ?>&permiso_id=<?php echo htmlspecialchars($row['Permisos_idPermisos']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?roles_id=<?php echo htmlspecialchars($row['roles_id_roles']); ?>&permiso_id=<?php echo htmlspecialchars($row['Permisos_idPermisos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id_roles=<?php echo htmlspecialchars($row['id_roles']); ?>&id_permisos=<?php echo htmlspecialchars($row['id_permisos']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id_roles=<?php echo htmlspecialchars($row['id_roles']); ?>&id_permisos=<?php echo htmlspecialchars($row['id_permisos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>

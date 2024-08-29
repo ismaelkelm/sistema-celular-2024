@@ -5,12 +5,13 @@ require_once '../base_datos/db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura y limpia los datos del formulario
     $nombre = trim($_POST["nombre"]);
+    $apellido = trim($_POST["apellido"]);
     $contraseña = trim($_POST["contraseña"]);
     $correo = trim($_POST["correo"]);
     $id_roles = isset($_POST["id_roles"]) ? trim($_POST["id_roles"]) : '';
 
     // Verifica si los campos están vacíos
-    if (empty($nombre) || empty($contraseña) || empty($correo) || empty($id_roles)) {
+    if (empty($nombre) || empty($apellido) || empty($contraseña) || empty($correo) || empty($id_roles)) {
         echo "Por favor, complete todos los campos.";
         exit;
     }
@@ -41,9 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     // Inserta el nuevo usuario (con hash para la contraseña)
                     $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
-                    $sql_insert = "INSERT INTO usuarios (nombre, contraseña, id_roles, correo_electronico) VALUES (?, ?, ?, ?)";
+                    $sql_insert = "INSERT INTO usuarios (nombre, apellido, contraseña, id_roles, correo_electronico) VALUES (?, ?, ?, ?, ?)";
                     if ($stmt_insert = $conn->prepare($sql_insert)) {
-                        $stmt_insert->bind_param("ssis", $nombre, $hashed_password, $id_roles, $correo);
+                        $stmt_insert->bind_param("sssis", $nombre, $apellido, $hashed_password, $id_roles, $correo);
                         if ($stmt_insert->execute()) {
                             // Mostrar mensaje de bienvenida y redirigir
                             echo "

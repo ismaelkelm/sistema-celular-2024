@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
 }
 
 $usuario_rol = $_SESSION['role'];
-$inicio_url = '';
+$inicio_url = 'usuario_rol';
 
 switch ($usuario_rol) {
     case 'administrador':
@@ -31,7 +31,7 @@ switch ($usuario_rol) {
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="<?php echo htmlspecialchars($inicio_url); ?>">
+    <a class="navbar-brand" href="#" onclick="window.location.reload(); return false;">
         Inicio
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,39 +40,13 @@ switch ($usuario_rol) {
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <?php if ($usuario_rol === 1): ?>
+                <li class="nav-item">
+                    <a href="../base_datos/gestionar_permisos.php" class="btn btn-outline-light">
+                        Permisos
+                    </a>
+                </li>
                 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Administrador
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                        <a class="dropdown-item" href="../base_datos/gestionar_permisos.php">
-                            Permisos
-                        </a>
-                        <a class="dropdown-item" href="../tecnico/tecnico.php">
-                            Técnicos
-                        </a>
-                        <a class="dropdown-item" href="../cliente/cliente.php">
-                            Clientes
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="repairDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Lista de Reparaciones
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="repairDropdown">
-                        <a class="dropdown-item" href="../administrador/enviar_notificacion.php">
-                            Enviar Notificación
-                        </a>
-                        <a class="dropdown-item" href="../administrador/gestionar_tareas.php">
-                            Gestionar Tareas
-                        </a>
-                        <a class="dropdown-item" href="../administrador/listar_reparaciones.php">
-                            Listar Reparaciones
-                        </a>
-                    </div>
-                </li>
+                
             <?php elseif ($usuario_rol === 2): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            color: #555;
+        }
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <table>
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                A
+                            </td>
+                            <td>
+                                Factura Nro. Comp.: 0001-00000075<br>
+                                Fecha de Emisión: 23/02/2016
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                Razón Social: EMPRESA S.A.<br>
+                                Dir.: Belgrano 1010 Capital Federal<br>
+                                Tel.: 11 25879645
+                            </td>
+                            <td>
+                                CUIT: 20-28717013-1<br>
+                                Responsable Inscripto<br>
+                                Ing. Brutos: 30-22222222-9<br>
+                                Inicio Actividad: 01/01/2010
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                Cliente: SOL S.R.L.<br>
+                                Dirección: San Martín 587 Capital Federal, Buenos Aires<br>
+                                CUIT: 30-11111111-8<br>
+                                Resp. IVA: Responsable Inscripto<br>
+                                Condición de Venta: Contado
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="heading">
+                <td>Código</td>
+                <td>Descripción</td>
+                <td>Cantidad</td>
+                <td>U. Medida</td>
+                <td>Precio Unit</td>
+                <td>% Bonif</td>
+                <td>Alícuota IVA</td>
+                <td>Total</td>
+            </tr>
+            <tr class="item">
+                <td>5896</td>
+                <td>LATEX INTERIOR BLANCO X20L</td>
+                <td>2,00</td>
+                <td></td>
+                <td>515,36</td>
+                <td></td>
+                <td>21,00%</td>
+                <td>1.247,17</td>
+            </tr>
+            <tr class="item">
+                <td>5897</td>
+                <td>PINCEL N° 20</td>
+                <td>5,00</td>
+                <td></td>
+                <td>82,36</td>
+                <td></td>
+                <td>21,00%</td>
+                <td>498,28</td>
+            </tr>
+            <tr class="total">
+                <td colspan="7"></td>
+                <td>Subtotal: $1.745,45</td>
+            </tr>
+            <tr class="total">
+                <td colspan="7"></td>
+                <td>Importe Total: $1.745,45</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

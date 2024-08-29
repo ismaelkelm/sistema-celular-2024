@@ -1,18 +1,23 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-$roles_id_roles = mysqli_real_escape_string($conn, $_GET['roles_id']);
-$Permisos_idPermisos = mysqli_real_escape_string($conn, $_GET['permiso_id']);
-
-$query = "DELETE FROM permisos_en_roles WHERE roles_id_roles='$roles_id_roles' AND Permisos_idPermisos='$Permisos_idPermisos'";
-
-if (mysqli_query($conn, $query)) {
-    header('Location: index.php');
-} else {
-    die("Error al eliminar el permiso en rol: " . mysqli_error($conn));
+// Verificar si los IDs están en la URL
+if (!isset($_GET['id_roles']) || !isset($_GET['id_permisos'])) {
+    die('ID de rol o permiso no especificado.');
 }
 
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
+$id_roles = $_GET['id_roles'];
+$id_permisos = $_GET['id_permisos'];
+
+// Eliminar el permiso en rol
+$query = "DELETE FROM permisos_en_roles WHERE id_roles = ? AND id_permisos = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $id_roles, $id_permisos);
+
+if ($stmt->execute()) {
+    header("Location: index.php"); // Redirigir a la lista de permisos en roles
+    exit();
+} else {
+    die("Error al eliminar: " . $stmt->error);
+}
 ?>
