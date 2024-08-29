@@ -158,7 +158,6 @@ include('../base_datos/icons.php'); // Incluir los iconos
                 }
             };
             xhr.send();
-        }
 
         function fetchPermissions(idPermiso) {
             const xhr = new XMLHttpRequest();
