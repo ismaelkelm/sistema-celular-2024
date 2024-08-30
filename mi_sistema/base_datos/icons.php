@@ -58,9 +58,9 @@ function obtenerIconos($user_id) {
             'usuarios' => ['icono' => 'fa-user-cog', 'ruta' => '../administrador/usuarios/index.php']
         ],
         'administrativo' => [
-            'accesorios_y_componentes' => ['icono' => 'fa-tools', 'ruta' => '../administrador/accesorios_componentes/index.php'],
-            'area_tecnico' => ['icono' => 'fa-cogs', 'ruta' => '../administrador/area_tecnico/index.php'],
-            'clientes' => ['icono' => 'fa-user', 'ruta' => '../administrador/clientes/index.php'],
+            'accesorios_y_componentes' => ['icono' => 'fa-tools', 'ruta' => '../administrativo/accesorios_componentes/index.php'],
+            'area_tecnico' => ['icono' => 'fa-cogs', 'ruta' => '../administrativo/area_tecnico/index.php'],
+            'clientes' => ['icono' => 'fa-user', 'ruta' => '../administrativo/clientes/index.php'],
             'detalle_compra' => ['icono' => 'fa-box', 'ruta' => '../administrador/detalle_compra/index.php'],
             'detalle_reparaciones' => ['icono' => 'fa-wrench', 'ruta' => '../administrador/detalle_reparaciones/index.php'],
             'detalle_ventas_accesorios' => ['icono' => 'fa-shopping-cart', 'ruta' => '../administrador/detalle_ventas_accesorios/index.php'],

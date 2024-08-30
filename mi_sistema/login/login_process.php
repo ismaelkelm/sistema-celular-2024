@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $conn->close();
 } else {
-    header("Location: ../login/login.php");
-    exit;
+    // header("Location: ../login/login.php");
+    // exit;
 }
 ?>
