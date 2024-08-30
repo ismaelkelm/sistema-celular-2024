@@ -1,8 +1,7 @@
 <?php
 // Verificar si la sesión está iniciada y el rol del usuario está definido
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
-    header("Location: ../login/login.php");
-    exit;
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 
 $usuario_rol = $_SESSION['role'];
@@ -25,7 +24,7 @@ switch ($usuario_rol) {
         $inicio_url = '../empleados/empleado.php';
         break;
     default:
-        $inicio_url = '../login/login.php'; // URL predeterminada
+        // $inicio_url = '../login/login.php'; // URL predeterminada
         break;
 }
 ?>

@@ -34,7 +34,7 @@ if (!$row) {
 $id_roles = $row['id_roles'];
 
 // Consultar el nombre del rol directamente desde la base de datos
-$query = "SELECT nombre FROM roles WHERE id_roles = ?";
+$query = "SELECT descripcion FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -48,7 +48,7 @@ if (!$row) {
     die("Error: Rol no encontrado.");
 }
 
-$role_name = $row['nombre'];
+$role_name = $row['descripcion'];
 
 // Verificar si el usuario tiene el rol 'tecnico'
 if ($role_name !== 'tecnico') {
@@ -56,8 +56,8 @@ if ($role_name !== 'tecnico') {
     exit;
 }
 
-// Consultar el ID del técnico asociado al usuario
-$query = "SELECT id_tecnicos, nombre, especialidad FROM tecnicos WHERE id_usuario = ?";
+// Consultar la información del técnico asociado al usuario
+$query = "SELECT id_tecnicos, nombre, id_area_tecnico FROM tecnicos WHERE id_usuario = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -73,7 +73,24 @@ if (!$row) {
 
 $id_tecnico = $row['id_tecnicos'];
 $nombre_tecnico = $row['nombre'];
-$especialidad_tecnico = $row['especialidad'];
+$id_area_tecnico = $row['id_area_tecnico'];
+
+// Consultar el nombre del área técnico
+$query = "SELECT nombre FROM area_tecnico WHERE id_area_tecnico = ?";
+$stmt = $conn->prepare($query);
+if ($stmt === false) {
+    die("Error en la consulta: " . htmlspecialchars($conn->error));
+}
+$stmt->bind_param("i", $id_area_tecnico);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if (!$row) {
+    die("Error: Área técnico no encontrada.");
+}
+
+$nombre_area_tecnico = $row['nombre'];
 
 // Incluir los archivos comunes
 $pageTitle = "Panel de Control - Técnico"; // Establecer el título específico para esta página
@@ -150,7 +167,7 @@ include('../base_datos/icons.php'); // Incluir los iconos
         <div class="info-tecnico">
             <h4>Información del Técnico</h4>
             <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre_tecnico); ?></p>
-            <p><strong>Especialidad:</strong> <?php echo htmlspecialchars($especialidad_tecnico); ?></p>
+            <p><strong>Área:</strong> <?php echo htmlspecialchars($nombre_area_tecnico); ?></p>
         </div>
 
         <!-- Mostrar iconos -->

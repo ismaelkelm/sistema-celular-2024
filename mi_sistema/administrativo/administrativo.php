@@ -48,16 +48,16 @@ if (!$row) {
     die("Error: Rol no encontrado.");
 }
 
-$role_name = $row['descripcion'];
+$role_name = $row['descripcion']; // Cambiado de 'nombre' a 'descripcion'
 
-// Verificar si el usuario tiene el rol 'Administrativo'
-if ($role_name !== 'administrador') {
+// Verificar si el usuario tiene el rol 'administrativo'
+if ($role_name !== 'administrativo') {
     header("Location: ../login/login.php");
     exit;
 }
 
 // Incluir los archivos comunes
-$pageTitle = "Panel de Control - Administrativo"; // Establecer el título específico para esta página
+$pageTitle = "Panel de Control - Administrador"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
 ?>
@@ -104,7 +104,7 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <?php include('../includes/nav.php'); ?>
 
     <div class="container my-4">
-        <h4 class="mb-4">Panel de Control - Administrativo</h4>
+        <h2 class="mb-4">Panel de Control - Administrativo</h2>
         <div class="row">
             <?php foreach ($iconos_visibles as $tabla => $icono): ?>
                 <div class="col-md-3 mb-4">
@@ -119,11 +119,12 @@ include('../base_datos/icons.php'); // Incluir los iconos
                 </div>
             <?php endforeach; ?>
         </div>
-    </div> 
+    </div>
 
     <?php include('../includes/footer.php'); ?>
 </body>
 </html>
+
 <?php
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);
