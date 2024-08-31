@@ -1,17 +1,22 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-$id_notificaciones = mysqli_real_escape_string($conn, $_GET['id']);
-
-$query = "DELETE FROM notificaciones WHERE id_notificaciones='$id_notificaciones'";
-
-if (mysqli_query($conn, $query)) {
-    header('Location: index.php');
-} else {
-    die("Error al eliminar la notificación: " . mysqli_error($conn));
+// Verificar si el ID está en la URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die('ID de notificación no especificado.');
 }
 
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
+$id = $_GET['id'];
+
+// Eliminar notificación
+$query = "DELETE FROM notificaciones WHERE id_notificaciones = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id);
+
+if ($stmt->execute()) {
+    header("Location: index.php"); // Redirigir a la lista de notificaciones
+    exit();
+} else {
+    die("Error al eliminar: " . $stmt->error);
+}
 ?>

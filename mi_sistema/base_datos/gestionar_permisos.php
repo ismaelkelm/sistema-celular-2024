@@ -25,7 +25,7 @@ $row = $result->fetch_assoc();
 $id_roles = $row['id_roles'];
 
 // Verificar si el usuario es administrador
-$query = "SELECT nombre FROM roles WHERE id_roles = ?";
+$query = "SELECT descripcion FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 
 if ($stmt === false) {
@@ -36,14 +36,14 @@ $stmt->bind_param("i", $id_roles);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-$role_name = $row['nombre'];
+$role_name = $row['descripcion'];
 
 if ($role_name != 'administrador') {
     die('Acceso denegado.');
 }
 
 // Obtener la lista de roles
-$query = "SELECT id_roles, nombre FROM roles";
+$query = "SELECT id_roles, descripcion FROM roles";
 $result = $conn->query($query);
 
 if ($result === false) {
@@ -114,7 +114,7 @@ $conn->close();
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body text-center">
-                            <h5 class="card-title"><?php echo htmlspecialchars($rol['nombre']); ?></h5>
+                            <h5 class="card-title"><?php echo htmlspecialchars($rol['descripcion']); ?></h5>
                             <form method="POST" action="./permisos.php">
                                 <input type="hidden" name="rol_id" value="<?php echo htmlspecialchars($rol['id_roles']); ?>">
                                 <button type="submit" class="btn btn-custom btn-primary">

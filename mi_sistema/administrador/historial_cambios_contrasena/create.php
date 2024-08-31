@@ -1,49 +1,48 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Verificar si el formulario fue enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_usuario = $_POST['id_usuario'];
     $fecha_cambio = $_POST['fecha_cambio'];
-    $motivo = $_POST['motivo'];
 
-    $query = "INSERT INTO historial_cambios_contrasena (id_usuario, fecha_cambio, motivo) 
-              VALUES ('$id_usuario', '$fecha_cambio', '$motivo')";
+    // Insertar nuevo historial de cambio de contraseña
+    $query = "INSERT INTO historial_cambios_contrasena (id_usuario, fecha_cambio) VALUES (?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("is", $id_usuario, $fecha_cambio);
 
-    if (mysqli_query($conn, $query)) {
-        header('Location: index.php');
+    if ($stmt->execute()) {
+        header("Location: index.php"); // Redirigir a la lista de historial de cambios de contraseña
+        exit();
     } else {
-        echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        die("Error al insertar: " . $stmt->error);
     }
 }
 ?>
 
-<?php include('../../includes/header.php'); ?>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Historial de Cambios de Contraseña</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 <div class="container mt-5">
     <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
-
-    <h1 class="mb-4">Agregar Cambio de Contraseña</h1>
+    <h1 class="mb-4">Agregar Historial de Cambios de Contraseña</h1>
     <form method="post" action="">
-        <div class="form-group">
-            <label for="id_usuario">ID Usuario:</label>
-            <input type="number" id="id_usuario" name="id_usuario" class="form-control" required>
+        <div class="mb-3">
+            <label for="id_usuario" class="form-label">ID Usuario</label>
+            <input type="number" class="form-control" id="id_usuario" name="id_usuario" required>
         </div>
-        <div class="form-group">
-            <label for="fecha_cambio">Fecha Cambio:</label>
-            <input type="date" id="fecha_cambio" name="fecha_cambio" class="form-control" required>
+        <div class="mb-3">
+            <label for="fecha_cambio" class="form-label">Fecha de Cambio</label>
+            <input type="datetime-local" class="form-control" id="fecha_cambio" name="fecha_cambio" required>
         </div>
-        <div class="form-group">
-            <label for="motivo">Motivo:</label>
-            <textarea id="motivo" name="motivo" class="form-control" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary">Agregar</button>
     </form>
 </div>
-
-<?php include('../../includes/footer.php'); ?>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>
+</body>
+</html>

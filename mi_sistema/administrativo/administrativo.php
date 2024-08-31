@@ -34,7 +34,7 @@ if (!$row) {
 $id_roles = $row['id_roles'];
 
 // Consultar el nombre del rol directamente desde la base de datos
-$query = "SELECT nombre FROM roles WHERE id_roles = ?";
+$query = "SELECT descripcion FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -48,9 +48,9 @@ if (!$row) {
     die("Error: Rol no encontrado.");
 }
 
-$role_name = $row['nombre'];
+$role_name = $row['descripcion']; // Cambiado de 'nombre' a 'descripcion'
 
-// Verificar si el usuario tiene el rol 'Administrativo'
+// Verificar si el usuario tiene el rol 'administrativo'
 if ($role_name !== 'administrativo') {
     header("Location: ../login/login.php");
     exit;
@@ -124,6 +124,7 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <?php include('../includes/footer.php'); ?>
 </body>
 </html>
+
 <?php
 // Cerrar la conexión a la base de datos
 mysqli_close($conn);

@@ -1,22 +1,22 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-if (isset($_GET['id'])) {
-    $id_detalle_reparaciones = $_GET['id'];
-    $query = "DELETE FROM detalle_reparaciones WHERE id_detalle_reparaciones=$id_detalle_reparaciones";
-
-    if (mysqli_query($conn, $query)) {
-        header('Location: index.php');
-    } else {
-        echo "Error: " . $query . "<br>" . mysqli_error($conn);
-    }
-} else {
-    echo "ID no proporcionado.";
+// Verificar si el ID está en la URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die('ID de detalle de reparación no especificado.');
 }
-?>
 
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
+$id = $_GET['id'];
+
+// Eliminar detalle de reparación
+$query = "DELETE FROM detalle_reparaciones WHERE id_detalle_reparaciones = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id);
+
+if ($stmt->execute()) {
+    header("Location: index.php"); // Redirigir a la lista de detalles de reparación
+    exit();
+} else {
+    die("Error al eliminar: " . $stmt->error);
+}
 ?>

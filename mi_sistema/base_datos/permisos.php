@@ -9,7 +9,7 @@ if (!isset($_POST['rol_id'])) {
 $role_id = $_POST['rol_id'];
 
 // Obtener el nombre del rol desde la base de datos
-$query = "SELECT nombre FROM roles WHERE id_roles = ?";
+$query = "SELECT descripcion FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 
 if ($stmt === false) {
@@ -20,15 +20,15 @@ $stmt->bind_param("i", $role_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-$role_name = $row['nombre'];
+$role_name = $row['descripcion'];
 $stmt->close();
 
 // Obtener los permisos del rol desde la base de datos
 $query = "
-    SELECT p.descripcion, pr.estado, p.idPermisos
+    SELECT p.descripcion, pr.estado, p.id_permisos
     FROM permisos_en_roles pr
-    JOIN permisos p ON pr.permisos_idPermisos = p.idPermisos
-    WHERE pr.roles_id_roles = ?
+    JOIN permisos p ON pr.id_permisos = p.id_permisos
+    WHERE pr.id_roles = ?
 ";
 $stmt = $conn->prepare($query);
 
@@ -45,7 +45,7 @@ while ($row = $result->fetch_assoc()) {
     $permisos_del_rol[] = array(
         'descripcion' => $row['descripcion'],
         'estado' => $row['estado'],
-        'idPermisos' => $row['idPermisos']
+        'id_permisos' => $row['id_permisos']
     );
 }
 
@@ -70,7 +70,7 @@ $conn->close();
                     location.reload();
                 }
             };
-            xhr.send("roles_id_roles=" + rolId + "&Permisos_idPermisos=" + permisoId + "&estado=" + estado);
+            xhr.send("roles_id_roles=" + rolId + "&Permisos_id_permisos=" + permisoId + "&estado=" + estado);
         }
     </script>
     <style>
@@ -163,7 +163,7 @@ $conn->close();
                         </td>
                         <td>
                             <button class="btn btn-sm btn-<?php echo $permiso['estado'] ? 'danger' : 'success'; ?>" 
-                                    onclick="cambiarEstado(<?php echo $role_id; ?>, <?php echo $permiso['idPermisos']; ?>, <?php echo $permiso['estado'] ? 0 : 1; ?>)">
+                                    onclick="cambiarEstado(<?php echo $role_id; ?>, <?php echo $permiso['id_permisos']; ?>, <?php echo $permiso['estado'] ? 0 : 1; ?>)">
                                 <?php echo $permiso['estado'] ? 'Desactivar' : 'Activar'; ?>
                             </button>
                         </td>

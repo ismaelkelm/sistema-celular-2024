@@ -1,6 +1,5 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
 // Consultar permisos
 $query = "SELECT * FROM permisos";
@@ -16,7 +15,6 @@ if (!$result) {
 
 <div class="container mt-5">
     <a href="../administrador.php" class="btn btn-secondary mb-3">Volver</a>
-
     <h1 class="mb-4">Permisos</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Permiso</a>
     <table class="table table-striped table-bordered">
@@ -30,11 +28,11 @@ if (!$result) {
         <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['idPermisos']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_permisos']); ?></td>
                 <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
                 <td>
-                    <a href="edit.php?id=<?php echo htmlspecialchars($row['idPermisos']); ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="delete.php?id=<?php echo htmlspecialchars($row['idPermisos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="edit.php?id=<?php echo htmlspecialchars($row['id_permisos']); ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="delete.php?id=<?php echo htmlspecialchars($row['id_permisos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
             <?php } ?>
