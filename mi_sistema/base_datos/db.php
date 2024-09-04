@@ -2,7 +2,8 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "marquez";
+// $database = "marquez";
+$database = "pruebas_marquez2";
 
 // Crear la conexión
 $conn = new mysqli($servername, $username, $password, $database);
@@ -11,6 +12,6 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     echo "La conexión falló: " . $conn->connect_error;
 } else {
-    echo "Conexión exitosa";
+    echo "";
 }
 ?>

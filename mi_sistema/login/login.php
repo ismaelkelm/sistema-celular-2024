@@ -9,65 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for Icons (optional) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(to right, #6a11cb, #2575fc); /* Fondo de página con gradiente */
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-        }
-        .login-container {
-            max-width: 400px;
-            width: 100%;
-            padding: 30px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .login-container h2 {
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-        .login-container .form-label {
-            font-weight: 500;
-        }
-        .login-container .btn-primary {
-            background-color: #007bff;
-            border: none;
-            padding: 12px;
-            font-size: 1rem;
-        }
-        .login-container .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .login-container .alert {
-            margin-top: 1rem;
-        }
-        .login-container .text-center p {
-            margin-top: 1rem;
-            color: #555;
-        }
-        .login-container .text-center a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .login-container .text-center a:hover {
-            text-decoration: underline;
-        }
-        .btn-secondary {
-            background-color: black;
-            border: none;
-            padding: 10px;
-            font-size: 1rem;
-            margin-top: 15px;
-        }
-        .btn-secondary:hover {
-            background-color: blue ;
-        }
-    </style>
+
+    <link rel="stylesheet" href="/mi_sistema/estilos/login.css">
 </head>
 
 <body>

@@ -15,12 +15,12 @@ $email = $_POST["email"];
 $mensaje = $_POST["mensaje"];
 
 // Datos de la cuenta de correo utilizada para enviar vía SMTP
-$smtpHost = "c1751909.ferozo.com";  // Dominio alternativo brindado en el email de alta 
-$smtpUsuario = "no-reply@c1751909.ferozo.com";  // Mi cuenta de correo
-$smtpClave = "KXAehr@1Fo";  // Mi contraseña
+$smtpHost = "host.ferozo.com";  // Dominio alternativo brindado en el email de alta 
+$smtpUsuario = "nuser@c1751909.ferozo.com";  // Mi cuenta de correo
+$smtpClave = "passw";  // Mi contraseña
 
 // Email donde se enviaran los datos cargados en el formulario de contacto
-$emailDestino = "info@gomezalegrecomex.com.ar";
+$emailDestino = "arielon23@gmail.com";
 
 $mail = new PHPMailer();
 $mail->IsSMTP();
@@ -42,8 +42,8 @@ $mail->AddAddress($emailDestino); // Esta es la dirección a donde enviamos los 
 
 $mail->Subject = "Contacto desde la web"; // Este es el titulo del email.
 $mensajeHtml = nl2br($mensaje);
-$mail->Body = "{$mensajeHtml} <br /><br />Gomez Alegre Comercio Exterior<br />"; // Texto del email en formato HTML
-$mail->AltBody = "{$mensaje} \n\n Gomez Alegre Comercio Exterior"; // Texto sin formato HTML
+$mail->Body = "{$mensajeHtml} <br /><br />Marquez Servicios<br />"; // Texto del email en formato HTML
+$mail->AltBody = "{$mensaje} \n\n MQZ COMUNICACIONES"; // Texto sin formato HTML
 // FIN - VALORES A MODIFICAR //
 
 $estadoEnvio = $mail->Send(); 

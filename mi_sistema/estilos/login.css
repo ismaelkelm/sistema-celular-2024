@@ -1,0 +1,71 @@
+body {
+    background: linear-gradient(to right, #0000005d, #003ba1a2);
+    /* Fondo de página con gradiente */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin: 0; */
+    padding: 0;
+}
+
+.login-container {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-container h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.login-container .form-label {
+    font-weight: 500;
+}
+
+.login-container .btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.login-container .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.login-container .alert {
+    margin-top: 1rem;
+}
+
+.login-container .text-center p {
+    margin-top: 1rem;
+    color: #555;
+}
+
+.login-container .text-center a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-container .text-center a:hover {
+    text-decoration: underline;
+}
+
+.btn-secondary {
+    background-color:#333 ;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.btn-secondary:hover {
+    background-color: rgb(229, 255, 0);
+}
+
