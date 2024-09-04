@@ -1,26 +1,26 @@
 body {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     background: linear-gradient(to right, #0000005d, #003ba1a2);
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     /* margin: 0; */
     padding: 0;
     /* background-image: url('../presentacion/fondoazul.jpg'); Cambia esta URL por la de tu imagen de fondo */
-    background-size: cover;
-    background-position: center;
-    position: relative;
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* position: relative; */
 }
 .container {
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con opacidad */
+    background: #cccccc;
     border-radius: 12px;
-    max-width: 400px;
-    width: 100%;
+    width: 600px;
+    /* width: 100%; */
     padding: 2rem;
     color: #ffffff; /* Texto blanco para buen contraste */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
-    text-align: center;
+    /* text-align: center; */
 }
 .form-group {
     margin-bottom: 1rem;

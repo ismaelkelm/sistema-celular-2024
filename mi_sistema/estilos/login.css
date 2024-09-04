@@ -1,6 +1,6 @@
 body {
-    background: linear-gradient(to right, #0000005d, #003ba1a2);
     /* Fondo de página con gradiente */
+    background: linear-gradient(to right, #0000005d, #003ba1a2);
     height: 100vh;
     display: flex;
     align-items: center;
@@ -10,16 +10,16 @@ body {
 }
 
 .login-container {
-    background: #fff;
+    background: #cccccc;
     border-radius: 12px;
-    max-width: 400px;
-    width: 100%;
+    /* width: 500px; */
+    width: 500px;
     padding: 2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .login-container h2 {
-    margin-bottom: 1.5rem;
+    /* margin-bottom: 1.5rem; */
     font-weight: 600;
     color: #333;
 }
