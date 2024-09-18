@@ -1,7 +1,10 @@
 <?php
 session_start();
 require_once '../../mi_sistema/base_datos/db.php';
-
+if (!$conn) {
+    header("Location: ../login/login.php?error=" . urlencode("Error de conexión con la base de datos."));
+    exit;
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura y limpia los datos del formulario
     $usuario = trim($_POST["usuario"]);
@@ -19,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_user->bind_param("s", $usuario);
         $stmt_user->execute();
         $stmt_user->store_result();
-        
+
         if ($stmt_user->num_rows > 0) {
             $stmt_user->bind_result($id_usuarios, $hashed_password, $id_roles);
             $stmt_user->fetch();
@@ -93,4 +96,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../login/login.php");
     exit;
 }
-?>

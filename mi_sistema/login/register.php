@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once '../base_datos/db.php';
+if (!$conn) {
+    die("Error de conexión: " . $conn->connect_error);
+}
 
 // Consultar los roles desde la base de datos
 $sql_roles = "SELECT id_roles, nombre FROM roles";
@@ -36,7 +39,10 @@ $conn->close();
 </head>
 
 <body>
-    <?php if (isset($message)): ?>
+    <?php
+    $message = $message_type = '';  // Inicializar variables
+
+    if (isset($message)): ?>
         <div class="message-container <?php echo htmlspecialchars($message_type); ?>">
             <p><?php echo htmlspecialchars($message); ?></p>
         </div>
@@ -68,23 +74,24 @@ $conn->close();
             <label for="correo">Correo Electrónico</label>
             <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo Electrónico" required>
 
+
+
+            <!-- Botones centrados sin texto -->
+            <div class="d-flex justify-content-center mt-3">
+                <!-- Botón de volver atrás -->
+                <button type="button" class="btn btn-secondary mx-2" onclick="window.location.href='../login/login.php';">
+                    <i class="bi bi-skip-backward"></i>
+                </button>
+
+                <!-- Botón de registrar -->
+                <button type="submit" class="btn btn-primary mx-2">
+                    <i class="bi bi-floppy"></i>
+                </button>
+                <button type="button" class="btn btn-secondary mx-2 " onclick="window.location.href='../index.php';">
+                    <i class="bi bi-house"></i>
+                </button>
+            </div>
         </form>
-
-        <!-- Botones centrados sin texto -->
-        <div class="d-flex justify-content-center mt-3">
-            <!-- Botón de volver atrás -->
-            <button type="button" class="btn btn-secondary mx-2" onclick="window.location.href='../login/login.php';">
-                <i class="bi bi-skip-backward"></i>
-            </button>
-
-            <!-- Botón de registrar -->
-            <button type="submit" class="btn btn-primary mx-2" form="registerForm">
-                <i class="bi bi-floppy"></i>
-            </button>
-            <button type="button" class="btn btn-secondary mx-2 " onclick="window.location.href='../index.php';">
-                <i class="bi bi-house"></i>
-            </button>
-        </div>
         <!-- <p class="mt-3">¿Ya tienes una cuenta? <a href="../login/login.php">Inicia sesión aquí.</a></p> -->
     </div>
 

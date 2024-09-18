@@ -1,66 +1,3 @@
-<?php
-// Iniciar sesión si no se ha iniciado ya
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Incluir el archivo de conexión
-require_once '../base_datos/db.php'; // Asegúrate de que este archivo defina y exporte $conn
-
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login/login.php");
-    exit;
-}
-
-// Supongamos que el ID del usuario está almacenado en $_SESSION['user_id']
-$user_id = $_SESSION['user_id'];
-
-// Consultar el id_roles del usuario
-$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
-$stmt = $conn->prepare($query);
-if ($stmt === false) {
-    die("Error en la consulta: " . htmlspecialchars($conn->error));
-}
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-
-if (!$row) {
-    die("Error: Usuario no encontrado.");
-}
-
-$id_roles = $row['id_roles'];
-
-// Consultar el nombre del rol directamente desde la base de datos
-$query = "SELECT nombre FROM roles WHERE id_roles = ?";
-$stmt = $conn->prepare($query);
-if ($stmt === false) {
-    die("Error en la consulta: " . htmlspecialchars($conn->error));
-}
-$stmt->bind_param("i", $id_roles);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-
-if (!$row) {
-    die("Error: Rol no encontrado.");
-}
-
-$role_name = $row['nombre'];
-
-// Verificar si el usuario tiene el rol 'Administrativo'
-if ($role_name !== 'administrador') {
-    header("Location: ../login/login.php");
-    exit;
-}
-
-// Incluir los archivos comunes
-$pageTitle = "Panel de Control - Administrador"; // Establecer el título específico para esta página
-include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
-include('../base_datos/icons.php'); // Incluir los iconos
-?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -100,32 +37,8 @@ include('../base_datos/icons.php'); // Incluir los iconos
     </style>
 </head>
 <body>
-    <!-- Incluye el menú de navegación aquí solo una vez -->
-    <?php include('../includes/nav.php'); ?>
-
-    <div class="container my-4">
-        <h2 class="mb-4">Panel de Control - Administrador</h2>
-        <div class="row">
-            <?php foreach ($iconos_visibles as $tabla => $icono): ?>
-                <div class="col-md-3 mb-4">
-                    <div class="card card-icon text-center">
-                        <div class="card-body">
-                            <a href="<?php echo htmlspecialchars($icono['ruta']); ?>">
-                                <i class="fas <?php echo htmlspecialchars($icono['icono']); ?>"></i>
-                                <h5 class="card-title mt-3"><?php echo htmlspecialchars(ucfirst($tabla)); ?></h5>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
-    <?php include('../includes/footer.php'); ?>
-</body>
+<?php include('../includes/nav.php'); ?>
+    <p>Panel de Control - Administrador</p>
+    
 </html>
 
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>
