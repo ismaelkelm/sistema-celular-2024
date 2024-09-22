@@ -1,22 +1,16 @@
 <?php
-include '../../base_datos/db.php'; // Incluye el archivo de conexión
+include '../../base_datos/db.php';
 
-// Verificar si el ID está en la URL
-if (!isset($_GET['id_tecnicos'])) {
-    die('ID de técnico no especificado.');
-}
+$id = $_GET['id_tecnicos'];
 
-$id_tecnicos = $_GET['id_tecnicos'];
-
-// Eliminar el técnico
 $query = "DELETE FROM tecnicos WHERE id_tecnicos = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $id_tecnicos);
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, 'i', $id);
 
-if ($stmt->execute()) {
-    header("Location: index.php"); // Redirigir a la lista de técnicos
-    exit();
+if (mysqli_stmt_execute($stmt)) {
+    header('Location: index.php');
+    exit;
 } else {
-    die("Error al eliminar: " . $stmt->error);
+    echo "Error al eliminar: " . mysqli_error($conn);
 }
 ?>

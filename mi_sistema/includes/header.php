@@ -4,65 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle ?? 'Mi Empresa'; ?></title>
-    <!-- Enlazar el archivo CSS de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Enlazar Font Awesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Enlazar CSS personalizado -->
-    <!-- <link rel="stylesheet" href="../../mi_sistema/estilos/estilo.css"> -->
+
     <style>
         /* Estilo para el contenedor del título */
         #title-container {
             text-align: center;
-            margin: 1rem 0;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100px; /* Puedes ajustar esta altura según tus necesidades */
+            height: 150px;
+            background: linear-gradient(135deg, #2c3e58, #3498db);
+            color: gainsboro;
+            padding: 20px;
+            border-bottom: 5px solid #0056b3;
+            position: fixed; /* Fija el contenedor en la parte superior */
+            top: 0; /* Ubicación en la parte superior */
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
         }
-
-        /* Estilo para el botón del título */
+        body {
+            padding-top: 180px; /* Da espacio para el contenedor fijo */
+        }
         #title-button {
-            font-size: 1.5rem; /* Tamaño grande del texto del botón */
-            color: #fff; /* Color del texto del botón */
-            background-color: green; /* Fondo del botón */
-            border: none; /* Sin borde */
-            cursor: pointer; /* Cursor de puntero para el botón */
-            text-decoration: none; /* Sin subrayado */
-            padding: 0.75rem 1.5rem; /* Espaciado interno */
-            border-radius: 0.25rem; /* Bordes redondeados */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición de colores */
+            font-size: 2rem;
+            color: #fff;
+            background-color: green;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-
-        /* Cambios de estilo al pasar el cursor por encima */
         #title-button:hover {
-            background-color: #0056b3; /* Color más oscuro al pasar el cursor */
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
-
-        /* Ajustes responsivos */
+        #title-logo {
+            width: 100px;
+            height: 100px;
+            margin-right: 15px;
+        }
         @media (max-width: 768px) {
             #title-container {
                 height: auto;
                 margin: 0.5rem 0;
+                padding: 10px;
+                flex-direction: column;
             }
             #title-button {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
                 padding: 0.5rem 1rem;
+            }
+            #title-logo {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Contenedor del Título -->
     <div id="title-container" class="container-fluid">
+        <img id="title-logo" src="../pdf/logo.png" alt="Logo de la empresa">
         <button id="title-button" onclick="window.location.reload(); return false;">
-            Marquez Comunicaciónes
+            Marquez Comunicaciones
         </button>
     </div>
 
-    <!-- Incluye el menú de navegación aquí -->
-    
+    <!-- Scripts de Bootstrap y jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

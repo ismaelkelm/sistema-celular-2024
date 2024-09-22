@@ -1,58 +1,49 @@
 <?php
 include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-// Verificar si el formulario fue enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $cantidad = $_POST['cantidad'];
-    $precio_unitario = $_POST['precio_unitario'];
-    $id_accesorios_y_componentes = $_POST['id_accesorios_y_componentes'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $fecha_finalizada = $_POST['fecha_finalizada'];
+    $descripcion = $_POST['descripcion'];
     $id_pedidos_de_reparacion = $_POST['id_pedidos_de_reparacion'];
+    $id_servicios = $_POST['id_servicios'];
 
-    // Insertar nuevo detalle de reparación
-    $query = "INSERT INTO detalle_reparaciones (cantidad, precio_unitario, id_accesorios_y_componentes, id_pedidos_de_reparacion) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("idii", $cantidad, $precio_unitario, $id_accesorios_y_componentes, $id_pedidos_de_reparacion);
+    $query = "INSERT INTO detalle_reparaciones (fecha_finalizada, descripcion, id_pedidos_de_reparacion, id_servicios) VALUES (?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 'ssii', $fecha_finalizada, $descripcion, $id_pedidos_de_reparacion, $id_servicios);
 
-    if ($stmt->execute()) {
-        header("Location: index.php"); // Redirigir a la lista de detalles de reparación
-        exit();
+    if (mysqli_stmt_execute($stmt)) {
+        header('Location: index.php');
+        exit;
     } else {
-        die("Error al insertar: " . $stmt->error);
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Detalle de Reparación</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<?php include('../../includes/header.php'); ?>
+
 <div class="container mt-5">
-    <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
-    <h1 class="mb-4">Agregar Detalle de Reparación</h1>
-    <form method="post" action="">
-        <div class="mb-3">
-            <label for="cantidad" class="form-label">Cantidad</label>
-            <input type="number" class="form-control" id="cantidad" name="cantidad" required>
+    <h1>Agregar Detalle de Reparaciones</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label>Fecha Finalizada</label>
+            <input type="date" name="fecha_finalizada" class="form-control" required>
         </div>
-        <div class="mb-3">
-            <label for="precio_unitario" class="form-label">Precio Unitario</label>
-            <input type="number" class="form-control" id="precio_unitario" name="precio_unitario" step="0.01" required>
+        <div class="form-group">
+            <label>Descripción</label>
+            <textarea name="descripcion" class="form-control" required></textarea>
         </div>
-        <div class="mb-3">
-            <label for="id_accesorios_y_componentes" class="form-label">ID Accesorio/Componente</label>
-            <input type="number" class="form-control" id="id_accesorios_y_componentes" name="id_accesorios_y_componentes" required>
+        <div class="form-group">
+            <label>ID Pedido de Reparación</label>
+            <input type="number" name="id_pedidos_de_reparacion" class="form-control" required>
         </div>
-        <div class="mb-3">
-            <label for="id_pedidos_de_reparacion" class="form-label">ID Pedido de Reparación</label>
-            <input type="number" class="form-control" id="id_pedidos_de_reparacion" name="id_pedidos_de_reparacion" required>
+        <div class="form-group">
+            <label>ID Servicio</label>
+            <input type="number" name="id_servicios" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="index.php" class="btn btn-secondary">Volver Atrás</a>
     </form>
 </div>
-</body>
-</html>
+
+<?php include('../../includes/footer.php'); ?>

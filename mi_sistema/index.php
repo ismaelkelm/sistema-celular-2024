@@ -168,13 +168,20 @@
             padding: 10px;
             width: 100%;
             margin-top: 0;
+            height: 100px; /* Altura especificada */
         }
+
         footer .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: left;
             align-items: center;
-            gap: 10px;
+            gap: 50px;
+            height: 100%; /* Asegura que el contenido ocupe toda la altura */
+        }
+
+        footer .container p, footer .container a {
+            margin: 0;
         }
         footer .container p, footer .container a {
             margin: 0;
@@ -275,9 +282,9 @@
         <div class="container">
             <p>&copy; 2024 Servicio Técnico. Todos los derechos reservados.</p>
             <p>Síguenos en <a href="https://www.instagram.com/tu_cuenta_de_instagram" target="_blank" class="text-white">Instagram</a></p>
-            <img src="presentacion/insta.png" alt="Código QR" class="qr-code">
+            <!-- <img src="presentacion/insta.png" alt="Código QR" class="qr-code"> -->
             <a href="mailto:emailDeltecnico@gmail.com" class="text-white">emailDeltecnico@gmail.com</a>
-            <img src="presentacion/QR.png" alt="Código QR" class="qr-code">
+            <!-- <img src="presentacion/QR.png" alt="Código QR" class="qr-code"> -->
         </div>
     </footer>
     <a href="https://wa.me/15551234567" target="_blank" class="whatsapp-bubble" id="draggable">
@@ -312,6 +319,7 @@
                 menu.style.display = 'block';
             }
         }
+        
     </script>
 </body>
 </html>

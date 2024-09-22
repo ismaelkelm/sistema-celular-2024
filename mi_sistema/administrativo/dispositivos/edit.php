@@ -1,43 +1,29 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-// Obtener el ID del dispositivo a editar
 $id = $_GET['id'];
 
-// Consultar el dispositivo específico
-$query = "SELECT * FROM dispositivos WHERE id_dispositivos = '$id'";
-$result = mysqli_query($conn, $query);
-
-// Verificar si la consulta fue exitosa
-if (!$result) {
-    die("Error en la consulta: " . mysqli_error($conn));
-}
-
-// Obtener los datos del dispositivo
+$query = "SELECT * FROM dispositivos WHERE id_dispositivos = ?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, 'i', $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $row = mysqli_fetch_assoc($result);
 
-if (!$row) {
-    die("Dispositivo no encontrado");
-}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $marca = $_POST['marca'];
+    $modelo = $_POST['modelo'];
+    $numero_de_serie = $_POST['numero_de_serie'];
 
-// Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los datos del formulario y proteger contra inyecciones SQL
-    $marca = mysqli_real_escape_string($conn, $_POST['marca']);
-    $modelo = mysqli_real_escape_string($conn, $_POST['modelo']);
-    $numero_de_serie = mysqli_real_escape_string($conn, $_POST['numero_de_serie']);
-    $estado = mysqli_real_escape_string($conn, $_POST['estado']);
+    $query = "UPDATE dispositivos SET marca = ?, modelo = ?, numero_de_serie = ? WHERE id_dispositivos = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 'sssi', $marca, $modelo, $numero_de_serie, $id);
 
-    // Preparar la consulta SQL para actualizar el dispositivo
-    $query = "UPDATE dispositivos SET marca='$marca', modelo='$modelo', numero_de_serie='$numero_de_serie', estado='$estado' WHERE id_dispositivos='$id'";
-
-    // Ejecutar la consulta y verificar si fue exitosa
-    if (mysqli_query($conn, $query)) {
-        header("Location: index.php"); // Redirigir a la página principal de la lista
-        exit();
+    if (mysqli_stmt_execute($stmt)) {
+        header('Location: index.php');
+        exit;
     } else {
-        echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>
@@ -45,32 +31,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
-    <h1 class="mb-4">Editar Dispositivo</h1>
-    <form action="edit.php?id=<?php echo htmlspecialchars($row['id_dispositivos']); ?>" method="post">
+    <h1>Editar Dispositivo</h1>
+    <form method="POST">
         <div class="form-group">
-            <label for="marca">Marca</label>
-            <input type="text" class="form-control" id="marca" name="marca" value="<?php echo htmlspecialchars($row['marca']); ?>" required>
+            <label>Marca</label>
+            <input type="text" name="marca" class="form-control" value="<?php echo htmlspecialchars($row['marca']); ?>" required>
         </div>
         <div class="form-group">
-            <label for="modelo">Modelo</label>
-            <input type="text" class="form-control" id="modelo" name="modelo" value="<?php echo htmlspecialchars($row['modelo']); ?>" required>
+            <label>Modelo</label>
+            <input type="text" name="modelo" class="form-control" value="<?php echo htmlspecialchars($row['modelo']); ?>" required>
         </div>
         <div class="form-group">
-            <label for="numero_de_serie">Número de Serie</label>
-            <input type="text" class="form-control" id="numero_de_serie" name="numero_de_serie" value="<?php echo htmlspecialchars($row['numero_de_serie']); ?>" required>
+            <label>Número de Serie</label>
+            <input type="text" name="numero_de_serie" class="form-control" value="<?php echo htmlspecialchars($row['numero_de_serie']); ?>" required>
         </div>
-        <div class="form-group">
-            <label for="estado">Estado</label>
-            <input type="text" class="form-control" id="estado" name="estado" value="<?php echo htmlspecialchars($row['estado']); ?>" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        <a href="index.php" class="btn btn-secondary">Volver Atrás</a>
     </form>
 </div>
 
 <?php include('../../includes/footer.php'); ?>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>

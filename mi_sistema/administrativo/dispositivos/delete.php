@@ -1,23 +1,16 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
+include '../../base_datos/db.php'; // Incluye el archivo de conexión
 
-// Obtener el ID del dispositivo a eliminar
 $id = $_GET['id'];
 
-// Preparar la consulta SQL para eliminar el dispositivo
-$query = "DELETE FROM dispositivos WHERE id_dispositivos = '$id'";
+$query = "DELETE FROM dispositivos WHERE id_dispositivos = ?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, 'i', $id);
 
-// Ejecutar la consulta y verificar si fue exitosa
-if (mysqli_query($conn, $query)) {
-    header("Location: index.php"); // Redirigir a la página principal de la lista
-    exit();
+if (mysqli_stmt_execute($stmt)) {
+    header('Location: index.php');
+    exit;
 } else {
-    echo "Error: " . mysqli_error($conn); // Mostrar mensaje de error
+    echo "Error: " . mysqli_error($conn);
 }
-?>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
 ?>

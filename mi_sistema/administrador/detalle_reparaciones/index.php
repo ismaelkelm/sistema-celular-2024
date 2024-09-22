@@ -21,10 +21,10 @@ if (!$result) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-                <th>ID Accesorio/Componente</th>
+                <th>Fecha Finalizada</th>
+                <th>Descripción</th>
                 <th>ID Pedido de Reparación</th>
+                <th>ID Servicio</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -32,10 +32,10 @@ if (!$result) {
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?></td>
-                <td><?php echo htmlspecialchars($row['cantidad']); ?></td>
-                <td><?php echo htmlspecialchars(number_format($row['precio_unitario'], 2)); ?></td>
-                <td><?php echo htmlspecialchars($row['id_accesorios_y_componentes']); ?></td>
+                <td><?php echo htmlspecialchars($row['fecha_finalizada']); ?></td>
+                <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
                 <td><?php echo htmlspecialchars($row['id_pedidos_de_reparacion']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_servicios']); ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-warning btn-sm">Editar</a>
                     <a href="delete.php?id=<?php echo htmlspecialchars($row['id_detalle_reparaciones']); ?>" class="btn btn-danger btn-sm">Eliminar</a>

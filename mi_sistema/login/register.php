@@ -3,7 +3,7 @@ session_start();
 require_once '../base_datos/db.php';
 
 // Consultar los roles desde la base de datos
-$sql_roles = "SELECT id_roles, descripcion FROM roles";
+$sql_roles = "SELECT id_roles, nombre FROM roles";
 $roles = [];
 if ($stmt_roles = $conn->prepare($sql_roles)) {
     $stmt_roles->execute();
@@ -153,8 +153,8 @@ $conn->close();
             </div>
 
             <div class="form-group">
-                <label for="apellido">Apellido Usuario</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido Usuario" required>
+                <label for="dni">Dni Usuario</label>
+                <input type="text" class="form-control" id="dni" name="dni" placeholder="dni Usuario" required>
             </div>
 
             <div class="form-group">

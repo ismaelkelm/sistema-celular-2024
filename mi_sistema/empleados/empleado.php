@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Consultar el id_roles del usuario
-$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
+$query = "SELECT id_roles FROM usuario WHERE id_usuario = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -33,7 +33,7 @@ if (!$row) {
 
 $id_roles = $row['id_roles'];
 
-// Consultar el nombre del rol directamente desde la base de datos
+// Consultar el descripcion del rol directamente desde la base de datos
 $query = "SELECT nombre FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
@@ -51,7 +51,7 @@ if (!$row) {
 $role_name = $row['nombre'];
 
 // Verificar si el usuario tiene el rol 'Empleado'
-if ($role_name !== 'empleado') {
+if ($role_name !== 'Empleado') {
     header("Location: ../login/login.php");
     exit;
 }
