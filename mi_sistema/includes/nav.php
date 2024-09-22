@@ -30,6 +30,55 @@ switch ($usuario_rol) {
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Enlace de Inicio -->
+    <a class="navbar-brand" href="#" onclick="window.location.reload(); return false;">
+        Inicio
+    </a>
+    <!-- Botón de colapso para pantallas pequeñas -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Opciones de navegación -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <!-- Enlace "Opciones" -->
+            <li class="nav-item">
+                <a href="#" class="nav-link">Opciones</a>
+            </li>
+            <!-- Enlace "Permisos" -->
+            <?php if ($usuario_rol === 1): ?>
+                <li class="nav-item">
+                    <a href="../base_datos/gestionar_permisos.php" class="nav-link">Permisos</a>
+                </li>
+            <?php endif; ?>
+            <!-- Enlace "Buscar" -->
+            <li class="nav-item">
+                <a href="#" class="nav-link">Buscar</a>
+            </li>
+            <!-- Enlace "Factura Compra" -->
+            <li class="nav-item">
+                <a href="../factura/factura_compra.php" class="nav-link">Factura Compra</a>
+            </li>
+            <!-- Enlace "Factura Venta" -->
+            <li class="nav-item">
+                <a href="../factura/factura_venta.php" class="nav-link">Factura Venta</a>
+            </li>
+            <!-- Enlace "Plantillas" -->
+            <li class="nav-item">
+                <a href="../login/register.php" class="nav-link">Plantillas</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a href="../login/forgot_change.html" class="btn btn-outline-light">Cambiar Contraseña</a>
+                <a href="../login/logout.php" class="btn btn-outline-light">Cerrar Sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#" onclick="window.location.reload(); return false;">
         Inicio
     </a>
@@ -130,7 +179,7 @@ switch ($usuario_rol) {
             </li>
         </ul>
     </div>
-</nav>
+</nav> -->
 
 <!-- Scripts de Bootstrap y jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

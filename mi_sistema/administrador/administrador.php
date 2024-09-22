@@ -51,7 +51,7 @@ if (!$row) {
 $role_name = $row['descripcion'];
 
 // Verificar si el usuario tiene el rol 'Administrativo'
-if ($role_name !== 'administrador') {
+if ($role_name !== 'Administrador') {
     header("Location: ../login/login.php");
     exit;
 }

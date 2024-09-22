@@ -58,7 +58,7 @@
     <!-- Contenedor del Título -->
     <div id="title-container" class="container-fluid">
         <button id="title-button" onclick="window.location.reload(); return false;">
-            Marquez Comunicaciónes
+            Marquez Comunicaciónesxxxx
         </button>
     </div>
 

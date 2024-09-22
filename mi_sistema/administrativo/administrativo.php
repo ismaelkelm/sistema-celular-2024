@@ -57,7 +57,7 @@ if ($role_name !== 'administrativo') {
 }
 
 
-$pageTitle = "Panel de Control - Administrador"; // Establecer el título específico para esta página
+$pageTitle = "Panel de Control - Administrativo"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
 ?>
