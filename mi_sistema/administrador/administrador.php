@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Consultar el id_roles del usuario
-$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
+$query = "SELECT id_roles FROM usuario WHERE id_usuario = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -34,7 +34,7 @@ if (!$row) {
 $id_roles = $row['id_roles'];
 
 // Consultar el nombre del rol directamente desde la base de datos
-$query = "SELECT descripcion FROM roles WHERE id_roles = ?";
+$query = "SELECT nombre FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -48,9 +48,9 @@ if (!$row) {
     die("Error: Rol no encontrado.");
 }
 
-$role_name = $row['descripcion'];
+$role_name = $row['nombre'];
 
-// Verificar si el usuario tiene el rol 'Administrativo'
+// Verificar si el usuario tiene el rol 'Administrador'
 if ($role_name !== 'Administrador') {
     header("Location: ../login/login.php");
     exit;
@@ -69,28 +69,31 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($pageTitle); ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome para iconos -->
-    <link rel="stylesheet" href="../administrador/buscar/styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        body {
+            background-color: grey; /* Fondo neutro */
+            font-family: 'Arial', sans-serif; /* Fuente legible y moderna */
+        }
         .card-icon {
             border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
             background-color: #f9f9f9;
         }
         .card-icon:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .card-icon i {
             color: #007bff;
-            font-size: 2rem; /* Ajusta el tamaño del icono aquí */
+            font-size: 2rem;
             transition: color 0.3s ease;
         }
         .card-icon:hover i {
-            color: #dc3545; /* Cambia el color al pasar el ratón */
+            color: #dc3545;
         }
         .card-icon .card-body {
             padding: 1.5rem;
@@ -98,27 +101,33 @@ include('../base_datos/icons.php'); // Incluir los iconos
         .card-title {
             margin-top: 1rem;
         }
+        .suggestion-item {
+            cursor: pointer;
+            padding: 4px;
+            border-bottom: 1px solid #ddd;
+        }
+        .suggestion-item:hover {
+            background-color: #f1f1f1;
+        }
+        .table-container {
+            margin-top: 10px;
+        }
     </style>
-
-    
 </head>
 <body>
-    <!-- Incluye el menú de navegación aquí solo una vez -->
     <?php include('../includes/nav.php'); ?>
-    
-    <div class="container mt-4">
+
+    <div class="container">
         <form onsubmit="event.preventDefault();">
             <div class="form-group position-relative">
-                <input type="text" id="descripcionPermiso" class="form-control" placeholder="Buscar permiso..." oninput="fetchSuggestions()" autocomplete="off">
-                <span class="search-icon">
-                    <i class="fas fa-search"></i>
-                </span>
+                <label for="descripcionPermiso">Descripción del Permiso:</label>
+                <input type="text" id="descripcionPermiso" class="form-control" oninput="fetchSuggestions()" autocomplete="off">
                 <div id="suggestions" class="suggestions"></div>
             </div>
         </form>
-        <div id="result"></div>
+        <div id="result" class="table-container"></div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -130,19 +139,19 @@ include('../base_datos/icons.php'); // Incluir los iconos
                 return;
             }
 
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', '../administrador/buscar/get_permisos.php?descripcion=' + encodeURIComponent(descripcion), true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
+            fetch('../buscador/get_permisos.php?descripcion=' + encodeURIComponent(descripcion))
+                .then(response => response.json())
+                .then(data => {
                     const suggestions = document.getElementById('suggestions');
                     suggestions.innerHTML = '';
-                    if (response.length > 0) {
-                        response.forEach(function(permiso) {
+                    if (!data.success) {
+                        suggestions.innerHTML = '<p class="text-center p-2">No se encontraron permisos.</p>';
+                    } else {
+                        data.data.forEach(permiso => {
                             const option = document.createElement('div');
                             option.className = 'suggestion-item';
                             option.textContent = permiso.descripcion;
-                            option.dataset.id = permiso.idPermisos;
+                            option.dataset.id = permiso.id_permisos;
                             option.addEventListener('click', function() {
                                 document.getElementById('descripcionPermiso').value = this.textContent;
                                 suggestions.innerHTML = '';
@@ -150,29 +159,25 @@ include('../base_datos/icons.php'); // Incluir los iconos
                             });
                             suggestions.appendChild(option);
                         });
-                    } else {
-                        suggestions.innerHTML = '<p class="text-center p-2">No se encontraron permisos.</p>';
                     }
-                } else {
-                    console.error('Error al obtener los permisos.');
-                }
-            };
-            xhr.send();
+                })
+                .catch(error => {
+                    console.error('Error al procesar la respuesta JSON:', error);
+                    alert('Error al procesar la respuesta del servidor.');
+                });
         }
 
         function fetchPermissions(idPermiso) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', '../administrador/buscar/get_permissions_by_id.php?id=' + idPermiso, true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
+            fetch('../buscador/get_permissions_by_id.php?id=' + idPermiso)
+                .then(response => response.json())
+                .then(response => {
                     const resultTable = document.getElementById('result');
                     resultTable.innerHTML = '';
-                    if (response.length > 0) {
+                    if (response.success && Array.isArray(response.data) && response.data.length > 0) {
                         let tableHTML = '<table class="table table-bordered table-striped">' +
                             '<thead>' +
                             '<tr>' +
-                            '<th>Seleccionar</th>' + // Nueva columna de selección
+                            '<th>Seleccionar</th>' +
                             '<th>Rol</th>' +
                             '<th>ID Permiso</th>' +
                             '<th>Descripción</th>' +
@@ -181,53 +186,57 @@ include('../base_datos/icons.php'); // Incluir los iconos
                             '</tr>' +
                             '</thead>' +
                             '<tbody>';
-                        response.forEach(function(item) {
+                        response.data.forEach(function(item) {
                             tableHTML += '<tr>' +
-                                '<td><input type="checkbox" name="rolSeleccionado" value="' + item.roles_id_roles + '"></td>' + // Checkbox
+                                '<td><input type="checkbox" class="role-checkbox" data-id="' + item.id_roles + '" data-perm="' + item.id_permisos + '"></td>' +
                                 '<td>' + item.rol_nombre + '</td>' +
-                                '<td>' + item.idPermisos + '</td>' +
-                                '<td>' + item.descripcion + '</td>' +
+                                '<td>' + item.id_permisos + '</td>' +
+                                '<td>' + item.permiso_descripcion + '</td>' +
                                 '<td>' + (item.estado == 1 ? 'Activo' : 'Inactivo') + '</td>' +
                                 '<td>' +
-                                '<button class="btn ' + (item.estado == 1 ? 'btn-desactivar' : 'btn-activar') + '" ' +
-                                'onclick="changeStatus(' + item.idPermisos + ', ' + item.roles_id_roles + ', ' + (item.estado == 1 ? '0' : '1') + ')">' +
-                                (item.estado == 1 ? 'Desactivar' : 'Activar') +
-                                '</button>' +
+                                    '<button class="btn ' + (item.estado == 1 ? 'btn-danger' : 'btn-success') + '" ' +
+                                    'onclick="cambiarEstado(' + item.id_permisos + ', ' + item.id_roles + ', ' + (item.estado == 1 ? 0 : 1) + ')">' +
+                                    (item.estado == 1 ? 'Desactivar' : 'Activar') +
+                                    '</button>' +
                                 '</td>' +
                                 '</tr>';
                         });
                         tableHTML += '</tbody></table>';
                         resultTable.innerHTML = tableHTML;
                     } else {
-                        resultTable.innerHTML = '<p class="text-center p-2">No se encontraron permisos.</p>';
+                        resultTable.innerHTML = '<p class="text-center p-2">' + (response.message || 'No se encontraron roles para este permiso.') + '</p>';
                     }
-                } else {
-                    console.error('Error al obtener los permisos por ID.');
-                }
-            };
-            xhr.send();
+                })
+                .catch(error => {
+                    console.error('Error al procesar la respuesta JSON:', error);
+                    alert('Error al procesar la respuesta del servidor.');
+                });
         }
 
-        function changeStatus(idPermiso, rolId, estado) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '../administrador/buscar/update_estado.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
+        function cambiarEstado(permisoId, rolId, estado) {
+            if (typeof rolId === 'undefined' || rolId === null) {
+                console.error('Error: rolId es indefinido o nulo.');
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "../buscador/update_estado.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        alert('Estado actualizado con éxito.');
-                        fetchPermissions(idPermiso); // Actualiza la tabla después de cambiar el estado
+                        alert(response.message);
+                        fetchPermissions(document.getElementById('descripcionPermiso').dataset.id);
                     } else {
                         alert('Error: ' + response.message);
                     }
-                } else {
-                    console.error('Error al actualizar el estado.');
                 }
             };
-            xhr.send('idPermiso=' + encodeURIComponent(idPermiso) + '&rolId=' + encodeURIComponent(rolId) + '&estado=' + encodeURIComponent(estado));
+            var data = `id_permisos=${encodeURIComponent(permisoId)}&rolId=${encodeURIComponent(rolId)}&estado=${encodeURIComponent(estado)}`;
+            xhr.send(data);
         }
-    </script> 
+    </script>
 
     <div class="container my-4">
         <h4 class="mb-4">Panel de Control - Administrador</h4>
@@ -251,7 +260,5 @@ include('../base_datos/icons.php'); // Incluir los iconos
 </body>
 </html>
 
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>
+
+

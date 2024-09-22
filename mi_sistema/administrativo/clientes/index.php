@@ -15,7 +15,7 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="javascript:window.history.back();" class="btn btn-secondary mb-3">Volver</a>
+    <a href="../administrativo.php" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Clientes</h1>
     <a href="create.php" class="btn btn-primary mb-3">Agregar Cliente</a>

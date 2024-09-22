@@ -1,10 +1,9 @@
 <?php
-include '../../base_datos/db.php'; // Incluye el archivo de conexión
+// Incluir el archivo de conexión a la base de datos
+include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
 // Consultar técnicos
-$query = "SELECT t.id_tecnicos, t.nombre, t.id_usuario, t.id_area_tecnico, a.nombre AS area_nombre
-          FROM tecnicos t
-          JOIN area_tecnico a ON t.id_area_tecnico = a.id_area_tecnico";
+$query = "SELECT * FROM tecnicos";
 $result = mysqli_query($conn, $query);
 
 // Verificar si la consulta fue exitosa
@@ -23,9 +22,7 @@ if (!$result) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
                 <th>ID Usuario</th>
-                <th>Área Técnica</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -33,9 +30,7 @@ if (!$result) {
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['id_tecnicos']); ?></td>
-                <td><?php echo htmlspecialchars($row['nombre']); ?></td>
                 <td><?php echo htmlspecialchars($row['id_usuario']); ?></td>
-                <td><?php echo htmlspecialchars($row['area_nombre']); ?></td>
                 <td>
                     <a href="edit.php?id_tecnicos=<?php echo htmlspecialchars($row['id_tecnicos']); ?>" class="btn btn-warning btn-sm">Editar</a>
                     <a href="delete.php?id_tecnicos=<?php echo htmlspecialchars($row['id_tecnicos']); ?>" class="btn btn-danger btn-sm">Eliminar</a>

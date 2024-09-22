@@ -1,72 +1,111 @@
 <?php
-// Verificar si la sesión está iniciada y el rol del usuario está definido
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
+    header("Location: ../login/login.php");
+    exit;
 }
 
 $usuario_rol = $_SESSION['role'];
 $inicio_url = 'usuario_rol';
 
 switch ($usuario_rol) {
-    case 'administrador':
+    case 1: // Administrador
         $inicio_url = '../administrador/administrador.php';
         break;
-    case 'administrativo':
+    case 2: // Administrativo
         $inicio_url = '../administrativo/administrativo.php';
         break;
-    case 'tecnico':
-        $inicio_url = '../tecnico/tecnico.php';
+    case 3: // Técnico
+        $inicio_url = '../tecnico/tecnico_panel.php';
         break;
-    case 'cliente':
+    case 4: // Cliente
         $inicio_url = '../cliente/cliente.php';
         break;
-    case 'empleado':
+    case 5: // Empleado
         $inicio_url = '../empleados/empleado.php';
         break;
     default:
-        // $inicio_url = '../login/login.php'; // URL predeterminada
+        $inicio_url = '../login/login.php'; // URL predeterminada
         break;
 }
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <!-- Enlace de Inicio -->
-    <a class="navbar-brand" href="#" onclick="window.location.reload(); return false;">
-        Inicio
+    <a class="navbar-brand" href="<?php echo $inicio_url; ?>" onclick="window.location.reload(); return false;">
+        <i class="fas fa-home"></i> Inicio
     </a>
-    <!-- Botón de colapso para pantallas pequeñas -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <!-- Opciones de navegación -->
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <!-- Enlace "Opciones" -->
-            <li class="nav-item">
-                <a href="#" class="nav-link">Opciones</a>
-            </li>
-            <!-- Enlace "Permisos" -->
             <?php if ($usuario_rol === 1): ?>
-                <li class="nav-item">
-                    <a href="../base_datos/gestionar_permisos.php" class="nav-link">Permisos</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Opciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <a class="dropdown-item" href="../base_datos/gestionar_permisos.php">Permisos</a>
+                        <a class="dropdown-item" href="../buscador/buscarEmpleadojson.html">Buscar</a>
+                        <a class="dropdown-item" href="../pdf/PruebaH.php">Factura Compra</a>
+                        <a class="dropdown-item" href="../pdf/PruebaV.php">Factura Venta</a>
+                        <a class="dropdown-item" href="../facturacion/plantillas/inframe-dark.html">Plantillas</a>
+                    </div>
                 </li>
             <?php endif; ?>
-            <!-- Enlace "Buscar" -->
-            <li class="nav-item">
-                <a href="#" class="nav-link">Buscar</a>
-            </li>
-            <!-- Enlace "Factura Compra" -->
-            <li class="nav-item">
-                <a href="../factura/factura_compra.php" class="nav-link">Factura Compra</a>
-            </li>
-            <!-- Enlace "Factura Venta" -->
-            <li class="nav-item">
-                <a href="../factura/factura_venta.php" class="nav-link">Factura Venta</a>
-            </li>
-            <!-- Enlace "Plantillas" -->
-            <li class="nav-item">
-                <a href="../login/register.php" class="nav-link">Plantillas</a>
-            </li>
+            <?php if ($usuario_rol === 2): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="tecnicoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reparaciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <a class="dropdown-item" href="../buscador/buscarEmpleadojson.html">Buscar</a>
+                        <a class="dropdown-item" href="../pdf/PruebaH.php">Factura Compra</a>
+                        <a class="dropdown-item" href="../pdf/PruebaV.php">Factura Venta</a>
+                        <a class="dropdown-item" href="../facturacion/plantillas/inframe-dark.html">Plantillas</a>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if ($usuario_rol === 3): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="tecnicoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reparaciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="tecnicoDropdown">
+                        <a class="dropdown-item" href="../tecnico/listar_reparaciones.php">Listar Reparaciones</a>
+                        <a class="dropdown-item" href="../tecnico/gestionar_tareas.php">Gestionar Tareas</a>
+                        <a class="dropdown-item" href="../tecnico/notificar_completado.php">Notificar Completado</a>
+                        <a class="dropdown-item" href="../tecnico/ver_notificacion.php">Ver Notificaciones</a>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if ($usuario_rol === 4): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Cliente
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="clienteDropdown">
+                        <a class="dropdown-item" href="../cliente/perfil.php">Mi Perfil</a>
+                        <a class="dropdown-item" href="../cliente/reparaciones.php">Mis Reparaciones</a>
+                        <a class="dropdown-item" href="../cliente/notificaciones.php">Notificaciones</a>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if ($usuario_rol === 5): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="empleadoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Empleado
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="empleadoDropdown">
+                        <a class="dropdown-item" href="../../mi_sistema/empleados/empleado.php">Mi Perfil</a>
+                        <a class="dropdown-item" href="../cliente/reparaciones.php">Mis Reparaciones</a>
+                        <a class="dropdown-item" href="../cliente/notificaciones.php">Notificaciones</a>
+                    </div>
+                </li>
+            <?php endif; ?>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -77,119 +116,15 @@ switch ($usuario_rol) {
     </div>
 </nav>
 
-
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" onclick="window.location.reload(); return false;">
-        Inicio
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <?php if ($usuario_rol === 1): ?>
-                <li class="nav-item">
-                    <a href="../base_datos/gestionar_permisos.php" class="btn btn-outline-light">
-                        Permisos
-                    </a>
-                </li>
-                
-                
-            <?php elseif ($usuario_rol === 2): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Administrativo
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                        <a class="dropdown-item" href="../administrativo/gestionar_tareas.php">
-                            Gestionar Tareas
-                        </a>
-                        <a class="dropdown-item" href="../administrativo/listar_reparaciones.php">
-                            Lista de Reparaciones
-                        </a>
-                        <a class="dropdown-item" href="../administrativo/enviar_notificacion.php">
-                            Enviar Notificación
-                        </a>
-                    </div>
-                </li>
-            <?php elseif ($usuario_rol === 3): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="tecnicoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Reparaciones
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="tecnicoDropdown">
-                        <a class="dropdown-item" href="../tecnico/listar_reparaciones.php">
-                            Listar Reparaciones
-                        </a>
-                        <a class="dropdown-item" href="../tecnico/gestionar_tareas.php">
-                            Gestionar Tareas
-                        </a>
-                        <a class="dropdown-item" href="../tecnico/notificar_completado.php">
-                            Notificar Completado
-                        </a>
-                        <a class="dropdown-item" href="../tecnico/ver_notificacion.php">
-                            Ver Notificaciones
-                        </a>
-                    </div>
-                </li>
-            <?php elseif ($usuario_rol === 4): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Cliente
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="clienteDropdown">
-                        <a class="dropdown-item" href="../cliente/perfil.php">
-                            Mi Perfil
-                        </a>
-                        <a class="dropdown-item" href="../cliente/reparaciones.php">
-                            Mis Reparaciones
-                        </a>
-                        <a class="dropdown-item" href="../cliente/notificaciones.php">
-                            Notificaciones
-                        </a>
-                    </div>
-                </li>
-                <?php elseif ($usuario_rol === 5): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="clienteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Empleado
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="clienteDropdown">
-                        <a class="dropdown-item" href="../../mi_sistema/empleados/empleado.php">
-                            Mi Perfil
-                        </a>
-                        <a class="dropdown-item" href="../cliente/reparaciones.php">
-                            Mis Reparaciones
-                        </a>
-                        <a class="dropdown-item" href="../cliente/notificaciones.php">
-                            Notificaciones
-                        </a>
-                    </div>
-                </li>
-            <?php endif; ?>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a href="../login/forgot_change.html" class="btn btn-outline-light">
-                    Cambiar Contraseña
-                </a>
-                <a href="../login/logout.php" class="btn btn-outline-light">
-                    Cerrar Sesión
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav> -->
-
 <!-- Scripts de Bootstrap y jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
     /* Estilo personalizado para el navbar */
     .navbar {
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 1.5rem;
     }
     .navbar-nav .nav-link {
         padding: 0.5rem 1rem;

@@ -1,5 +1,6 @@
 <?php
-include '../../base_datos/db.php'; // Incluye el archivo de conexión
+// Incluir el archivo de conexión a la base de datos
+include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
 // Consultar roles
 $query = "SELECT * FROM roles";
@@ -29,7 +30,7 @@ if (!$result) {
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['id_roles']); ?></td>
-                <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
+                <td><?php echo htmlspecialchars($row['nombre']); ?></td>
                 <td>
                     <a href="edit.php?id_roles=<?php echo htmlspecialchars($row['id_roles']); ?>" class="btn btn-warning btn-sm">Editar</a>
                     <a href="delete.php?id_roles=<?php echo htmlspecialchars($row['id_roles']); ?>" class="btn btn-danger btn-sm">Eliminar</a>

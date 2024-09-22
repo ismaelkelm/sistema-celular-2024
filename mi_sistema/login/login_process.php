@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Verifica si el usuario existe
-    $sql_user = "SELECT id_usuarios, contraseña, id_roles FROM usuarios WHERE nombre = ?";
+    $sql_user = "SELECT id_usuario, contraseña, id_roles FROM usuario WHERE nombre = ?";
     if ($stmt_user = $conn->prepare($sql_user)) {
         $stmt_user->bind_param("s", $usuario);
         $stmt_user->execute();
@@ -53,20 +53,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 exit;
             } else {
+                
                 header("Location: ../login/login.php?error=" . urlencode("Contraseña incorrecta."));
                 exit;
             }
         } else {
+            
+
             header("Location: ../login/login.php?error=" . urlencode("Nombre de usuario no encontrado."));
             exit;
         }
         $stmt_user->close();
     } else {
-        header("Location: ../login/login.php?error=" . urlencode("Error en la preparación de la consulta de usuario."));
+            header("Location: ../login/login.php?error=" . urlencode("Error en la preparación de la consulta de usuario."));
         exit;
     }
     $conn->close();
 } else {
+    
     header("Location: ../login/login.php");
     exit;
 }
