@@ -15,7 +15,7 @@ if (!$result) {
 <?php include('../../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <a href="../administrativo.php" class="btn btn-secondary mb-3">Volver</a>
+    <<a href="javascript:window.history.back();" class="btn btn-secondary mb-3">Volver</a>
 
     <h1 class="mb-4">Pedidos de Reparación</h1>
     <!-- Botón para iniciar el flujo de registro de un nuevo pedido -->
