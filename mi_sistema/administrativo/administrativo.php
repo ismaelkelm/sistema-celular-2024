@@ -56,7 +56,7 @@ if ($role_name !== 'administrativo') {
     exit;
 }
 
-// Incluir los archivos comunes
+
 $pageTitle = "Panel de Control - Administrador"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
