@@ -65,6 +65,17 @@ switch ($usuario_rol) {
                         <a class="dropdown-item" href="../facturacion/plantillas/inframe-dark.html">Plantillas</a>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="tecnicoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Operaciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <a class="dropdown-item" href="../facturacion/factura.php">Venta</a>
+                        <a class="dropdown-item" href="../pdf/PruebaH.php">Reparación</a>
+                        <a class="dropdown-item" href="../pdf/PruebaV.php">Venta y Reparación</a>
+                        <a class="dropdown-item" href="../facturacion/plantillas/inframe-dark.html">Compra</a>
+                    </div>
+                </li>
             <?php endif; ?>
 
             <?php if ($usuario_rol === 3): ?>
