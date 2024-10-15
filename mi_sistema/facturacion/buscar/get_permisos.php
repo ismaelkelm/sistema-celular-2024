@@ -8,7 +8,7 @@ if (isset($_GET['descripcion'])) {
     $descripcion = $_GET['descripcion'] . '%'; // Se añade un comodín para búsqueda con autocompletado
 
     // Prepara la consulta SQL para buscar permisos por descripción
-    $stmt = $conn->prepare("SELECT idPermisos, descripcion FROM permisos WHERE descripcion LIKE ?");
+    $stmt = $conn->prepare("SELECT id_permisos, descripcion FROM permisos WHERE descripcion LIKE ?");
     $stmt->bind_param("s", $descripcion); // Vincula el parámetro
     $stmt->execute(); // Ejecuta la consulta
     $result = $stmt->get_result(); // Obtiene los resultados de la consulta

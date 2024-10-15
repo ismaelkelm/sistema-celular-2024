@@ -1,43 +1,34 @@
 <?php
-include '../../base_datos/db.php'; // Incluye el archivo de conexión
+include '../../base_datos/db.php';
 
-// Verificar si el formulario fue enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $descripcion = $_POST['descripcion'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'];
 
-    // Insertar nuevo rol
-    $query = "INSERT INTO roles (descripcion) VALUES (?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $descripcion);
+    $query = "INSERT INTO roles (nombre) VALUES (?)";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 's', $nombre);
 
-    if ($stmt->execute()) {
-        header("Location: index.php"); // Redirigir a la lista de roles
-        exit();
+    if (mysqli_stmt_execute($stmt)) {
+        header('Location: index.php');
+        exit;
     } else {
-        die("Error al insertar: " . $stmt->error);
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Rol</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<?php include('../../includes/header.php'); ?>
+
 <div class="container mt-5">
-    <a href="index.php" class="btn btn-secondary mb-3">Volver</a>
-    <h1 class="mb-4">Agregar Rol</h1>
-    <form method="post" action="">
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+    <h1>Agregar Rol</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" name="nombre" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <button type="submit" class="btn btn-success mt-3">Guardar</button>
+        <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
     </form>
 </div>
-</body>
-</html>
+
+<?php include('../../includes/footer.php'); ?>

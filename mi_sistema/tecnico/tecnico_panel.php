@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Consultar el id_roles del usuario
-$query = "SELECT id_roles FROM usuarios WHERE id_usuarios = ?";
+$query = "SELECT id_roles FROM usuario WHERE id_usuario = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -34,7 +34,7 @@ if (!$row) {
 $id_roles = $row['id_roles'];
 
 // Consultar el nombre del rol directamente desde la base de datos
-$query = "SELECT descripcion FROM roles WHERE id_roles = ?";
+$query = "SELECT nombre FROM roles WHERE id_roles = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -48,16 +48,19 @@ if (!$row) {
     die("Error: Rol no encontrado.");
 }
 
-$role_name = $row['descripcion'];
+$role_name = $row['nombre'];
 
-// Verificar si el usuario tiene el rol 'tecnico'
-if ($role_name !== 'tecnico') {
+// Verificar si el usuario tiene el rol 'Tecnico'
+if ($role_name !== 'Tecnico') {
     header("Location: ../login/login.php");
     exit;
 }
 
-// Consultar la información del técnico asociado al usuario
-$query = "SELECT id_tecnicos, nombre, id_area_tecnico FROM tecnicos WHERE id_usuario = ?";
+// Obtener la información del técnico
+$query = "SELECT u.nombre AS nombre_tecnico, a.descripcion_area AS especialidad_tecnico
+          FROM usuario u
+          JOIN area_tecnico a ON u.id_usuario = a.id_tecnicos
+          WHERE u.id_usuario = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {
     die("Error en la consulta: " . htmlspecialchars($conn->error));
@@ -67,33 +70,17 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-if (!$row) {
-    die("Error: Técnico no encontrado.");
+if ($row) {
+    $nombre_tecnico = $row['nombre_tecnico'];
+    $especialidad_tecnico = $row['especialidad_tecnico'];
+} else {
+    $nombre_tecnico = 'No disponible';
+    $especialidad_tecnico = 'No disponible';
 }
 
-$id_tecnico = $row['id_tecnicos'];
-$nombre_tecnico = $row['nombre'];
-$id_area_tecnico = $row['id_area_tecnico'];
-
-// Consultar el nombre del área técnico
-$query = "SELECT nombre FROM area_tecnico WHERE id_area_tecnico = ?";
-$stmt = $conn->prepare($query);
-if ($stmt === false) {
-    die("Error en la consulta: " . htmlspecialchars($conn->error));
-}
-$stmt->bind_param("i", $id_area_tecnico);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-
-if (!$row) {
-    die("Error: Área técnico no encontrada.");
-}
-
-$nombre_area_tecnico = $row['nombre'];
 
 // Incluir los archivos comunes
-$pageTitle = "Panel de Control - Técnico"; // Establecer el título específico para esta página
+$pageTitle = "Panel de Control - Tecnico"; // Establecer el título específico para esta página
 include('../includes/header.php'); // Asegúrate de que header.php no incluya nav.php nuevamente
 include('../base_datos/icons.php'); // Incluir los iconos
 ?>
@@ -167,9 +154,9 @@ include('../base_datos/icons.php'); // Incluir los iconos
         <div class="info-tecnico">
             <h4>Información del Técnico</h4>
             <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre_tecnico); ?></p>
-            <p><strong>Área:</strong> <?php echo htmlspecialchars($nombre_area_tecnico); ?></p>
+            <p><strong>Especialidad:</strong> <?php echo htmlspecialchars($especialidad_tecnico); ?></p>
         </div>
-
+        
         <!-- Mostrar iconos -->
         <div class="row">
             <?php foreach ($iconos_visibles as $tabla => $icono): ?>
@@ -190,8 +177,3 @@ include('../base_datos/icons.php'); // Incluir los iconos
     <?php include('../includes/footer.php'); ?>
 </body>
 </html>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>

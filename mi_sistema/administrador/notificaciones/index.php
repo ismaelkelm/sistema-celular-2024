@@ -1,5 +1,6 @@
 <?php
-include '../../base_datos/db.php'; // Incluye el archivo de conexión
+// Incluir el archivo de conexión a la base de datos
+include '../../base_datos/db.php'; // Ajusta la ruta según la ubicación del archivo
 
 // Consultar notificaciones
 $query = "SELECT * FROM notificaciones";
@@ -21,9 +22,11 @@ if (!$result) {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>ID Usuario</th>
                 <th>Mensaje</th>
                 <th>Fecha de Envío</th>
+                <th>Estado</th>
+                <th>Número de Orden</th>
+                <th>ID Pedido de Reparación</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -31,9 +34,11 @@ if (!$result) {
             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['id_notificaciones']); ?></td>
-                <td><?php echo htmlspecialchars($row['id_usuario']); ?></td>
                 <td><?php echo htmlspecialchars($row['mensaje']); ?></td>
-                <td><?php echo htmlspecialchars($row['fecha_envio']); ?></td>
+                <td><?php echo htmlspecialchars($row['fecha_de_envío']); ?></td>
+                <td><?php echo htmlspecialchars($row['estado']); ?></td>
+                <td><?php echo htmlspecialchars($row['numero_orden']); ?></td>
+                <td><?php echo htmlspecialchars($row['id_pedidos_de_reparacion']); ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo htmlspecialchars($row['id_notificaciones']); ?>" class="btn btn-warning btn-sm">Editar</a>
                     <a href="delete.php?id=<?php echo htmlspecialchars($row['id_notificaciones']); ?>" class="btn btn-danger btn-sm">Eliminar</a>
@@ -45,8 +50,4 @@ if (!$result) {
 </div>
 
 <?php include('../../includes/footer.php'); ?>
-
-<?php
-// Cerrar la conexión a la base de datos
-mysqli_close($conn);
-?>
+<?php mysqli_close($conn); ?>
