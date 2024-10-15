@@ -1,0 +1,136 @@
+/* Estilo para el body */
+body {
+    background-color: #d8d6d6; /* Fondo del body */
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el banner superior */
+.top-banner {
+    background-color: rgb(255, 94, 0);
+    color: rgb(245, 243, 243);
+    text-align: center;
+    padding: 10px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Estilo para la barra de navegación */
+.navbar {
+    background-color: #343a40; /* Color oscuro */
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff; /* Color del texto en los enlaces */
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff5e00; /* Color del texto al pasar el mouse */
+}
+
+.navbar-brand {
+    color: #ff5e00; /* Color del texto del logo */
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    color: #ffffff;
+}
+
+/* Estilo para el carrusel */
+.carousel-item img {
+    width: 100%;
+    height: auto;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro transparente */
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Estilo para secciones de contenido */
+.section-title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #ff5e00;
+    font-weight: bold;
+}
+
+.section-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Estilo para botones */
+.btn-custom {
+    background-color: #ff5e00;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #e04f00;
+}
+
+/* Estilo para los iconos */
+.icon {
+    font-size: 1.5em;
+    margin-right: 5px;
+}
+
+/* Estilo para los formularios */
+.form-control {
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilo para el pie de página */
+.footer {
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9em;
+}
+
+.footer a {
+    color: #ff5e00;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Estilo para dispositivos móviles */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .carousel-caption {
+        font-size: 0.9em;
+    }
+
+    .section-title {
+        font-size: 1.5em;
+    }
+}
